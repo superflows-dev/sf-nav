@@ -1,0 +1,32 @@
+dev
+coverage
+src
+node_modules
+test
+.babelrc
+rollup.config.js
+web-dev-server.config.js
+web-test-runner.config.js
+tsconfig.json
+.eleventy.cjs
+.eslintignore
+.eslintrc.json
+.prettierrc.json
+.vscode/extensions.json
+index.html
+## node modules folder
+node_modules
+## git repository related files
+.git
+.gitignore
+CVS
+.svn
+.hg
+.lock-wscript
+.wafpickle-N
+.DS_Store
+npm-debug.log
+.npmrc
+#others
+config.gypi
+package-lock.json
