@@ -6,7 +6,7 @@
 
 import {SfNav} from '../sf-nav.js';
 
-import {fixture, assert, expect} from '@open-wc/testing';
+import {fixture, assert} from '@open-wc/testing';
 // import {assert} from '@open-wc/testing';
 import {html} from 'lit/static-html.js';
 
