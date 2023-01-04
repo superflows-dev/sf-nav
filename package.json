@@ -1,7 +1,7 @@
 {
   "name": "sf-nav",
   "private": false,
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "Superflows Navigation Component",
   "main": "sf-nav.js",
   "module": "sf-nav.js",
@@ -49,13 +49,14 @@
   "license": "MIT",
   "repository": "superflows-dev/sf-nav",
   "dependencies": {
-    "lit": "^2.2.4"
+    "lit": "^2.2.4",
+    "sinon": "^15.0.1"
   },
   "devDependencies": {
     "@11ty/eleventy": "^1.0.1",
     "@11ty/eleventy-plugin-syntaxhighlight": "^4.0.0",
     "@custom-elements-manifest/analyzer": "^0.6.3",
-    "@open-wc/testing": "^3.1.5",
+    "@open-wc/testing": "^3.1.7",
     "@rollup/plugin-node-resolve": "^13.3.0",
     "@rollup/plugin-replace": "^4.0.0",
     "@typescript-eslint/eslint-plugin": "^5.25.0",

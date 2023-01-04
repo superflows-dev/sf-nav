@@ -14,7 +14,7 @@ import { customElement, query, queryAssignedElements } from 'lit/decorators.js';
 /**
  * SfNav element.
  *
- * @fires count-changed - Indicates when the count changes
+ * @fires searchClick - When the user presses the enter key iin the search input
  * @slot brandName - Brand name
  * @slot brandImage - Brand image
  * @slot mainMenu - Main menu
@@ -23,12 +23,24 @@ import { customElement, query, queryAssignedElements } from 'lit/decorators.js';
 let SfNav = class SfNav extends LitElement {
     constructor() {
         super();
+        this.eventSearchClick = 'searchClick';
         this.constPositionLeftMenu = '';
         this.constPositionLeftToggle = 'sfNavToggleLeft';
         this.constPositionLeftToggleLeaf = 'sfNavToggleLeftLeaf';
         this.constDefaultMenu = [{ caption: "About", link: "about" }, [{ caption: "Solutions", link: "solutions" }, { caption: "Products", link: "products" }, { caption: "Services", link: "services" }, { caption: "Resources", link: "resources" }], [{ caption: "Contact", link: "contact" }, { caption: 'Instagram', link: "instagram" }, { caption: "Facebook", link: "facebook" }]];
         this.constBrandName = "Superflows";
         this.constBrandImage = "https://superflows.dev/img/superflows_gray_transparent_200.png";
+        this.onKeyUp = (event, position) => {
+            if (event.key == "Enter") {
+                this.dispatchMyEvent(position);
+            }
+        };
+        this.dispatchMyEvent = (ev) => {
+            if (ev == this.eventSearchClick) {
+                const event = new Event(this.eventSearchClick, { bubbles: true, composed: true });
+                this.dispatchEvent(event);
+            }
+        };
         this.onToggle = (e) => {
             const hideAllLeftMenuElements = () => {
                 for (let i = 0; i < this._sfNavLeftMenu.children.length; i++) {
@@ -174,8 +186,27 @@ let SfNav = class SfNav extends LitElement {
                     }
                 }
             };
+            const assignSearch = () => {
+                const elementH1 = this._sfNavDivSearch.getElementsByTagName('h1')[0];
+                elementH1.addEventListener('click', (ev) => {
+                    const parentNode = ev.target.parentNode;
+                    const elementDivs = parentNode.getElementsByTagName('div');
+                    elementDivs[0].style.display = 'block';
+                    elementDivs[1].style.display = 'block';
+                    let old_element = elementDivs[0];
+                    var new_element = elementDivs[0].cloneNode(true);
+                    old_element.parentNode.replaceChild(new_element, old_element);
+                    new_element.addEventListener('click', (ev) => {
+                        const parentNode = ev.target.parentNode;
+                        const elementDivs = parentNode.getElementsByTagName('div');
+                        elementDivs[0].style.display = 'none';
+                        elementDivs[1].style.display = 'none';
+                    });
+                });
+            };
             assignToggleToLeftMenu();
             assignMainMenu();
+            assignSearch();
             // screen resize listener
             // window.addEventListener('resize', () => {
             //   assignToggleToLeftMenu();
@@ -193,16 +224,25 @@ let SfNav = class SfNav extends LitElement {
     }
     render() {
         return html `
-      <nav class="sfNavC">
+      <nav class="sfNavC" style="position: relative">
         <div class="sfNavDivLeftContainer">
           <div class="sfNavDivToggleContainer">
             <h1 class="sfNavToggleLeft">☰</h1>
             <div class="sfNavToggleLeftLeaf"></div>
           </div>
           <slot name="brandImage"></slot>
-          <slot id="brandName" name="brandName"></slot>
+          <slot name="brandName"></slot>
           <div id="mainMenu"></div>
           <slot name="mainMenu"></slot>
+        </div>
+        <div class="sfNavDivRightContainer">
+          <div class="sfNavDivSearch">
+            <h1>🔍</h1>
+            <div class="sfNavToggleRightLeaf"></div>
+            <div class="sfNavDivSearchDropdown">
+              <input class="sfNavInputSearch" type="text" placeholder="Search" @keyup=${(ev) => { this.onKeyUp(ev, this.eventSearchClick); }} />
+            </div>
+          </div>
         </div>
       </nav>
     `;
@@ -222,6 +262,19 @@ SfNav.styles = css `
     .sfNavDivLeftContainer {
       display: flex;
       align-items: center;
+    }
+
+    .sfNavDivRightContainer {
+      display: flex;
+      
+    }
+
+    .sfNavDivSearch {
+      position: relative;
+    }
+
+    .sfNavDivSearch > h1 {
+      cursor: pointer;
     }
 
     .sfNavDivToggleContainer {
@@ -342,6 +395,16 @@ SfNav.styles = css `
       background-color: rgba(0, 0, 0, 0.05);
     }
 
+    .sfNavToggleRightLeaf {
+      display: none;
+      position: fixed;
+      left: 0px;
+      top: 0px;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+
     a {
       text-decoration: none;
       color: inherit;
@@ -352,6 +415,38 @@ SfNav.styles = css `
       padding-bottom: 0px;
       margin-top: 0px;
       margin-bottom: 0px;
+    }
+
+    #mainMenu > div {
+      display: none;
+      position: fixed;
+      left: 0px;
+      top: 0px;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .sfNavDivSearchDropdown {
+      display: none;
+      position: absolute;
+      right: 0px;
+      top: 60px;
+      padding-top:10px;
+      padding-left: 10px;
+      padding-right: 10px;
+      padding-bottom: 10px;
+      border-radius: 5px;
+      background-color: var(--menu-background-color, #333);
+    }
+
+    .sfNavInputSearch {
+
+      width: 250px;
+      padding-top:5px;
+      padding-left: 5px;
+      padding-right: 5px;
+      padding-bottom: 5px;
     }
 
     @media (orientation: landscape) {
@@ -380,6 +475,9 @@ SfNav.styles = css `
 
   `;
 __decorate([
+    query('.sfNavC')
+], SfNav.prototype, "_sfNavC", void 0);
+__decorate([
     query('.sfNavDivToggleContainer')
 ], SfNav.prototype, "_sfNavDivToggleContainer", void 0);
 __decorate([
@@ -391,6 +489,9 @@ __decorate([
 __decorate([
     query('#mainMenu')
 ], SfNav.prototype, "_sfNavMainMenu", void 0);
+__decorate([
+    query('.sfNavDivSearch')
+], SfNav.prototype, "_sfNavDivSearch", void 0);
 SfNav = __decorate([
     customElement('sf-nav')
 ], SfNav);

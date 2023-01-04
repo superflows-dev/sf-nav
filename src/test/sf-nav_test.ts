@@ -6,7 +6,8 @@
 
 import {SfNav} from '../sf-nav.js';
 
-import {fixture, assert} from '@open-wc/testing';
+import { stub } from 'sinon';
+import {fixture, assert, expect} from '@open-wc/testing';
 // import {assert} from '@open-wc/testing';
 import {html} from 'lit/static-html.js';
 
@@ -17,7 +18,7 @@ suite('sf-nav', () => {
     assert.instanceOf(el, SfNav);
   });
 
-  test('basic render > check sanity > open left menu > open left submenu > close left submenu > close left menu > open main menu > close main menu', async () => {
+  test('basic render > check sanity > open left menu > open left submenu > close left submenu > close left menu > open main menu > close main menu > open search > types something in search > close search', async () => {
     const el = (await fixture(html`
       <sf-nav >
       <h2 slot="brandName">SuperTester</h2>
@@ -100,6 +101,47 @@ suite('sf-nav', () => {
 
     assert.ok(liSolutions1.querySelector('ul')!.outerHTML.indexOf('display: none;') >= 0); 
 
+    // Open search menu
+
+    const searchH1 = el.shadowRoot!.querySelectorAll('.sfNavDivSearch > h1')[0]!;
+    searchH1.dispatchEvent(clickEvent)
+    await el.updateComplete;
+
+    assert.ok(el.shadowRoot!.querySelectorAll('.sfNavDivSearchDropdown')[0]!.outerHTML.indexOf('display: block;') >= 0);
+    
+    // Type something in search
+
+    var count = 0;
+
+    const testSearchClick = () => {count++}
+
+    el.addEventListener('searchClick', testSearchClick);
+
+    var eventKeyA = new KeyboardEvent('keyup', {'key': 'A'});
+    var eventKeyEnter = new KeyboardEvent('keyup', {'key': 'Enter'});
+
+    const searchInput = el.shadowRoot!.querySelectorAll('.sfNavInputSearch')[0]!;
+    searchInput.dispatchEvent(eventKeyA);
+    await el.updateComplete;
+    searchInput.dispatchEvent(eventKeyA);
+    await el.updateComplete;
+    searchInput.dispatchEvent(eventKeyA);
+    await el.updateComplete;
+    searchInput.dispatchEvent(eventKeyEnter);
+    await el.updateComplete;
+
+    assert.ok(count === 1)
+
+    el.removeEventListener('searchClick', testSearchClick);
+
+    // Close search menu
+    
+    const searchOverlay = el.shadowRoot!.querySelectorAll('.sfNavDivSearch > div')[0]!;
+    searchOverlay.dispatchEvent(clickEvent)
+    await el.updateComplete;
+
+    assert.ok(el.shadowRoot!.querySelectorAll('.sfNavDivSearchDropdown')[0]!.outerHTML.indexOf('display: none;') >= 0); 
+
   });
 
   // test('renders with default values', async () => {
@@ -147,3 +189,5 @@ suite('sf-nav', () => {
   //   assert.equal(getComputedStyle(el).paddingTop, '16px');
   // });
 });
+
+

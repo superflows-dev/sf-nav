@@ -8,7 +8,8 @@
     <script src="../node_modules/lit/polyfill-support.js"></script>
     <script type="module" src="../sf-nav.js"></script>
     <style>
-      sf-nav {
+      sf-nav:not(:defined) {
+        display: none;
       }
     </style>
   </head>
@@ -16,7 +17,7 @@
     <!-- <sf-nav>
       <h2 slot="brandName">SuperTester</h2>
     </sf-nav> -->
-    <sf-nav >
+    <sf-nav>
       <h2 slot="brandName">SuperTester</h2>
       <img slot="brandImage" src="https://superflows.dev/img/superflows_gray_transparent_200.png" />
       <ul slot="mainMenu">
@@ -37,5 +38,9 @@
         </li>
       </ul>
     </sf-nav>
+
+    <script>
+      document.getElementsByTagName('sf-nav')[0].addEventListener('searchClick', () => {console.log('hurray');})
+    </script>
   </body>
 </html>
