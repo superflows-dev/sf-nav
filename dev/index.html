@@ -8,35 +8,52 @@
     <script src="../node_modules/lit/polyfill-support.js"></script>
     <script type="module" src="../sf-nav.js"></script>
     <style>
+      
+      body {
+        background-color: #efefef;
+        margin: 0px;
+      }
+
+      .cContainer {
+        margin: 20px;
+        padding: 20px;
+        border: dashed 1px gray;
+        background-color: white;
+      }
+
       sf-nav:not(:defined) {
         display: none;
       }
+      
     </style>
   </head>
-  <body style="margin: 0px;">
+  <body>
     <!-- <sf-nav>
       <h2 slot="brandName">SuperTester</h2>
     </sf-nav> -->
     <sf-nav>
-      <h2 slot="brandName">SuperTester</h2>
-      <img slot="brandImage" src="https://superflows.dev/img/superflows_gray_transparent_200.png" />
+      <h2 slot="brandName"><a href="#home" >SuperTester</a></h2>
+      <a slot="brandImage" href="#home" ><img alt="logo" src="https://superflows.dev/img/superflows_gray_transparent_200.png" /></a>
       <ul slot="mainMenu">
         <li><a href="#about">About</a></li>
         <li class="li-solutions">
-          <a href="#" class="a-solutions">Solutions</a>
+          <a href="javascript:void(0);" class="a-solutions">Solutions</a>
           <ul>
             <li><a href="#services">Services</a></li>
             <li><a href="#products">Products</a></li>
           </ul>
         </li>
         <li>
-          <a href="#">Contact Us</a>
+          <a href="javascript:void(0);">Contact Us</a>
           <ul>
             <li><a href="#instagram">Instagram</a></li>
             <li><a href="#facebook">Facebook</a></li>
           </ul>
         </li>
       </ul>
+      <div slot="content">
+
+      </div>
     </sf-nav>
 
     <script>

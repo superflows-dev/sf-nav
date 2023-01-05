@@ -1,7 +1,7 @@
 {
   "name": "sf-nav",
   "private": false,
-  "version": "1.0.17",
+  "version": "1.0.18",
   "description": "Superflows Navigation Component",
   "main": "sf-nav.js",
   "module": "sf-nav.js",
@@ -49,6 +49,7 @@
   "license": "MIT",
   "repository": "superflows-dev/sf-nav",
   "dependencies": {
+    "fs": "^0.0.1-security",
     "lit": "^2.2.4",
     "sinon": "^15.0.1"
   },

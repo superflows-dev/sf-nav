@@ -2,7 +2,7 @@
 
 # SfNav
 
-> Navigation web component provided by Superflows.
+> Navigation web component provided by Superflows. This component allows implementation of the single page application architecture (SPA) using pure HTML, CSS and Javascript.
 
 <br />
 
@@ -24,9 +24,14 @@
 
 ## Features
 
-- Brand Info (complete) - Brand name and logo are customizable
-- Main Menu (complete) - Menu options are fully customizable
-- Search Input (in-progress) - SfNav ships with a search input field
+- **Accessibility** - This web component is designed considering the W3C accessibility recommendations
+- **Interoperability** - This is a web component, hence natively supported by the browsers. It can be used across any frontend framework such as React, Angular, Vue or with no framework at all
+
+## Functionality
+
+- **Brand Info** (complete) - Brand name and logo are customizable
+- **Main Menu** (complete) - Menu options are fully customizable
+- **Search Input** (complete) - SfNav ships with a search input field
 - Call-to-action Button (in-progress) - SfNav comes with a call-to-action button, which can be used to highlight key actions such as sign in and subscribe.
 - Profile Section (in-progress) - User profile section is also included, which can be used to show the status of a signed in user. It also includes a separate profile menu, that is customizable as well.
 - Notifications (in-progress) - Notifications feature is in-built, which includes a notification bell and a dropdown list to show recent notifications
@@ -35,6 +40,8 @@
 - Customizability (in-progress) - All features mentioned above are inherently customizable. You can override the color scheme as well.
 - Responsive (in-progress) - SfNav is fully responsive and adapts to all screen sizes
 - Extendibility (in-progress) - In some places, SfNav also allows you to inject your own components, for greater customizability
+- **Keyboard Navigation** (enabled) - It allows keyboard navigation across all elements on desktop, mobile and tablet form factors.
+- **Screen Reader Support** (enabled) - It supports both desktop and mobile screen readers making your app acceessible to partially or completely blind users.
 
 <br />
 
@@ -139,6 +146,20 @@ Main menu can be customized as shown:
         </ul>
         <!-- other config -->
     </sf-nav>
+
+```
+
+<br />
+
+### Search Input
+
+Search Input is shown by default and the SfNav component throws a searchClick event after the user types something in the search input field and presses enter. To handle the searchClick event:
+
+```html
+
+    <script>
+      document.getElementsByTagName('sf-nav')[0].addEventListener('searchClick', () => {console.log('search clicked');})
+    </script>
 
 ```
 
