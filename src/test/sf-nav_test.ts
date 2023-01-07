@@ -5,10 +5,13 @@
  */
 
 import {SfNav} from '../sf-nav.js';
-
+import { stub } from 'sinon';
 import {fixture, assert} from '@open-wc/testing';
 // import {assert} from '@open-wc/testing';
 import {html} from 'lit/static-html.js';
+import DownloadFile from '../downloadFile.js';
+
+//const TIMEOUT = 2000;
 
 suite('sf-nav', () => {
 
@@ -17,29 +20,33 @@ suite('sf-nav', () => {
     assert.instanceOf(el, SfNav);
   });
 
-  test('basic render > check sanity > open left menu > open left submenu > close left submenu > close left menu > open main menu > close main menu > open search > types something in search > close search', async () => {
+  test('basic render > check sanity > open left menu > close left menu > open left menu again > open left submenu > close left submenu > close left menu > open main menu > close main menu > open search > types something in search > close search > togglesearch > click last menu', async () => {
+
+
     const el = (await fixture(html`
       <sf-nav >
-      <h2 slot="brandName">SuperTester</h2>
-      <img slot="brandImage" src="https://superflows.dev/img/superflows_gray_transparent_200.png" />
-      <ul slot="mainMenu">
-        <li><a href="#about">About</a></li>
-        <li class="li-solutions">
-          <a href="#" class="a-solutions">Solutions</a>
-          <ul>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#products">Products</a></li>
-          </ul>
-        </li>
-        <li>
-          <a href="#">Contact Us</a>
-          <ul>
-            <li><a href="#instagram">Instagram</a></li>
-            <li><a href="#facebook">Facebook</a></li>
-          </ul>
-        </li>
-      </ul>
-    </sf-nav>
+        <h2 slot="brandName"><a href="#home" >SuperTester</a></h2>
+        <a slot="brandImage" href="#home" ><img alt="logo" src="https://superflows.dev/img/superflows_gray_transparent_200.png" /></a>
+        <ul slot="mainMenu">
+          <li><a href="#about" class="a-about">About</a></li>
+          <li class="li-solutions">
+            <a href="javascript:void(0);" class="a-solutions">Solutions</a>
+            <ul>
+              <li><a href="#services" class="a-services">Services</a></li>
+              <li><a href="#products">Products</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="javascript:void(0);">Contact Us</a>
+            <ul>
+              <li><a href="https://instagram.com">Instagram</a></li>
+              <li><a href="https://facebook.com">Facebook</a></li>
+            </ul>
+          </li>
+        </ul>
+        <div slot="content">
+        </div>
+      </sf-nav>
       `) as SfNav);
 
     await el.updateComplete;
@@ -63,6 +70,18 @@ suite('sf-nav', () => {
     const sfNavToggleLeftLeaf = el.shadowRoot!.querySelectorAll('.sfNavToggleLeftLeaf')[0]!;
     assert.ok(sfNavToggleLeftLeaf.outerHTML.indexOf('display: block;') >= 0); 
 
+    // Close left menu
+
+    sfNavToggleLeftLeaf.dispatchEvent(clickEvent);
+    await el.updateComplete;
+
+    assert.ok(sfNavToggleLeftLeaf.outerHTML.indexOf('display: none;') >= 0); 
+
+    // Open left menu again
+
+    sfNavToggleLeft.dispatchEvent(clickEvent)
+    await el.updateComplete;
+
     // Open left submenu
 
     const liSolutions = el.shadowRoot!.querySelectorAll('.li-solutions')[0]!;
@@ -71,17 +90,11 @@ suite('sf-nav', () => {
 
     assert.ok(liSolutions.outerHTML.indexOf('color: rgb(51, 51, 51); background-color: rgb(255, 255, 255);') >= 0); 
 
-    // Close left submenu
+    // Close left submenu > menu
 
     liSolutions.dispatchEvent(clickEvent)
     await el.updateComplete;
     assert.ok(liSolutions.outerHTML.indexOf('color: inherit; background-color: inherit;') >= 0); 
-
-    // Close left menu
-
-    sfNavToggleLeftLeaf.dispatchEvent(clickEvent)
-    await el.updateComplete;
-    assert.ok(sfNavToggleLeftLeaf.outerHTML.indexOf('display: none;') >= 0); 
 
     // Open main menu
 
@@ -102,11 +115,11 @@ suite('sf-nav', () => {
 
     // Open search menu
 
-    const searchH1 = el.shadowRoot!.querySelectorAll('.sfNavDivSearch > h1')[0]!;
+    const searchH1 = el.shadowRoot!.querySelectorAll('.sfNavSearchToggle')[0]!;
     searchH1.dispatchEvent(clickEvent)
     await el.updateComplete;
 
-    assert.ok(el.shadowRoot!.querySelectorAll('.sfNavDivSearchDropdown')[0]!.outerHTML.indexOf('display: block;') >= 0);
+    assert.ok(el.shadowRoot!.querySelectorAll('.sfNavDivSearchDropdown')[0]!.outerHTML.indexOf('display: flex;') >= 0);
     
     // Type something in search
 
@@ -140,6 +153,85 @@ suite('sf-nav', () => {
     await el.updateComplete;
 
     assert.ok(el.shadowRoot!.querySelectorAll('.sfNavDivSearchDropdown')[0]!.outerHTML.indexOf('display: none;') >= 0); 
+
+    // Again open search menu
+
+    searchH1.dispatchEvent(clickEvent)
+    await el.updateComplete;
+
+    assert.ok(el.shadowRoot!.querySelectorAll('.sfNavDivSearchDropdown')[0]!.outerHTML.indexOf('display: flex;') >= 0);
+
+    // Click on close button to close search
+
+    const sfNavDivSearchClose = el.shadowRoot!.querySelectorAll('.sfNavDivSearchClose')[0]!;
+    sfNavDivSearchClose.dispatchEvent(clickEvent)
+    await el.updateComplete;
+
+    assert.ok(el.shadowRoot!.querySelectorAll('.sfNavDivSearchDropdown')[0]!.outerHTML.indexOf('display: none;') >= 0); 
+
+    // Click last menu
+
+    aSolutions.dispatchEvent(clickEvent)
+    await el.updateComplete;
+    assert.ok(liSolutions1.querySelector('ul')!.outerHTML.indexOf('display: block;') >= 0); 
+
+    const aServices = el.shadowRoot!.querySelectorAll('.a-services')[1]!;
+    aServices.dispatchEvent(clickEvent)
+    await el.updateComplete;
+
+    assert.ok(liSolutions1.querySelector('ul')!.outerHTML.indexOf('display: none;') >= 0);
+
+  });
+
+  test('Routing page found', async () => {
+
+
+    const myFunctionStub = stub(DownloadFile, 'downloadFile').returns({status: 200, content: "Hello"});
+
+    const el = (await fixture(html`
+      <sf-nav >
+        <h2 slot="brandName"><a href="#home" >SuperTester</a></h2>
+        <a slot="brandImage" href="#home" ><img alt="logo" src="https://superflows.dev/img/superflows_gray_transparent_200.png" /></a>
+        <ul slot="mainMenu">
+          <li><a href="#about" class="a-about">About</a></li>
+          <li class="li-solutions">
+            <a href="javascript:void(0);" class="a-solutions">Solutions</a>
+            <ul>
+              <li><a href="#services">Services</a></li>
+              <li><a href="#products">Products</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="javascript:void(0);">Contact Us</a>
+            <ul>
+              <li><a href="https://instagram.com">Instagram</a></li>
+              <li><a href="https://facebook.com">Facebook</a></li>
+            </ul>
+          </li>
+        </ul>
+        <div slot="content">
+        </div>
+      </sf-nav>
+      `) as SfNav);
+
+    await el.updateComplete;
+
+    var clickEvent = new MouseEvent("click", {
+      "view": window,
+      "bubbles": true,
+      "cancelable": false
+  });
+
+  // Routing page found
+
+  // Click simple main menu
+  const aboutA = el.shadowRoot!.querySelectorAll('.a-about')[1]!;
+  aboutA.dispatchEvent(clickEvent);
+  await el.updateComplete;
+
+  //await new Promise((r) => setTimeout(r, TIMEOUT));
+
+  assert.ok(el.shadowRoot!.children[2].outerHTML.indexOf('display: none;') >= 0); 
 
   });
 

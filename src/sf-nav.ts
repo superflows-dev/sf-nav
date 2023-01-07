@@ -7,6 +7,8 @@
 import {LitElement, html, css, PropertyValueMap} from 'lit';
 import {customElement, query, queryAssignedElements} from 'lit/decorators.js';
 
+import DownloadFile from './downloadFile';
+
 /**
  * SfNav element.
  *
@@ -332,8 +334,6 @@ export class SfNav extends LitElement {
     for(let i = 0; i < this._sfNavMainMenu.children[1].children.length; i++) {
       if(this._sfNavMainMenu.children[1].children[i].getElementsByTagName('ul').length > 0) {
         this._sfNavMainMenu.children[1].children[i].children[1].style.display = 'none';
-        console.log(this._sfNavMainMenu.children[1].children[i].children[1])
-
       }
     }
   }
@@ -381,7 +381,6 @@ export class SfNav extends LitElement {
   
   toggleSearch = () => {
 
-    console.log(this._sfNavDivSearch);
     const elementDivs = this._sfNavDivSearch.getElementsByTagName('div');
     if(elementDivs[1].style.display == 'flex') {
       elementDivs[0].style.display = 'none';
@@ -429,11 +428,12 @@ export class SfNav extends LitElement {
         this.hideAllLeftMenuElements();
         this.showLeftMenuElement(element);
       }  
-    } else {
-      this.hideAllLeftMenuElements();
-      this._sfNavDivToggleContainer.children[1].style.display = 'none';
-      this._sfNavDivToggleContainer.children[2].style.display = 'none';
-    }
+    } 
+    // else {
+    //   this.hideAllLeftMenuElements();
+    //   this._sfNavDivToggleContainer.children[1].style.display = 'none';
+    //   this._sfNavDivToggleContainer.children[2].style.display = 'none';
+    // }
 
   }
 
@@ -538,39 +538,30 @@ export class SfNav extends LitElement {
 
     if(this._sfNavSlottedBrandImage.length > 0) {
       home = this._sfNavSlottedBrandImage[0].href.split('#')[1];
-    } else if(this._sfNavSlottedBrandName.length > 0) {
-      home = this._sfNavSlottedBrandName[0].href.split('#')[1];
+    }
+    if(this._sfNavSlottedBrandName.length > 0) {
+      home = this._sfNavSlottedBrandName[0].children[0].href.split('#')[1];
     }
 
     return home;
   }
 
-  processRoute = () => {
+  processRoute = async () => {
+
     const hashRef = window.location.href.split('#');
     const routePath = (window.location.hash.length > 0 ? hashRef[1] : this.getHome()) + '.html'; 
-    var rawFile = new XMLHttpRequest();
-    rawFile.open("GET", routePath, false);
-    rawFile.onreadystatechange = () =>
-    {
-        if(rawFile.readyState === 4)
-        {
-            if(rawFile.status === 200 || rawFile.status == 0)
-            {
-              this._sfNav404.style.display = 'none';
-              var allText = rawFile.responseText;
-              this._content[0].innerHTML = allText;
-                
-            } else if(rawFile.status === 404) {
-
-              this._content[0].innerHTML = '';
-              this._sfNav404.children[0].innerHTML = "Could not find " + routePath;
-              this._sfNav404.style.display = 'block';
-
-            }
-        }
-    }
+    const result = await DownloadFile.downloadFile(routePath);
+    if(result.status === 404) {
+      this._content[0].innerHTML = '';
+      this._sfNav404.children[0].innerHTML = "Could not find " + routePath;
+      this._sfNav404.style.display = 'block';
+    } else {
+        this._sfNav404.style.display = 'none';
+        var allText = result.text;
+        this._content[0].innerHTML = allText;
     
-    rawFile.send(null);
+    }
+
   }
 
   setupRouting = () => {

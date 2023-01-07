@@ -53,7 +53,7 @@ export declare class SfNav extends LitElement {
     decorateSlots: () => void;
     copySlots: () => void;
     getHome: () => string;
-    processRoute: () => void;
+    processRoute: () => Promise<void>;
     setupRouting: () => void;
     initListeners: () => void;
     constructor();

@@ -27,16 +27,18 @@
 - **Accessibility** - This web component is designed considering the W3C accessibility recommendations
 - **Interoperability** - This is a web component, hence natively supported by the browsers. It can be used across any frontend framework such as React, Angular, Vue or with no framework at all
 
+<br />
+
 ## Functionality
 
 - **Brand Info** (complete) - Brand name and logo are customizable
 - **Main Menu** (complete) - Menu options are fully customizable
+- **Routing** (complete) - Routing is built inside this component, no external routing library required
 - **Search Input** (complete) - SfNav ships with a search input field
 - Call-to-action Button (in-progress) - SfNav comes with a call-to-action button, which can be used to highlight key actions such as sign in and subscribe.
 - Profile Section (in-progress) - User profile section is also included, which can be used to show the status of a signed in user. It also includes a separate profile menu, that is customizable as well.
 - Notifications (in-progress) - Notifications feature is in-built, which includes a notification bell and a dropdown list to show recent notifications
 - Announcement Banner (in-progress) - Provision for showing an announcement banner is also given on the top of the navigation bar
-- Routing (in-progress) - Routing is built inside this component, no external routing library required
 - Customizability (in-progress) - All features mentioned above are inherently customizable. You can override the color scheme as well.
 - Responsive (in-progress) - SfNav is fully responsive and adapts to all screen sizes
 - Extendibility (in-progress) - In some places, SfNav also allows you to inject your own components, for greater customizability
@@ -67,25 +69,28 @@
   </head>
   <body style="margin: 0px;">
     <sf-nav>
-      <h2 slot="brandName">Superflows</h2>
-      <img slot="brandImage" src="https://superflows.dev/img/superflows_gray_transparent_200.png" />
+      <h2 slot="brandName"><a href="#home" >SuperTester</a></h2>
+      <a slot="brandImage" href="#home" ><img alt="logo" src="https://superflows.dev/img/superflows_gray_transparent_200.png" /></a>
       <ul slot="mainMenu">
         <li><a href="#about">About</a></li>
-        <li>
-          <a href="#">Solutions</a>
+        <li class="li-solutions">
+          <a href="javascript:void(0);" class="a-solutions">Solutions</a>
           <ul>
             <li><a href="#services">Services</a></li>
             <li><a href="#products">Products</a></li>
           </ul>
         </li>
         <li>
-          <a href="#">Contact Us</a>
+          <a href="javascript:void(0);">Contact Us</a>
           <ul>
             <li><a href="#instagram">Instagram</a></li>
             <li><a href="#facebook">Facebook</a></li>
           </ul>
         </li>
       </ul>
+      <div slot="content">
+
+      </div>
     </sf-nav>
   </body>
 </html>
@@ -96,7 +101,7 @@
 
 ## Demo
 
-[![Demo](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/web-platform-rybrdq?file=index.html)
+<a href="https://replit.com/@SuperflowsAppv3/SfNav-Web-Component#index.html"><img width="100" src="https://superflows-images.s3.ap-south-1.amazonaws.com/View+Demo.png" /></a>
 
 <br />
 
@@ -148,6 +153,16 @@ Main menu can be customized as shown:
     </sf-nav>
 
 ```
+
+<br />
+
+### Routing
+
+#### Routing via Main Menu
+
+Routing is enabled by default. To make it functional, simply create different html components for all the links that you have specified in the main menu. Routing will start working. Look at the demo project below. 
+
+<a href="https://replit.com/@SuperflowsAppv3/SfNav-Web-Component#index.html"><img width="100" src="https://superflows-images.s3.ap-south-1.amazonaws.com/View+Demo.png" /></a>
 
 <br />
 
