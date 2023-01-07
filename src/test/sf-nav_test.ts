@@ -1,7 +1,7 @@
 /**
  * @license
- * Copyright 2021 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
+ * Copyright 2022 Superflows.dev
+ * SPDX-License-Identifier: MIT
  */
 
 import {SfNav} from '../sf-nav.js';
@@ -186,7 +186,7 @@ suite('sf-nav', () => {
   test('Routing page found', async () => {
 
 
-    const myFunctionStub = stub(DownloadFile, 'downloadFile').returns({status: 200, content: "Hello"});
+    stub(DownloadFile, 'downloadFile').returns({status: 200, content: "Hello"});
 
     const el = (await fixture(html`
       <sf-nav >
