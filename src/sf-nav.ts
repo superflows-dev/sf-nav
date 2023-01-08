@@ -16,6 +16,9 @@ import DownloadFile from './downloadFile';
  * @slot brandName - Brand name
  * @slot brandImage - Brand image
  * @slot mainMenu - Main menu
+ * @slot socialMedia - Social media icons list
+ * @slot copyright - Copyright notice
+ * * @slot content - Content
  * @csspart button - The button
  */
 @customElement('sf-nav')
@@ -34,8 +37,8 @@ export class SfNav extends LitElement {
   static override styles = css`
     
     .sfNavC {
-      background-color: var(--nav-background-color, #444);
-      color: var(--nav-color, #fff);
+      background-color: var(--nav-background-color, #fff);
+      color: var(--nav-color, #000);
       padding: 10px 20px;
       display: flex;
       align-items: center;
@@ -82,8 +85,8 @@ export class SfNav extends LitElement {
       padding-left: 0px;
       padding-right: 0px;
       border-radius: 5px;
-      background-color: var(--menu-background-color, #333);
-      color: var(--menu-color, #fff);
+      background-color: var(--menu-background-color, #fff);
+      color: var(--menu-color, #000);
       cursor: pointer;
     }
 
@@ -92,7 +95,7 @@ export class SfNav extends LitElement {
       list-style: none;
       margin-left: 20px;
       margin-right: 20px;
-      color: var(--menu-color, #fff);
+      color: var(--menu-color, #000);
       cursor: pointer;
     }
 
@@ -107,8 +110,8 @@ export class SfNav extends LitElement {
       padding-top: 5px;
       padding-bottom: 5px;
       margin-left: 1px;
-      background-color: var(--menu-background-color, #333);
-      color: var(--menu-color, #fff);
+      background-color: var(--menu-background-color, #fff);
+      color: var(--menu-color, #000);
       border-radius: 5px;
       cursor: pointer;
     }
@@ -123,8 +126,8 @@ export class SfNav extends LitElement {
       padding-bottom: 5px;
       margin-top: 10px;
       margin-left: -10px;
-      background-color: var(--menu-background-color, #333);
-      color: var(--menu-color, #fff);
+      background-color: var(--menu-background-color, #fff);
+      color: var(--menu-color, #000);
       border-radius: 5px;
       cursor: pointer;
     }
@@ -215,7 +218,7 @@ export class SfNav extends LitElement {
       padding-right: 10px;
       padding-bottom: 10px;
       border-radius: 5px;
-      background-color: var(--menu-background-color, #333);
+      background-color: var(--menu-background-color, #fff);
       align-items: center;
     }
 
@@ -246,6 +249,116 @@ export class SfNav extends LitElement {
       text-align: center;
       padding-top: 30px;
       padding-bottom: 40px;
+    }
+
+    footer {
+      background-color: var(--background-color-footer, #fff);
+      color: var(--color-footer, #000);
+      padding-top: 50px;
+      padding-bottom: 50px;
+    }
+
+    footer > ::slotted(p) {
+      text-align: center;
+    }
+
+    .sfNavDivFooterContainer {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .sfNavDivFooterLeftContainer{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 300px;
+      flex-direction: column;
+    }
+
+    .sfNavDivFooterLeftContainer > ul {
+      list-style: none;
+      display: flex;
+      margin-left: 0px;
+      padding-left: 0px;
+      margin-bottom: 30px;
+    }
+
+    .sfNavDivFooterLeftContainer > ul > li > a > img {
+      height: 30px;
+      margin-right: 10px;
+    }
+
+    .sfNavDivFooterBrandContainer{
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+
+    }
+
+    .sfNavDivFooterBrandContainer > a{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .sfNavDivFooterBrandContainer > a > img{
+      display: flex;
+      justify-content: flex-start;
+      height: 130px;
+    }
+
+    .sfNavDivFooterBrandContainer > h2{
+      margin-top: 30px;
+      margin-bottom: 20px;
+      line-height: 1.0;
+      font-size: 200%;
+    }
+
+    .sfNavDivFooterMenuContainer{
+    }
+
+    .sfNavDivFooterMenuContainer > ul{
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-left: 0px;
+      margin-right: 0px;
+      padding-left: 0px;
+      padding-right: 0px;
+    }
+
+    .sfNavDivFooterMenuContainer li{
+      width: 300px;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .sfNavDivFooterMenuContainer ul{
+      list-style: none;
+    }
+
+    .sfNavDivFooterMenuContainer > ul {
+      margin-top: 0px;
+    }
+
+    .sfNavDivFooterMenuContainer > ul > li > a {
+      font-weight: 600;
+      font-size: 120%;
+    }
+    
+    .sfNavDivFooterMenuContainer > ul > li > ul {
+      margin-left: 0px;
+      padding-left: 0px;
+    }
+
+    .sfNavDivFooterMenuContainer > ul > li {
+      margin-bottom: 30px;
+    }
+    
+    .sfNavDivFooterMenuContainer > ul > li > ul > li {
+      margin-top: 15px;
     }
 
     @media (orientation: landscape) {
@@ -295,6 +408,18 @@ export class SfNav extends LitElement {
   @query('.sfNav404')
   _sfNav404: any;
 
+  @query('.sfNavDivFooterContainer')
+  _sfNavDivFooterContainer: any;
+
+  @query('.sfNavDivFooterBrandContainer')
+  _sfNavDivFooterBrandContainer: any;
+
+  @query('.sfNavDivFooterLeftContainer')
+  _sfNavDivFooterLeftContainer: any;
+
+  @query('.sfNavDivFooterMenuContainer')
+  _sfNavDivFooterMenuContainer: any;
+
   @queryAssignedElements({slot: 'mainMenu'})
   _sfNavSlottedUl: any;
 
@@ -303,6 +428,9 @@ export class SfNav extends LitElement {
 
   @queryAssignedElements({slot: 'brandImage'})
   _sfNavSlottedBrandImage: any;
+
+  @queryAssignedElements({slot: 'socialMedia'})
+  _sfNavSlottedSocialMedia: any;
 
   @queryAssignedElements({slot: 'content'})
   _content: any;
@@ -523,12 +651,48 @@ export class SfNav extends LitElement {
 
   copySlots = () => {
 
+    // copy menu to main menu div
     if(this._sfNavSlottedUl[0] != null) {
       const html = this._sfNavSlottedUl[0].outerHTML;
       this._sfNavDivToggleContainer.insertAdjacentHTML('beforeend', html);
       this._sfNavMainMenu.innerHTML = '<div class="sfNavToggleLeftLeaf"></div>';
       this._sfNavMainMenu.insertAdjacentHTML('beforeend', html);
+    }
+
+
+    // Create Brand container in footer
+    if(this._sfNavDivFooterBrandContainer != null) {
+      let tempHtml = "";
+      if(this._sfNavSlottedBrandImage[0] != null) {
+        tempHtml += this._sfNavSlottedBrandImage[0].outerHTML;
+      }
+      if(this._sfNavSlottedBrandName[0] != null) {
+        tempHtml += this._sfNavSlottedBrandName[0].outerHTML;
+      }
+      this._sfNavDivFooterBrandContainer.innerHTML = tempHtml;
+    }
+
+    // Create social media in footer
+    if(this._sfNavSlottedSocialMedia[0] != null) {
+      if(this._sfNavDivFooterLeftContainer != null) {
+        const html = this._sfNavSlottedSocialMedia[0].outerHTML;
+        this._sfNavDivFooterLeftContainer.innerHTML = this._sfNavDivFooterLeftContainer.innerHTML + html;
+      }
+    }
+
+    if(this._sfNavDivFooterMenuContainer != null) {
+      if(this._sfNavSlottedUl[0] != null) {
+        const html = this._sfNavSlottedUl[0].outerHTML;
+        this._sfNavDivFooterMenuContainer.innerHTML = html;
+      }
+    }
+
+    if(this._sfNavSlottedUl[0] != null) {
       this._sfNavSlottedUl[0].outerHTML = '';
+    }
+
+    if(this._sfNavSlottedSocialMedia[0] != null) {
+      this._sfNavSlottedSocialMedia[0].outerHTML = '';
     }
 
   }
@@ -729,6 +893,20 @@ export class SfNav extends LitElement {
         <h2>Nothing here!</h2>
         <h3>Check your path please...</h3>
       </div>
+      <footer>
+        <div class="sfNavDivFooterContainer">
+          <div class="sfNavDivFooterLeftContainer">
+            <div class="sfNavDivFooterBrandContainer">
+            </div>
+          </div>
+          <div class="sfNavDivFooterMenuContainer">
+
+          </div>
+        </div>
+        <br />
+        <slot name="socialMedia"></slot>
+        <slot name="copyright"></slot>
+      </footer>
     `;
   }
 

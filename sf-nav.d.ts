@@ -11,6 +11,9 @@ import { LitElement, PropertyValueMap } from 'lit';
  * @slot brandName - Brand name
  * @slot brandImage - Brand image
  * @slot mainMenu - Main menu
+ * @slot socialMedia - Social media icons list
+ * @slot copyright - Copyright notice
+ * * @slot content - Content
  * @csspart button - The button
  */
 export declare class SfNav extends LitElement {
@@ -36,9 +39,14 @@ export declare class SfNav extends LitElement {
     _sfNavDivSearch: any;
     _sfNavDivSearchClose: any;
     _sfNav404: any;
+    _sfNavDivFooterContainer: any;
+    _sfNavDivFooterBrandContainer: any;
+    _sfNavDivFooterLeftContainer: any;
+    _sfNavDivFooterMenuContainer: any;
     _sfNavSlottedUl: any;
     _sfNavSlottedBrandName: any;
     _sfNavSlottedBrandImage: any;
+    _sfNavSlottedSocialMedia: any;
     _content: any;
     onKeyUp: (event: any, position: any) => void;
     dispatchMyEvent: (ev: string) => void;

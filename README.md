@@ -31,10 +31,13 @@
 
 ## Functionality
 
-- **Brand Info** (complete) - Brand name and logo are customizable
-- **Main Menu** (complete) - Menu options are fully customizable
+- **Header & Footer** (complete) - SfNav component generates both the header and footer view
 - **Routing** (complete) - Routing is built inside this component, no external routing library required
+- **Brand Info** (complete) - Brand name and logo are customizable
+- **Main Menu** (complete) - Menu is fully customizable and is accepted as an un-ordered list
 - **Search Input** (complete) - SfNav ships with a search input field
+- **Social Media** (complete) - SfNav accepts social media links as an un-ordered list and renders them into the footer
+- **Copyright Notice** (complete) - SfNav accepts copyright notice as input and renders it into the footer
 - Call-to-action Button (in-progress) - SfNav comes with a call-to-action button, which can be used to highlight key actions such as sign in and subscribe.
 - Profile Section (in-progress) - User profile section is also included, which can be used to show the status of a signed in user. It also includes a separate profile menu, that is customizable as well.
 - Notifications (in-progress) - Notifications feature is in-built, which includes a notification bell and a dropdown list to show recent notifications
@@ -69,8 +72,8 @@
   </head>
   <body style="margin: 0px;">
     <sf-nav>
-      <h2 slot="brandName"><a href="#home" >SuperTester</a></h2>
-      <a slot="brandImage" href="#home" ><img alt="logo" src="https://superflows.dev/img/superflows_gray_transparent_200.png" /></a>
+      <h2 slot="brandName"><a href="#home" >Superflows</a></h2>
+      <a slot="brandImage" href="#home" ><img alt="logo" src="https://superflows-images.s3.ap-south-1.amazonaws.com/superflows_black_transparent_200.png" /></a>
       <ul slot="mainMenu">
         <li><a href="#about">About</a></li>
         <li class="li-solutions">
@@ -83,13 +86,20 @@
         <li>
           <a href="javascript:void(0);">Contact Us</a>
           <ul>
-            <li><a href="#instagram">Instagram</a></li>
-            <li><a href="#facebook">Facebook</a></li>
+            <li><a href="https://instagram.com">Instagram</a></li>
+            <li><a href="https://facebook.com">Facebook</a></li>
+            <li><a href="https://youtube.com">YouTube</a></li>
           </ul>
         </li>
       </ul>
-      <div slot="content">
+      <ul slot="socialMedia">
+        <li><a href="https://facebook.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/facebook-black_round.png" /></a></li>
+        <li><a href="https://twitter.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/twitter_black_round.png" /></a></li>
+        <li><a href="https://youtube.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/youtube_black_round.png" /></a></li>
+      </ul>
+      <p slot="copyright">Copyright 2022 Superflows</p>
 
+      <div slot="content">
       </div>
     </sf-nav>
   </body>
@@ -175,6 +185,40 @@ Search Input is shown by default and the SfNav component throws a searchClick ev
     <script>
       document.getElementsByTagName('sf-nav')[0].addEventListener('searchClick', () => {console.log('search clicked');})
     </script>
+
+```
+
+<br />
+
+### Social Media
+
+Social media links are shown in the footer. Configure them as follows:
+
+```html
+
+    <sf-nav>
+      <ul slot="socialMedia">
+        <li><a href="https://facebook.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/facebook-black_round.png" /></a></li>
+        <li><a href="https://twitter.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/twitter_black_round.png" /></a></li>
+        <li><a href="https://youtube.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/youtube_black_round.png" /></a></li>
+      </ul>
+      <!-- other config -->
+    </sf-nav>
+
+```
+
+<br />
+
+### Copyright notice
+
+Copyright notice can be shown in the footer as follows:
+
+```html
+
+    <sf-nav>
+      <p slot="copyright">Copyright 2022 Superflows</p>
+      <!-- other config -->
+    </sf-nav>
 
 ```
 

@@ -44,6 +44,12 @@ suite('sf-nav', () => {
             </ul>
           </li>
         </ul>
+        <ul slot="socialMedia">
+          <li><a href="https://facebook.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/facebook-black_round.png" /></a></li>
+          <li><a href="https://twitter.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/twitter_black_round.png" /></a></li>
+          <li><a href="https://youtube.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/youtube_black_round.png" /></a></li>
+        </ul>
+        <p slot="copyright">Copyright 2022 Superflows</p>
         <div slot="content">
         </div>
       </sf-nav>
@@ -88,7 +94,7 @@ suite('sf-nav', () => {
     liSolutions.dispatchEvent(clickEvent)
     await el.updateComplete;
 
-    assert.ok(liSolutions.outerHTML.indexOf('color: rgb(51, 51, 51); background-color: rgb(255, 255, 255);') >= 0); 
+    assert.ok(liSolutions.outerHTML.indexOf('color: rgb(255, 255, 255); background-color: rgb(0, 0, 0);') >= 0); 
 
     // Close left submenu > menu
 

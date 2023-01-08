@@ -3,6 +3,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>&lt;sf-nav> Demo</title>
     <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
     <script src="../node_modules/lit/polyfill-support.js"></script>
@@ -29,8 +30,8 @@
   </head>
   <body>
     <sf-nav>
-      <h2 slot="brandName"><a href="#home" >SuperTester</a></h2>
-      <a slot="brandImage" href="#home" ><img alt="logo" src="https://superflows.dev/img/superflows_gray_transparent_200.png" /></a>
+      <h2 slot="brandName"><a href="#home" >Superflows</a></h2>
+      <a slot="brandImage" href="#home" ><img alt="logo" src="https://superflows-images.s3.ap-south-1.amazonaws.com/superflows_black_transparent_200.png" /></a>
       <ul slot="mainMenu">
         <li><a href="#about">About</a></li>
         <li class="li-solutions">
@@ -45,9 +46,17 @@
           <ul>
             <li><a href="https://instagram.com">Instagram</a></li>
             <li><a href="https://facebook.com">Facebook</a></li>
+            <li><a href="https://youtube.com">YouTube</a></li>
           </ul>
         </li>
       </ul>
+      <ul slot="socialMedia">
+        <li><a href="https://facebook.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/facebook-black_round.png" /></a></li>
+        <li><a href="https://twitter.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/twitter_black_round.png" /></a></li>
+        <li><a href="https://youtube.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/youtube_black_round.png" /></a></li>
+      </ul>
+      <p slot="copyright">Copyright 2022 Superflows</p>
+
       <div slot="content">
       </div>
     </sf-nav>
