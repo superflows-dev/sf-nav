@@ -12,13 +12,31 @@
 
 <br />
 
-## We ♥
+## I ♥
 
 <img src="https://superflows-images.s3.ap-south-1.amazonaws.com/Building+in+public.png" width="300" /> 
 
 <br />
 
 [![NPM](https://img.shields.io/npm/v/sf-nav.svg)](https://www.npmjs.com/package/sf-nav) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+
+<br />
+
+## Motivation
+
+Can modular web design be achieved using just html, css and javascript? Theoretically the answer is yes. Web components rolling out in the HTML specification has opened up a lot of possibilities. The motivation of this library is building a navigation bar web component that enables a modular single page applications architecture using purely html, css, javascript. 
+
+<br />
+
+## Design
+
+Approach is to keep the design dead simple and to support most popular navbar functionality. "Unless a clean & simple way to implement a new feature that doesn't complicate the life of the developer-user is figured out, it is not taken up for development." is the guiding philosophy.
+
+<br />
+
+## Development Quality Control 
+
+Test driven development approach with a focus on maintaining 100 percent unit test code coverage for the main workflow
 
 <br />
 

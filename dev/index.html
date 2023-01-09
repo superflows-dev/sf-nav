@@ -50,6 +50,11 @@
           </ul>
         </li>
       </ul>
+      <ul slot="notifications">
+        <li><a href="#notification/1"><h3>Sonali Joshi</h3><p>mentioned you in a comment</p><div>1 day ago</div></a></li>
+        <li><a href="#notification/2"><h3>Rahim Ahmed</h3><p>reacted to your blog post</p><div>2 days ago</div></a></li>
+        <li><a href="#notification/3"><h3>John Bolton</h3><p>replied to a thread that you posted in</p><div>1 month ago</div></a></li>
+      </ul>
       <ul slot="socialMedia">
         <li><a href="https://facebook.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/facebook-black_round.png" /></a></li>
         <li><a href="https://twitter.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/twitter_black_round.png" /></a></li>
@@ -62,7 +67,21 @@
     </sf-nav>
 
     <script>
+      var routeMap = [];
+    </script>
+    <script>
+      function getCurrentPathName() {
+        return window.location.hash.length === 0 ? '' : window.location.hash.split("/")[0].replace('#', '');
+      }
+      function getCurrentArgs() {
+        return routeMap[getCurrentPathName() + '.html'];
+      }
+    </script>
+    <script>
       document.getElementsByTagName('sf-nav')[0].addEventListener('searchClick', () => {console.log('hurray');})
+      document.getElementsByTagName('sf-nav')[0].addEventListener('routeChange', (e) => {
+        routeMap[e.detail.pathName] = e.detail.args;
+      })
     </script>
   </body>
 </html>

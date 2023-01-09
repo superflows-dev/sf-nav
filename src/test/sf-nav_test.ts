@@ -20,7 +20,7 @@ suite('sf-nav', () => {
     assert.instanceOf(el, SfNav);
   });
 
-  test('basic render > check sanity > open left menu > close left menu > open left menu again > open left submenu > close left submenu > close left menu > open main menu > close main menu > open search > types something in search > close search > togglesearch > click last menu', async () => {
+  test('basic render > check sanity > open left menu > close left menu > open left menu again > open left submenu > close left submenu > close left menu > open main menu > close main menu > open search > types something in search > close search > togglesearch > click last menu > open notifications > close notifications > open notifications again > click on a single notification', async () => {
 
 
     const el = (await fixture(html`
@@ -44,6 +44,11 @@ suite('sf-nav', () => {
             </ul>
           </li>
         </ul>
+        <ul slot="notifications">
+          <li><a href="#notification/1"><h3>Sonali Joshi</h3><p>mentioned you in a comment</p><div>1 day ago</div></a></li>
+          <li><a href="#notification/2"><h3>Rahim Ahmed</h3><p>reacted to your blog post</p><div>2 days ago</div></a></li>
+          <li><a href="#notification/3"><h3>John Bolton</h3><p>replied to a thread that you posted in</p><div>1 month ago</div></a></li>
+        </ul>
         <ul slot="socialMedia">
           <li><a href="https://facebook.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/facebook-black_round.png" /></a></li>
           <li><a href="https://twitter.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/twitter_black_round.png" /></a></li>
@@ -62,13 +67,15 @@ suite('sf-nav', () => {
     const sfNavC = el.shadowRoot!.querySelectorAll('.sfNavC')[0]!;
     assert.ok(sfNavC.innerHTML.indexOf('▶') >= 0); 
 
-    // Open left menu
 
     var clickEvent = new MouseEvent("click", {
-        "view": window,
-        "bubbles": true,
-        "cancelable": false
-    });
+          "view": window,
+          "bubbles": true,
+          "cancelable": false
+      });
+
+    // Open left menu
+
     const sfNavToggleLeft = el.shadowRoot!.querySelectorAll('.sfNavToggleLeft')[0]!;
     sfNavToggleLeft.dispatchEvent(clickEvent)
     await el.updateComplete;
@@ -189,6 +196,84 @@ suite('sf-nav', () => {
 
   });
 
+  test('Notifications', async () => {
+
+    const el = (await fixture(html`
+      <sf-nav >
+        <h2 slot="brandName"><a href="#home" >SuperTester</a></h2>
+        <a slot="brandImage" href="#home" ><img alt="logo" src="https://superflows.dev/img/superflows_gray_transparent_200.png" /></a>
+        <ul slot="mainMenu">
+          <li><a href="#about" class="a-about">About</a></li>
+          <li class="li-solutions">
+            <a href="javascript:void(0);" class="a-solutions">Solutions</a>
+            <ul>
+              <li><a href="#services" class="a-services">Services</a></li>
+              <li><a href="#products">Products</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="javascript:void(0);">Contact Us</a>
+            <ul>
+              <li><a href="https://instagram.com">Instagram</a></li>
+              <li><a href="https://facebook.com">Facebook</a></li>
+            </ul>
+          </li>
+        </ul>
+        <ul slot="notifications">
+          <li><a href="#notification/1"><h3>Sonali Joshi</h3><p>mentioned you in a comment</p><div>1 day ago</div></a></li>
+          <li><a href="#notification/2"><h3>Rahim Ahmed</h3><p>reacted to your blog post</p><div>2 days ago</div></a></li>
+          <li><a href="#notification/3"><h3>John Bolton</h3><p>replied to a thread that you posted in</p><div>1 month ago</div></a></li>
+        </ul>
+        <ul slot="socialMedia">
+          <li><a href="https://facebook.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/facebook-black_round.png" /></a></li>
+          <li><a href="https://twitter.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/twitter_black_round.png" /></a></li>
+          <li><a href="https://youtube.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/youtube_black_round.png" /></a></li>
+        </ul>
+        <p slot="copyright">Copyright 2022 Superflows</p>
+        <div slot="content">
+        </div>
+      </sf-nav>
+      `) as SfNav);
+
+    await el.updateComplete;
+
+    var clickEvent = new MouseEvent("click", {
+      "view": window,
+      "bubbles": true,
+      "cancelable": false
+    });
+
+    // Open notifications
+
+    const h1Notifications = el.shadowRoot!.querySelectorAll('.sfNavNotifToggle')[0]!; 
+    h1Notifications.dispatchEvent(clickEvent)
+    await el.updateComplete;
+
+    assert.ok(el.shadowRoot!.querySelector('.sfNavDivNotif')!.children[2].outerHTML.indexOf('display: block;') >= 0);
+
+    // Close notifications
+
+    el.shadowRoot!.querySelector('.sfNavDivNotif')!.children[2].dispatchEvent(clickEvent);
+    await el.updateComplete;
+
+    assert.ok(el.shadowRoot!.querySelector('.sfNavDivNotif')!.children[2].outerHTML.indexOf('display: none;') >= 0);
+
+    // Open notifications again
+
+    h1Notifications.dispatchEvent(clickEvent)
+    await el.updateComplete;
+
+    assert.ok(el.shadowRoot!.querySelector('.sfNavDivNotif')!.children[2].outerHTML.indexOf('display: block;') >= 0);
+
+    // Click a notification
+
+    el.shadowRoot!.querySelector('.sfNavDivNotif')!.children[3].children[0].children[0].children[0].dispatchEvent(clickEvent);
+    await el.updateComplete;
+
+    assert.ok(el.shadowRoot!.querySelector('.sfNavDivNotif')!.children[2].outerHTML.indexOf('display: none;') >= 0);
+
+  });
+  
   test('Routing page found', async () => {
 
 
@@ -203,7 +288,7 @@ suite('sf-nav', () => {
           <li class="li-solutions">
             <a href="javascript:void(0);" class="a-solutions">Solutions</a>
             <ul>
-              <li><a href="#services">Services</a></li>
+              <li><a href="#services" class="a-services">Services</a></li>
               <li><a href="#products">Products</a></li>
             </ul>
           </li>
@@ -215,6 +300,17 @@ suite('sf-nav', () => {
             </ul>
           </li>
         </ul>
+        <ul slot="notifications">
+          <li><a href="#notification/1"><h3>Sonali Joshi</h3><p>mentioned you in a comment</p><div>1 day ago</div></a></li>
+          <li><a href="#notification/2"><h3>Rahim Ahmed</h3><p>reacted to your blog post</p><div>2 days ago</div></a></li>
+          <li><a href="#notification/3"><h3>John Bolton</h3><p>replied to a thread that you posted in</p><div>1 month ago</div></a></li>
+        </ul>
+        <ul slot="socialMedia">
+          <li><a href="https://facebook.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/facebook-black_round.png" /></a></li>
+          <li><a href="https://twitter.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/twitter_black_round.png" /></a></li>
+          <li><a href="https://youtube.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/youtube_black_round.png" /></a></li>
+        </ul>
+        <p slot="copyright">Copyright 2022 Superflows</p>
         <div slot="content">
         </div>
       </sf-nav>

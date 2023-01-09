@@ -7,7 +7,9 @@ import { LitElement, PropertyValueMap } from 'lit';
 /**
  * SfNav element.
  *
- * @fires searchClick - When the user presses the enter key iin the search input
+ * @fires searchClick - When the user presses the enter key in the search input
+ * @fires routeChange - When user navigates from one page to another
+ * @slot notifications - Notifications array
  * @slot brandName - Brand name
  * @slot brandImage - Brand image
  * @slot mainMenu - Main menu
@@ -18,8 +20,11 @@ import { LitElement, PropertyValueMap } from 'lit';
  */
 export declare class SfNav extends LitElement {
     eventSearchClick: string;
+    eventRouteChange: string;
     constPositionSearchToggle: string;
     constPositionSearchClose: string;
+    constPositionNotifToggle: string;
+    constPositionNotifClose: string;
     constPositionLeftToggle: string;
     constPositionLeftToggleLeaf: string;
     constDefaultMenu: ({
@@ -38,6 +43,8 @@ export declare class SfNav extends LitElement {
     _sfNavMainMenu: any;
     _sfNavDivSearch: any;
     _sfNavDivSearchClose: any;
+    _sfNavDivNotif: any;
+    _sfNavDivNotifClose: any;
     _sfNav404: any;
     _sfNavDivFooterContainer: any;
     _sfNavDivFooterBrandContainer: any;
@@ -47,14 +54,16 @@ export declare class SfNav extends LitElement {
     _sfNavSlottedBrandName: any;
     _sfNavSlottedBrandImage: any;
     _sfNavSlottedSocialMedia: any;
+    _sfNavSlottedNotifications: any;
     _content: any;
     onKeyUp: (event: any, position: any) => void;
-    dispatchMyEvent: (ev: string) => void;
+    dispatchMyEvent: (ev: string, args?: any) => void;
     resetMenu: () => void;
     hideLeftMenuElement(element: any): void;
     hideAllLeftMenuElements: () => void;
     showLeftMenuElement(element: any): void;
     toggleSearch: () => void;
+    toggleNotif: () => void;
     toggleLeftMenu: () => void;
     toggleMainMenu: (element: any) => void;
     onToggle: (e: any) => void;
