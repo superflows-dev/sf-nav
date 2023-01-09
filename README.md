@@ -1,5 +1,3 @@
-[<img src="https://superflows-images.s3.ap-south-1.amazonaws.com/superflows_logo_gray_c2c.png" width="400"/>](https://superflows.dev)
-
 # SfNav
 
 > Navigation web component provided by Superflows. This component allows implementation of the single page application architecture (SPA) using pure HTML, CSS and Javascript.
@@ -12,7 +10,7 @@
 
 <br />
 
-## I ♥
+## i ♥
 
 <img src="https://superflows-images.s3.ap-south-1.amazonaws.com/Building+in+public.png" width="300" /> 
 
@@ -56,15 +54,21 @@ Test driven development approach with a focus on maintaining 100 percent unit te
 - **Search Input** (complete) - SfNav ships with a search input field
 - **Social Media** (complete) - SfNav accepts social media links as an un-ordered list and renders them into the footer
 - **Copyright Notice** (complete) - SfNav accepts copyright notice as input and renders it into the footer
+- **Notifications** (partially complete) - Notifications feature is in-built, which includes a notification bell and a dropdown list to show recent notifications
 - Call-to-action Button (in-progress) - SfNav comes with a call-to-action button, which can be used to highlight key actions such as sign in and subscribe.
 - Profile Section (in-progress) - User profile section is also included, which can be used to show the status of a signed in user. It also includes a separate profile menu, that is customizable as well.
-- Notifications (in-progress) - Notifications feature is in-built, which includes a notification bell and a dropdown list to show recent notifications
 - Announcement Banner (in-progress) - Provision for showing an announcement banner is also given on the top of the navigation bar
 - Customizability (in-progress) - All features mentioned above are inherently customizable. You can override the color scheme as well.
 - Responsive (in-progress) - SfNav is fully responsive and adapts to all screen sizes
 - Extendibility (in-progress) - In some places, SfNav also allows you to inject your own components, for greater customizability
 - **Keyboard Navigation** (enabled) - It allows keyboard navigation across all elements on desktop, mobile and tablet form factors.
 - **Screen Reader Support** (enabled) - It supports both desktop and mobile screen readers making your app acceessible to partially or completely blind users.
+
+<br />
+
+## Demo
+
+<a href="https://replit.com/@SuperflowsAppv3/SfNav-Web-Component#index.html"><img width="100" src="https://superflows-images.s3.ap-south-1.amazonaws.com/View+Demo.png" /></a>
 
 <br />
 
@@ -110,6 +114,11 @@ Test driven development approach with a focus on maintaining 100 percent unit te
           </ul>
         </li>
       </ul>
+      <ul slot="notifications">
+        <li><a href="#notification/1"><h3>Sonali Joshi</h3><p>mentioned you in a comment</p><div>1 day ago</div></a></li>
+        <li><a href="#notification/2"><h3>Rahim Ahmed</h3><p>reacted to your blog post</p><div>2 days ago</div></a></li>
+        <li><a href="#notification/3"><h3>John Bolton</h3><p>replied to a thread that you posted in</p><div>1 month ago</div></a></li>
+      </ul>
       <ul slot="socialMedia">
         <li><a href="https://facebook.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/facebook-black_round.png" /></a></li>
         <li><a href="https://twitter.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/twitter_black_round.png" /></a></li>
@@ -124,12 +133,6 @@ Test driven development approach with a focus on maintaining 100 percent unit te
 </html>
 
 ```
-
-<br />
-
-## Demo
-
-<a href="https://replit.com/@SuperflowsAppv3/SfNav-Web-Component#index.html"><img width="100" src="https://superflows-images.s3.ap-south-1.amazonaws.com/View+Demo.png" /></a>
 
 <br />
 
@@ -219,6 +222,25 @@ Social media links are shown in the footer. Configure them as follows:
         <li><a href="https://facebook.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/facebook-black_round.png" /></a></li>
         <li><a href="https://twitter.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/twitter_black_round.png" /></a></li>
         <li><a href="https://youtube.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/youtube_black_round.png" /></a></li>
+      </ul>
+      <!-- other config -->
+    </sf-nav>
+
+```
+
+<br />
+
+### Notifications
+
+Notifications dropdown can be configured in the header as show below.
+
+```html
+
+    <sf-nav>
+      <ul slot="notifications">
+        <li><a href="#notification/1"><h3>Sonali Joshi</h3><p>mentioned you in a comment</p><div>1 day ago</div></a></li>
+        <li><a href="#notification/2"><h3>Rahim Ahmed</h3><p>reacted to your blog post</p><div>2 days ago</div></a></li>
+        <li><a href="#notification/3"><h3>John Bolton</h3><p>replied to a thread that you posted in</p><div>1 month ago</div></a></li>
       </ul>
       <!-- other config -->
     </sf-nav>
