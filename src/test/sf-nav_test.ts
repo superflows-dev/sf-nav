@@ -62,6 +62,7 @@ suite('sf-nav', () => {
           <li><a href="https://youtube.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/youtube_black_round.png" /></a></li>
         </ul>
         <p slot="copyright">Copyright 2022 Superflows</p>
+        <a slot="cta" href="#login">Sign In</a>
         <div slot="content">
         </div>
       </sf-nav>
@@ -242,6 +243,7 @@ suite('sf-nav', () => {
           <li><a href="https://twitter.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/twitter_black_round.png" /></a></li>
           <li><a href="https://youtube.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/youtube_black_round.png" /></a></li>
         </ul>
+        <a slot="cta" href="#login">Sign In</a>
         <p slot="copyright">Copyright 2022 Superflows</p>
         <div slot="content">
         </div>
@@ -329,6 +331,7 @@ suite('sf-nav', () => {
           <li><a href="https://twitter.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/twitter_black_round.png" /></a></li>
           <li><a href="https://youtube.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/youtube_black_round.png" /></a></li>
         </ul>
+        <a slot="cta" href="#login">Sign In</a>
         <p slot="copyright">Copyright 2022 Superflows</p>
         <div slot="content">
         </div>

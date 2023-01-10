@@ -23,6 +23,7 @@ import RunScripts from './runScripts';
  * @slot mainMenu - Main menu
  * @slot socialMedia - Social media icons list
  * @slot copyright - Copyright notice
+ * @slot cta - Call to action
  * @slot content - Content
  * @csspart button - The button
  */
@@ -63,6 +64,16 @@ export class SfNav extends LitElement {
       
     }
 
+    .sfNavDivCta {
+      display: flex;
+      align-items: center;
+      margin-right: 10px;
+    }
+
+    .sfNavButtonCta {
+      font-size: 110%;
+    }
+
     .sfNavDivSearch {
       position: relative;
     }
@@ -74,6 +85,7 @@ export class SfNav extends LitElement {
 
     .sfNavDivNotif > h1 {
       cursor: pointer;
+      font-size: 130%;
     }
 
     .sfNavDivNotifActions {
@@ -87,6 +99,8 @@ export class SfNav extends LitElement {
       right: 0px;
       top: 60px;
       flex-direction: column;
+      max-height: 300px;
+      overflow-y: auto;
     }
 
     .sfNavDivNotifDropdown > ul {
@@ -131,10 +145,11 @@ export class SfNav extends LitElement {
 
     .sfNavDivSearch > h1 {
       cursor: pointer;
+      font-size: 130%;
     }
 
     .sfNavDivToggleContainer {
-      margin-right: 15px;
+      margin-right: 5px;
     }
 
     .sfNavDivLeftContainer > ::slotted(h2) {
@@ -357,7 +372,7 @@ export class SfNav extends LitElement {
 
     .sfNavDivFooterLeftContainer > ul > li > a > img {
       height: 30px;
-      margin-right: 10px;
+      margin-right: 15px;
     }
 
     .sfNavDivFooterBrandContainer{
@@ -433,8 +448,8 @@ export class SfNav extends LitElement {
 
     .sfNavDivNotifBadge {
       position: absolute;
-      margin-top: -55px;
-      margin-left: 15px;
+      margin-top: -45px;
+      margin-left: 10px;
       font-size: 70%;
     }
 
@@ -447,6 +462,14 @@ export class SfNav extends LitElement {
     }
 
     @media (orientation: portrait) {
+
+      .sfNavC {
+        padding: 10px 10px;
+      }
+
+      .sfNavDivLeftContainer > ::slotted(h2) {
+        display: none;
+      }
 
       .sfNavMenu {
         display: none;
@@ -512,6 +535,9 @@ export class SfNav extends LitElement {
   @query('.sfNavDivNotifBadge')
   _sfNavDivNotifBadge: any;
 
+  @query('.sfNavDivCta')
+  _sfNavDivCta: any;
+
   @queryAssignedElements({slot: 'mainMenu'})
   _sfNavSlottedUl: any;
 
@@ -532,6 +558,9 @@ export class SfNav extends LitElement {
 
   @queryAssignedElements({slot: 'notificationsList'})
   _sfNavSlottedNotificationsList: any;
+
+  @queryAssignedElements({slot: 'cta'})
+  _sfNavSlottedCta: any;
 
   @queryAssignedElements({slot: 'content'})
   _content: any;
@@ -735,7 +764,7 @@ export class SfNav extends LitElement {
 
       if(this._sfNavSlottedBrandImage.length > 0) {
         this._sfNavSlottedBrandImage[0].children[0].style.height = '30px';
-        this._sfNavSlottedBrandImage[0].children[0].style.marginRight = '15px';
+        this._sfNavSlottedBrandImage[0].children[0].style.marginRight = '10px';
       }
 
     }
@@ -851,6 +880,15 @@ export class SfNav extends LitElement {
       this._sfNavDivNotifActions.innerHTML = currHtml + '<button onClick="window.location.href=\'#'+href.split('#')[1]+'\'; event.target.parentNode.children[0].dispatchEvent(new MouseEvent(\'click\', {\'view\': window, \'bubbles\': true, \'cancelable\': false}))">View All</button>';
     }
 
+
+    // Copy cta
+    if(this._sfNavSlottedCta[0] != null) {
+      const href = this._sfNavSlottedCta[0].href;
+      const html = this._sfNavSlottedCta[0].innerHTML;
+      this._sfNavDivCta.innerHTML = '<button class="sfNavButtonCta" type="button" onClick="window.location.href=\'#'+href.split('#')[1]+'\';"><b>'+html+'</b></button>';
+    }
+
+
     if(this._sfNavDivFooterMenuContainer != null) {
       if(this._sfNavSlottedUl[0] != null) {
         const html = this._sfNavSlottedUl[0].outerHTML;
@@ -877,6 +915,10 @@ export class SfNav extends LitElement {
 
     if(this._sfNavSlottedNotificationsList[0] != null) {
       this._sfNavSlottedNotificationsList[0].outerHTML = '';
+    }
+
+    if(this._sfNavSlottedCta[0] != null) {
+      this._sfNavSlottedCta[0].outerHTML = '';
     }
 
   }
@@ -1091,6 +1133,8 @@ export class SfNav extends LitElement {
           <slot name="mainMenu"></slot>
         </div>
         <div class="sfNavDivRightContainer">
+          <div class="sfNavDivCta">
+          </div>
           <div class="sfNavDivSearch">
             <h1 tabindex="0" class="sfNavSearchToggle">🔍</h1>
             <div class="sfNavToggleRightLeaf"></div>
@@ -1132,6 +1176,7 @@ export class SfNav extends LitElement {
         <slot name="socialMedia"></slot>
         <slot name="copyright"></slot>
         <slot name="notificationsList"></slot>
+        <slot name="cta"></slot>
       </footer>
     `;
   }

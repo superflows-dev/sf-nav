@@ -26,6 +26,7 @@ import RunScripts from './runScripts';
  * @slot mainMenu - Main menu
  * @slot socialMedia - Social media icons list
  * @slot copyright - Copyright notice
+ * @slot cta - Call to action
  * @slot content - Content
  * @csspart button - The button
  */
@@ -174,7 +175,7 @@ let SfNav = class SfNav extends LitElement {
                 }
                 if (this._sfNavSlottedBrandImage.length > 0) {
                     this._sfNavSlottedBrandImage[0].children[0].style.height = '30px';
-                    this._sfNavSlottedBrandImage[0].children[0].style.marginRight = '15px';
+                    this._sfNavSlottedBrandImage[0].children[0].style.marginRight = '10px';
                 }
             };
             const decorateLeftMenu = () => {
@@ -263,6 +264,12 @@ let SfNav = class SfNav extends LitElement {
                 const currHtml = this._sfNavDivNotifActions.innerHTML;
                 this._sfNavDivNotifActions.innerHTML = currHtml + '<button onClick="window.location.href=\'#' + href.split('#')[1] + '\'; event.target.parentNode.children[0].dispatchEvent(new MouseEvent(\'click\', {\'view\': window, \'bubbles\': true, \'cancelable\': false}))">View All</button>';
             }
+            // Copy cta
+            if (this._sfNavSlottedCta[0] != null) {
+                const href = this._sfNavSlottedCta[0].href;
+                const html = this._sfNavSlottedCta[0].innerHTML;
+                this._sfNavDivCta.innerHTML = '<button class="sfNavButtonCta" type="button" onClick="window.location.href=\'#' + href.split('#')[1] + '\';"><b>' + html + '</b></button>';
+            }
             if (this._sfNavDivFooterMenuContainer != null) {
                 if (this._sfNavSlottedUl[0] != null) {
                     const html = this._sfNavSlottedUl[0].outerHTML;
@@ -283,6 +290,9 @@ let SfNav = class SfNav extends LitElement {
             }
             if (this._sfNavSlottedNotificationsList[0] != null) {
                 this._sfNavSlottedNotificationsList[0].outerHTML = '';
+            }
+            if (this._sfNavSlottedCta[0] != null) {
+                this._sfNavSlottedCta[0].outerHTML = '';
             }
         };
         this.getHome = () => {
@@ -472,6 +482,8 @@ let SfNav = class SfNav extends LitElement {
           <slot name="mainMenu"></slot>
         </div>
         <div class="sfNavDivRightContainer">
+          <div class="sfNavDivCta">
+          </div>
           <div class="sfNavDivSearch">
             <h1 tabindex="0" class="sfNavSearchToggle">🔍</h1>
             <div class="sfNavToggleRightLeaf"></div>
@@ -513,6 +525,7 @@ let SfNav = class SfNav extends LitElement {
         <slot name="socialMedia"></slot>
         <slot name="copyright"></slot>
         <slot name="notificationsList"></slot>
+        <slot name="cta"></slot>
       </footer>
     `;
     }
@@ -538,6 +551,16 @@ SfNav.styles = css `
       
     }
 
+    .sfNavDivCta {
+      display: flex;
+      align-items: center;
+      margin-right: 10px;
+    }
+
+    .sfNavButtonCta {
+      font-size: 110%;
+    }
+
     .sfNavDivSearch {
       position: relative;
     }
@@ -549,6 +572,7 @@ SfNav.styles = css `
 
     .sfNavDivNotif > h1 {
       cursor: pointer;
+      font-size: 130%;
     }
 
     .sfNavDivNotifActions {
@@ -562,6 +586,8 @@ SfNav.styles = css `
       right: 0px;
       top: 60px;
       flex-direction: column;
+      max-height: 300px;
+      overflow-y: auto;
     }
 
     .sfNavDivNotifDropdown > ul {
@@ -606,10 +632,11 @@ SfNav.styles = css `
 
     .sfNavDivSearch > h1 {
       cursor: pointer;
+      font-size: 130%;
     }
 
     .sfNavDivToggleContainer {
-      margin-right: 15px;
+      margin-right: 5px;
     }
 
     .sfNavDivLeftContainer > ::slotted(h2) {
@@ -832,7 +859,7 @@ SfNav.styles = css `
 
     .sfNavDivFooterLeftContainer > ul > li > a > img {
       height: 30px;
-      margin-right: 10px;
+      margin-right: 15px;
     }
 
     .sfNavDivFooterBrandContainer{
@@ -908,8 +935,8 @@ SfNav.styles = css `
 
     .sfNavDivNotifBadge {
       position: absolute;
-      margin-top: -55px;
-      margin-left: 15px;
+      margin-top: -45px;
+      margin-left: 10px;
       font-size: 70%;
     }
 
@@ -922,6 +949,14 @@ SfNav.styles = css `
     }
 
     @media (orientation: portrait) {
+
+      .sfNavC {
+        padding: 10px 10px;
+      }
+
+      .sfNavDivLeftContainer > ::slotted(h2) {
+        display: none;
+      }
 
       .sfNavMenu {
         display: none;
@@ -987,6 +1022,9 @@ __decorate([
     query('.sfNavDivNotifBadge')
 ], SfNav.prototype, "_sfNavDivNotifBadge", void 0);
 __decorate([
+    query('.sfNavDivCta')
+], SfNav.prototype, "_sfNavDivCta", void 0);
+__decorate([
     queryAssignedElements({ slot: 'mainMenu' })
 ], SfNav.prototype, "_sfNavSlottedUl", void 0);
 __decorate([
@@ -1007,6 +1045,9 @@ __decorate([
 __decorate([
     queryAssignedElements({ slot: 'notificationsList' })
 ], SfNav.prototype, "_sfNavSlottedNotificationsList", void 0);
+__decorate([
+    queryAssignedElements({ slot: 'cta' })
+], SfNav.prototype, "_sfNavSlottedCta", void 0);
 __decorate([
     queryAssignedElements({ slot: 'content' })
 ], SfNav.prototype, "_content", void 0);

@@ -368,6 +368,21 @@ Copyright notice can be shown in the footer as follows:
 
 <br />
 
+### Step 9 - Setup Call To Action
+
+You can add a call to action (CTA) button to the header as follows:
+
+```html
+
+    <sf-nav>
+      <a slot="cta" href="#login">Sign In</a>
+      <!-- other config -->
+    </sf-nav>
+
+```
+
+<br />
+
 ## Testing
 
 Tests can be run with the `test` script.
