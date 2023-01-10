@@ -11,12 +11,13 @@ import { LitElement, PropertyValueMap } from 'lit';
  * @fires routeChange - When user navigates from one page to another
  * @slot unreadNotifications - Unread notifications array
  * @slot readNotifications - Read notifications array
+ * @slot notificationsList - Notifications list link
  * @slot brandName - Brand name
  * @slot brandImage - Brand image
  * @slot mainMenu - Main menu
  * @slot socialMedia - Social media icons list
  * @slot copyright - Copyright notice
- * * @slot content - Content
+ * @slot content - Content
  * @csspart button - The button
  */
 export declare class SfNav extends LitElement {
@@ -45,18 +46,22 @@ export declare class SfNav extends LitElement {
     _sfNavDivSearch: any;
     _sfNavDivSearchClose: any;
     _sfNavDivNotif: any;
+    _sfNavDivNotifDropdown: any;
     _sfNavDivNotifClose: any;
     _sfNav404: any;
     _sfNavDivFooterContainer: any;
     _sfNavDivFooterBrandContainer: any;
     _sfNavDivFooterLeftContainer: any;
     _sfNavDivFooterMenuContainer: any;
+    _sfNavDivNotifActions: any;
+    _sfNavDivNotifBadge: any;
     _sfNavSlottedUl: any;
     _sfNavSlottedBrandName: any;
     _sfNavSlottedBrandImage: any;
     _sfNavSlottedSocialMedia: any;
     _sfNavSlottedUnreadNotifications: any;
     _sfNavSlottedReadNotifications: any;
+    _sfNavSlottedNotificationsList: any;
     _content: any;
     onKeyUp: (event: any, position: any) => void;
     dispatchMyEvent: (ev: string, args?: any) => void;

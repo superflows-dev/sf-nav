@@ -19,12 +19,13 @@ import DownloadFile from './downloadFile';
  * @fires routeChange - When user navigates from one page to another
  * @slot unreadNotifications - Unread notifications array
  * @slot readNotifications - Read notifications array
+ * @slot notificationsList - Notifications list link
  * @slot brandName - Brand name
  * @slot brandImage - Brand image
  * @slot mainMenu - Main menu
  * @slot socialMedia - Social media icons list
  * @slot copyright - Copyright notice
- * * @slot content - Content
+ * @slot content - Content
  * @csspart button - The button
  */
 let SfNav = class SfNav extends LitElement {
@@ -201,9 +202,15 @@ let SfNav = class SfNav extends LitElement {
                     }
                 }
             };
+            const decorateNotifs = () => {
+                if (this._sfNavDivNotifDropdown.innerHTML.indexOf('unread') < 0) {
+                    this._sfNavDivNotifBadge.style.display = 'none';
+                }
+            };
             decorateLeftMenu();
             decorateMainMenu();
             decorateBrandInfo();
+            decorateNotifs();
         };
         this.copySlots = () => {
             // copy menu to main menu div
@@ -232,6 +239,15 @@ let SfNav = class SfNav extends LitElement {
                 }
             }
             // Create notifications
+            if (this._sfNavSlottedReadNotifications[0] != null) {
+                if (this._sfNavDivNotif != null) {
+                    const html = this._sfNavSlottedReadNotifications[0].outerHTML;
+                    const currHtml = this._sfNavDivNotif.children[3].innerHTML;
+                    this._sfNavDivNotif.children[3].innerHTML = html + currHtml;
+                    //this._sfNavDivFooterLeftContainer.innerHTML = this._sfNavDivFooterLeftContainer.innerHTML + html;
+                }
+            }
+            // Create notifications
             if (this._sfNavSlottedUnreadNotifications[0] != null) {
                 if (this._sfNavDivNotif != null) {
                     const html = this._sfNavSlottedUnreadNotifications[0].outerHTML;
@@ -240,14 +256,11 @@ let SfNav = class SfNav extends LitElement {
                     //this._sfNavDivFooterLeftContainer.innerHTML = this._sfNavDivFooterLeftContainer.innerHTML + html;
                 }
             }
-            // Create notifications
-            if (this._sfNavSlottedReadNotifications[0] != null) {
-                if (this._sfNavDivNotif != null) {
-                    const html = this._sfNavSlottedReadNotifications[0].outerHTML;
-                    const currHtml = this._sfNavDivNotif.children[3].innerHTML;
-                    this._sfNavDivNotif.children[3].innerHTML = html + currHtml;
-                    //this._sfNavDivFooterLeftContainer.innerHTML = this._sfNavDivFooterLeftContainer.innerHTML + html;
-                }
+            // Copy notification view all
+            if (this._sfNavSlottedNotificationsList[0] != null) {
+                const href = this._sfNavSlottedNotificationsList[0].href;
+                const currHtml = this._sfNavDivNotifActions.innerHTML;
+                this._sfNavDivNotifActions.innerHTML = currHtml + '<button onClick="window.location.href=\'#' + href.split('#')[1] + '\'; event.target.parentNode.children[0].dispatchEvent(new MouseEvent(\'click\', {\'view\': window, \'bubbles\': true, \'cancelable\': false}))">View All</button>';
             }
             if (this._sfNavDivFooterMenuContainer != null) {
                 if (this._sfNavSlottedUl[0] != null) {
@@ -267,6 +280,9 @@ let SfNav = class SfNav extends LitElement {
             if (this._sfNavSlottedReadNotifications[0] != null) {
                 this._sfNavSlottedReadNotifications[0].outerHTML = '';
             }
+            if (this._sfNavSlottedNotificationsList[0] != null) {
+                this._sfNavSlottedNotificationsList[0].outerHTML = '';
+            }
         };
         this.getHome = () => {
             let home = "";
@@ -284,7 +300,6 @@ let SfNav = class SfNav extends LitElement {
             let params = null;
             if (window.location.hash.length > 0) {
                 params = hashRef[1].split("/");
-                console.log(params.length);
                 if (params.length > 1) {
                     params.shift();
                 }
@@ -305,19 +320,21 @@ let SfNav = class SfNav extends LitElement {
                 }
             }
             else {
-                this._sfNav404.style.display = 'none';
-                var allText = result.text;
-                this._content[0].innerHTML = allText;
-                Array.from(this._content[0].querySelectorAll("script"))
-                    .forEach((oldScriptEl) => {
-                    const newScriptEl = document.createElement("script");
-                    Array.from(oldScriptEl.attributes).forEach((attr) => {
-                        newScriptEl.setAttribute(attr.name, attr.value);
+                if (this._content[0] != null) {
+                    this._sfNav404.style.display = 'none';
+                    var allText = result.text;
+                    this._content[0].innerHTML = allText;
+                    Array.from(this._content[0].querySelectorAll("script"))
+                        .forEach((oldScriptEl) => {
+                        const newScriptEl = document.createElement("script");
+                        Array.from(oldScriptEl.attributes).forEach((attr) => {
+                            newScriptEl.setAttribute(attr.name, attr.value);
+                        });
+                        const scriptText = document.createTextNode(oldScriptEl.innerHTML);
+                        newScriptEl.appendChild(scriptText);
+                        oldScriptEl.parentNode.replaceChild(newScriptEl, oldScriptEl);
                     });
-                    const scriptText = document.createTextNode(oldScriptEl.innerHTML);
-                    newScriptEl.appendChild(scriptText);
-                    oldScriptEl.parentNode.replaceChild(newScriptEl, oldScriptEl);
-                });
+                }
             }
         };
         this.setupRouting = () => {
@@ -476,7 +493,7 @@ let SfNav = class SfNav extends LitElement {
             <div class="sfNavDivNotifBadge">🔴</div>
             <div class="sfNavToggleRightLeaf"></div>
             <div class="sfNavDivNotifDropdown">
-              <div class="sfNavDivNotifActions"><button class="sfNavDivNotifClose">Close</button><button>View All</button></div>
+              <div class="sfNavDivNotifActions"><button class="sfNavDivNotifClose">Close</button></div>
             </div>
           </div>
         </div>
@@ -951,6 +968,9 @@ __decorate([
     query('.sfNavDivNotif')
 ], SfNav.prototype, "_sfNavDivNotif", void 0);
 __decorate([
+    query('.sfNavDivNotifDropdown')
+], SfNav.prototype, "_sfNavDivNotifDropdown", void 0);
+__decorate([
     query('.sfNavDivNotifClose')
 ], SfNav.prototype, "_sfNavDivNotifClose", void 0);
 __decorate([
@@ -969,6 +989,12 @@ __decorate([
     query('.sfNavDivFooterMenuContainer')
 ], SfNav.prototype, "_sfNavDivFooterMenuContainer", void 0);
 __decorate([
+    query('.sfNavDivNotifActions')
+], SfNav.prototype, "_sfNavDivNotifActions", void 0);
+__decorate([
+    query('.sfNavDivNotifBadge')
+], SfNav.prototype, "_sfNavDivNotifBadge", void 0);
+__decorate([
     queryAssignedElements({ slot: 'mainMenu' })
 ], SfNav.prototype, "_sfNavSlottedUl", void 0);
 __decorate([
@@ -986,6 +1012,9 @@ __decorate([
 __decorate([
     queryAssignedElements({ slot: 'readNotifications' })
 ], SfNav.prototype, "_sfNavSlottedReadNotifications", void 0);
+__decorate([
+    queryAssignedElements({ slot: 'notificationsList' })
+], SfNav.prototype, "_sfNavSlottedNotificationsList", void 0);
 __decorate([
     queryAssignedElements({ slot: 'content' })
 ], SfNav.prototype, "_content", void 0);

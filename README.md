@@ -20,6 +20,21 @@
 
 <br />
 
+## Table of Contents
+
+- [Motivation](#motivation)
+- [Design](#design)
+- [Development & Quality Control](#development--quality-control)
+- [Features](#features)
+- [Functionality](#functionality)
+- [Demo](#demo)
+- [Usage](#usage)
+- [Tutorial](#tutorial)
+- [Testing](#testing)
+- [Dev Server](#dev-server)
+
+<br />
+
 ## Motivation
 
 Can modular web design be achieved using just html, css and javascript? Theoretically the answer is yes. Web components rolling out in the HTML specification has opened up a lot of possibilities. The motivation of this library is building a navigation bar web component that enables a modular single page applications architecture using purely html, css, javascript. 
@@ -32,7 +47,7 @@ Approach is to keep the design dead simple and to support most popular navbar fu
 
 <br />
 
-## Development Quality Control 
+## Development & Quality Control 
 
 Test driven development approach with a focus on maintaining 100 percent unit test code coverage for the main workflow
 
@@ -67,9 +82,6 @@ Test driven development approach with a focus on maintaining 100 percent unit te
 <br />
 
 ## Demo
-
-<iframe frameborder="0" width="100%" height="500px" src="https://replit.com/@SuperflowsAppv3/SfNav-Web-Component-Demo?embed=true"></iframe>
-
 
 <a href="https://replit.com/@SuperflowsAppv3/SfNav-Web-Component#index.html"><img width="100" src="https://superflows-images.s3.ap-south-1.amazonaws.com/View+Demo.png" /></a>
 
@@ -139,66 +151,142 @@ Test driven development approach with a focus on maintaining 100 percent unit te
 
 <br />
 
+## Tutorial
 
+<br />
 
-### Brand Info
+### Step 1 - Create an html page
 
-Brand name and logo can be customized as shown:
+Create an html page and add the following html content to it:
 
 ```html
 
-    <sf-nav>
-      <h2 slot="brandName">Superflows</h2>
-      <img slot="brandImage" src="https://superflows.dev/img/superflows_gray_transparent_200.png" />
-      <!-- other config -->
-    </sf-nav>
+<!DOCTYPE html>
 
+<html>
+  <head>
+    <!-- V imp for responsive layouting -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <title>&lt;sf-nav&gt; Demo</title>
+    <!-- Include scripts and import-->
+    <script src="https://unpkg.com/@webcomponents/webcomponentsjs@latest/webcomponents-loader.js"></script>
+    <script type="module">
+        import {LitElement, html, css} from 'https://unpkg.com/lit-element/lit-element.js?module';
+        import {SfNav} from 'https://unpkg.com/sf-nav/sf-nav.js?module';
+    </script>
+    <style>
+      body {
+        background-color: #efefef;
+        margin: 0px;
+      }
+      /* ensure that the component is displayed only after it renders properly */
+      sf-nav:not(:defined) {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Add the component tag -->
+    <sf-nav>
+      <!-- Set the brand name -->
+      <h2 slot="brandName"><a href="#home" >Superflows</a></h2>
+    </sf-nav>
+  </body>
+</html>
+
+```
+
+A bare bones version of the navigation header and footer, which includes only the brand name will be rendered. This will be our starting point!
+
+<br />
+
+### Step 2 - Setup Brand Info
+
+Set the brand logo as show below. It will be rendered both in the header and the footer.
+
+```html
+
+  <sf-nav>
+    <!-- Set the brand name -->
+    <h2 slot="brandName"><a href="#home" >Superflows</a></h2>
+    <!-- Set the brand logo -->
+    <a slot="brandImage" href="#home" ><img alt="logo" src="https://superflows-images.s3.ap-south-1.amazonaws.com/superflows_black_transparent_200.png" /></a>
+  </sf-nav>
+    
 ```
 
 <br />
 
-### Main Menu
+### Step 3 - Routing
 
-Main menu can be customized as shown:
+Routing is enabled by default. Every hash link specified in the SfNav component needs to be backed by its separate html component. For example the links in the brand info section (above section), contains #home as the link. For routing to work, simply create a separate home.html component for it. SfNav will then automatically take care of routing.
 
 ```html
 
-    <sf-nav>
-        <ul slot="mainMenu">
-            <li><a href="#about">About</a></li>
-            <li>
-            <a href="#">Solutions</a>
-            <ul>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#products">Products</a></li>
-            </ul>
-            </li>
-            <li>
-            <a href="#">Contact Us</a>
-            <ul>
-                <li><a href="#instagram">Instagram</a></li>
-                <li><a href="#facebook">Facebook</a></li>
-            </ul>
-            </li>
+  <sf-nav>
+    <!-- Page Content -->
+    <div slot="content">
+    </div>
+  </sf-nav>
+    
+```
+
+For passing parameters to individual components, include the following javascript code. Individual components can then fetch their parameters from the associative array routeMap.
+
+```html
+  <script>
+    var routeMap = [];
+  
+    function getCurrentPathName() {
+      return window.location.hash.length === 0 ? '' : window.location.hash.split("/")[0].replace('#', '');
+    }
+    function getCurrentArgs() {
+      return routeMap[getCurrentPathName() + '.html'];
+    }
+  
+    document.getElementsByTagName('sf-nav')[0].addEventListener('searchClick', () => {console.log('hurray');})
+    document.getElementsByTagName('sf-nav')[0].addEventListener('routeChange', (e) => {
+      routeMap[e.detail.pathName] = e.detail.args;
+    })
+  </script>
+```
+
+<br />
+
+### Step 4 - Setup Main Menu
+
+You can compose your menu using unordered lists, as shown in the below example.
+
+```html
+
+  <sf-nav>
+    <!-- Set the main menu -->
+    <ul slot="mainMenu">
+      <li><a href="#about">About</a></li>
+      <li class="li-solutions">
+        <a href="javascript:void(0);" class="a-solutions">Solutions</a>
+        <ul>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#products">Products</a></li>
         </ul>
-        <!-- other config -->
-    </sf-nav>
-
+      </li>
+      <li>
+        <a href="javascript:void(0);">Contact Us</a>
+        <ul>
+          <li><a href="https://instagram.com">Instagram</a></li>
+          <li><a href="https://facebook.com">Facebook</a></li>
+          <li><a href="https://youtube.com">YouTube</a></li>
+        </ul>
+      </li>
+    </ul>
+  </sf-nav>
+    
 ```
 
 <br />
 
-### Routing
-
-#### Routing via Main Menu
-
-Routing is enabled by default. To make it functional, simply create different html components for all the links that you have specified in the main menu. Routing will start working. Look at the demo project below. 
-
-<a href="https://replit.com/@SuperflowsAppv3/SfNav-Web-Component#index.html"><img width="100" src="https://superflows-images.s3.ap-south-1.amazonaws.com/View+Demo.png" /></a>
-
-<br />
-
-### Search Input
+### Step 5 - Setup Search
 
 Search Input is shown by default and the SfNav component throws a searchClick event after the user types something in the search input field and presses enter. To handle the searchClick event:
 
@@ -212,45 +300,49 @@ Search Input is shown by default and the SfNav component throws a searchClick ev
 
 <br />
 
-### Social Media
+### Step 6 - Setup Social Media Links
 
-Social media links are shown in the footer. Configure them as follows:
+Social media links can be configured using unordered lists, and are shown in the footer. Set them up as follows:
 
 ```html
 
-    <sf-nav>
-      <ul slot="socialMedia">
-        <li><a href="https://facebook.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/facebook-black_round.png" /></a></li>
-        <li><a href="https://twitter.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/twitter_black_round.png" /></a></li>
-        <li><a href="https://youtube.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/youtube_black_round.png" /></a></li>
-      </ul>
-      <!-- other config -->
-    </sf-nav>
+  <sf-nav>
+    <!-- Set the social media links -->
+    <ul slot="socialMedia">
+      <li><a href="https://facebook.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/facebook-black_round.png" /></a></li>
+      <li><a href="https://twitter.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/twitter_black_round.png" /></a></li>
+      <li><a href="https://youtube.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/youtube_black_round.png" /></a></li>
+    </ul>
+  </sf-nav>
+
+```
+
+### Step 7 - Setup Notifications
+
+Notifications dropdown can be configured using unordered lists as shown in the example below. Notifications functionality has three parts - (1) Unread notifications, (2) Read Notifications, (3) Notifications List Link. All of them can be configured separately:
+
+```html
+
+  <sf-nav>
+    <!-- Set the notifications -->
+    <ul slot="unreadNotifications">
+      <li><a href="#notification/1"><h3>Sonali Joshi</h3><p>mentioned you in a comment</p><div>1 day ago</div></a></li>
+      <li><a href="#notification/2"><h3>Rahim Ahmed</h3><p>reacted to your blog post</p><div>2 days ago</div></a></li>
+      <li><a href="#notification/3"><h3>John Bolton</h3><p>replied to a thread that you posted in</p><div>1 month ago</div></a></li>
+    </ul>
+    <ul slot="readNotifications">
+      <li><a href="#notification/4"><h3>Sonali Joshi</h3><p>mentioned you in a comment</p><div>1 day ago</div></a></li>
+      <li><a href="#notification/5"><h3>Rahim Ahmed</h3><p>reacted to your blog post</p><div>2 days ago</div></a></li>
+      <li><a href="#notification/6"><h3>John Bolton</h3><p>replied to a thread that you posted in</p><div>1 month ago</div></a></li>
+    </ul>
+    <a slot="notificationsList" href="#notifications">View All</button>
+  </sf-nav>
 
 ```
 
 <br />
 
-### Notifications
-
-Notifications dropdown can be configured in the header as show below.
-
-```html
-
-    <sf-nav>
-      <ul slot="notifications">
-        <li><a href="#notification/1"><h3>Sonali Joshi</h3><p>mentioned you in a comment</p><div>1 day ago</div></a></li>
-        <li><a href="#notification/2"><h3>Rahim Ahmed</h3><p>reacted to your blog post</p><div>2 days ago</div></a></li>
-        <li><a href="#notification/3"><h3>John Bolton</h3><p>replied to a thread that you posted in</p><div>1 month ago</div></a></li>
-      </ul>
-      <!-- other config -->
-    </sf-nav>
-
-```
-
-<br />
-
-### Copyright notice
+### Step 8 - Setup Copyright notice
 
 Copyright notice can be shown in the footer as follows:
 
