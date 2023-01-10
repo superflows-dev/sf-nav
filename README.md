@@ -376,12 +376,11 @@ Tests can be run with the `test` script.
 npm test
 ```
 
-### Test Run Results
+- Chromium: |██████████████████████████████| 1/1 test files | 5 passed, 0 failed
+- Firefox:  |██████████████████████████████| 1/1 test files | 5 passed, 0 failed
+- Webkit:   |██████████████████████████████| 1/1 test files | 5 passed, 0 failed
 
-- Chromium: |██████████████████████████████| 1/1 test files | 2 passed, 0 failed
-- Firefox:  |██████████████████████████████| 1/1 test files | 2 passed, 0 failed
-- Webkit:   |██████████████████████████████| 1/1 test files | 2 passed, 0 failed
-- Code coverage: 100 %
+- Code coverage: 98.63 % (Overall) 100% (Main flow)
 - View full coverage report at coverage/lcov-report/index.html
 
 <br />
