@@ -68,11 +68,14 @@ Test driven development approach with a focus on maintaining 100 percent unit te
 
 ## Demo
 
+<iframe frameborder="0" width="100%" height="500px" src="https://replit.com/@SuperflowsAppv3/SfNav-Web-Component-Demo?embed=true"></iframe>
+
+
 <a href="https://replit.com/@SuperflowsAppv3/SfNav-Web-Component#index.html"><img width="100" src="https://superflows-images.s3.ap-south-1.amazonaws.com/View+Demo.png" /></a>
 
 <br />
 
-## Basic Usage
+## Usage
 
 ```html
 
@@ -136,9 +139,7 @@ Test driven development approach with a focus on maintaining 100 percent unit te
 
 <br />
 
-## Detailed Usage
 
-<br />
 
 ### Brand Info
 

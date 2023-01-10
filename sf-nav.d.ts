@@ -9,7 +9,8 @@ import { LitElement, PropertyValueMap } from 'lit';
  *
  * @fires searchClick - When the user presses the enter key in the search input
  * @fires routeChange - When user navigates from one page to another
- * @slot notifications - Notifications array
+ * @slot unreadNotifications - Unread notifications array
+ * @slot readNotifications - Read notifications array
  * @slot brandName - Brand name
  * @slot brandImage - Brand image
  * @slot mainMenu - Main menu
@@ -54,7 +55,8 @@ export declare class SfNav extends LitElement {
     _sfNavSlottedBrandName: any;
     _sfNavSlottedBrandImage: any;
     _sfNavSlottedSocialMedia: any;
-    _sfNavSlottedNotifications: any;
+    _sfNavSlottedUnreadNotifications: any;
+    _sfNavSlottedReadNotifications: any;
     _content: any;
     onKeyUp: (event: any, position: any) => void;
     dispatchMyEvent: (ev: string, args?: any) => void;

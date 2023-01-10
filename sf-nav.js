@@ -17,7 +17,8 @@ import DownloadFile from './downloadFile';
  *
  * @fires searchClick - When the user presses the enter key in the search input
  * @fires routeChange - When user navigates from one page to another
- * @slot notifications - Notifications array
+ * @slot unreadNotifications - Unread notifications array
+ * @slot readNotifications - Read notifications array
  * @slot brandName - Brand name
  * @slot brandImage - Brand image
  * @slot mainMenu - Main menu
@@ -150,7 +151,7 @@ let SfNav = class SfNav extends LitElement {
                 this.toggleSearch();
                 return;
             }
-            if (e.target.outerHTML.indexOf('sfNavToggleLeft') <= 0 && (e.target.className == this.constPositionNotifToggle || e.target.className == this.constPositionNotifClose || e.target.parentNode.parentNode.parentNode.outerHTML.indexOf('notifications') >= 0)) {
+            if (e.target.outerHTML.indexOf('sfNavToggleLeft') <= 0 && (e.target.className == this.constPositionNotifToggle || e.target.className == this.constPositionNotifClose || e.target.parentNode.parentNode.parentNode.outerHTML.indexOf('unreadNotifications') >= 0 || e.target.parentNode.parentNode.parentNode.outerHTML.indexOf('readNotifications') >= 0)) {
                 this.toggleNotif();
                 return;
             }
@@ -231,9 +232,18 @@ let SfNav = class SfNav extends LitElement {
                 }
             }
             // Create notifications
-            if (this._sfNavSlottedNotifications[0] != null) {
+            if (this._sfNavSlottedUnreadNotifications[0] != null) {
                 if (this._sfNavDivNotif != null) {
-                    const html = this._sfNavSlottedNotifications[0].outerHTML;
+                    const html = this._sfNavSlottedUnreadNotifications[0].outerHTML;
+                    const currHtml = this._sfNavDivNotif.children[3].innerHTML;
+                    this._sfNavDivNotif.children[3].innerHTML = html + currHtml;
+                    //this._sfNavDivFooterLeftContainer.innerHTML = this._sfNavDivFooterLeftContainer.innerHTML + html;
+                }
+            }
+            // Create notifications
+            if (this._sfNavSlottedReadNotifications[0] != null) {
+                if (this._sfNavDivNotif != null) {
+                    const html = this._sfNavSlottedReadNotifications[0].outerHTML;
                     const currHtml = this._sfNavDivNotif.children[3].innerHTML;
                     this._sfNavDivNotif.children[3].innerHTML = html + currHtml;
                     //this._sfNavDivFooterLeftContainer.innerHTML = this._sfNavDivFooterLeftContainer.innerHTML + html;
@@ -251,8 +261,11 @@ let SfNav = class SfNav extends LitElement {
             if (this._sfNavSlottedSocialMedia[0] != null) {
                 this._sfNavSlottedSocialMedia[0].outerHTML = '';
             }
-            if (this._sfNavSlottedNotifications[0] != null) {
-                this._sfNavSlottedNotifications[0].outerHTML = '';
+            if (this._sfNavSlottedUnreadNotifications[0] != null) {
+                this._sfNavSlottedUnreadNotifications[0].outerHTML = '';
+            }
+            if (this._sfNavSlottedReadNotifications[0] != null) {
+                this._sfNavSlottedReadNotifications[0].outerHTML = '';
             }
         };
         this.getHome = () => {
@@ -285,9 +298,11 @@ let SfNav = class SfNav extends LitElement {
             this.dispatchMyEvent(this.eventRouteChange, { pathName: routePath, args: params });
             const result = await DownloadFile.downloadFile(routePath);
             if (result.status === 404) {
-                this._content[0].innerHTML = '';
-                this._sfNav404.children[0].innerHTML = "Could not find " + routePath;
-                this._sfNav404.style.display = 'block';
+                if (this._content[0] != null) {
+                    this._content[0].innerHTML = '';
+                    this._sfNav404.children[0].innerHTML = "Could not find " + routePath;
+                    this._sfNav404.style.display = 'block';
+                }
             }
             else {
                 this._sfNav404.style.display = 'none';
@@ -384,13 +399,14 @@ let SfNav = class SfNav extends LitElement {
                 this._sfNavDivSearchClose.addEventListener('keypress', this.onToggle);
             };
             const assignNotif = () => {
+                var _a, _b, _c, _d;
                 const elementH1 = this._sfNavDivNotif.getElementsByTagName('h1')[0];
                 elementH1.addEventListener('click', this.onToggle);
                 elementH1.addEventListener('keypress', this.onToggle);
                 this._sfNavDivNotifClose.addEventListener('click', this.onToggle);
                 this._sfNavDivNotifClose.addEventListener('keypress', this.onToggle);
                 for (var i = 0; i < this._sfNavDivNotif.children[3].children[0].children.length; i++) {
-                    this._sfNavDivNotif.children[3].children[0].children[i].children[0].addEventListener('click', this.onToggle);
+                    (_d = (_c = (_b = (_a = this._sfNavDivNotif.children[3]) === null || _a === void 0 ? void 0 : _a.children[0]) === null || _b === void 0 ? void 0 : _b.children[i]) === null || _c === void 0 ? void 0 : _c.children[0]) === null || _d === void 0 ? void 0 : _d.addEventListener('click', this.onToggle);
                 }
             };
             assignToggleToLeftMenu();
@@ -460,8 +476,7 @@ let SfNav = class SfNav extends LitElement {
             <div class="sfNavDivNotifBadge">🔴</div>
             <div class="sfNavToggleRightLeaf"></div>
             <div class="sfNavDivNotifDropdown">
-
-              <div tabindex="0" class="sfNavDivNotifClose">⨯</div>
+              <div class="sfNavDivNotifActions"><button class="sfNavDivNotifClose">Close</button><button>View All</button></div>
             </div>
           </div>
         </div>
@@ -484,9 +499,11 @@ let SfNav = class SfNav extends LitElement {
           </div>
         </div>
         <br />
-        <slot name="notifications"></slot>
+        <slot name="unreadNotifications"></slot>
+        <slot name="readNotifications"></slot>
         <slot name="socialMedia"></slot>
         <slot name="copyright"></slot>
+        <slot name="notificationsList"></slot>
       </footer>
     `;
     }
@@ -525,11 +542,16 @@ SfNav.styles = css `
       cursor: pointer;
     }
 
+    .sfNavDivNotifActions {
+      display: flex;
+      justify-content: space-between;
+    }
+
     .sfNavDivNotifDropdown {
       display: none;
       position: absolute;
       right: 0px;
-      top: 40px;
+      top: 60px;
       flex-direction: column;
     }
 
@@ -537,12 +559,23 @@ SfNav.styles = css `
       list-style: none;
       margin-left: 0px;
       padding-left: 0px;
+      margin-bottom: 0px;
+      margin-top: 0px;
+    }
+
+    .sfNavDivNotifDropdown > ul:first-child > li {
+      width: 300px;
+      background-color: var(--notif-background-color, #fff);
+      color: var(--notif-color, #000);
+      padding: 5px;
+      margin-bottom: 5px;
+      border-radius: 5px;
     }
 
     .sfNavDivNotifDropdown > ul > li {
       width: 300px;
-      background-color: var(--notif-background-color, #fff);
-      color: var(--notif-color, #000);
+      color: var(--notif-background-color, #000);
+      background-color: var(--notif-color, #ddd);
       padding: 5px;
       margin-bottom: 5px;
       border-radius: 5px;
@@ -948,8 +981,11 @@ __decorate([
     queryAssignedElements({ slot: 'socialMedia' })
 ], SfNav.prototype, "_sfNavSlottedSocialMedia", void 0);
 __decorate([
-    queryAssignedElements({ slot: 'notifications' })
-], SfNav.prototype, "_sfNavSlottedNotifications", void 0);
+    queryAssignedElements({ slot: 'unreadNotifications' })
+], SfNav.prototype, "_sfNavSlottedUnreadNotifications", void 0);
+__decorate([
+    queryAssignedElements({ slot: 'readNotifications' })
+], SfNav.prototype, "_sfNavSlottedReadNotifications", void 0);
 __decorate([
     queryAssignedElements({ slot: 'content' })
 ], SfNav.prototype, "_content", void 0);
