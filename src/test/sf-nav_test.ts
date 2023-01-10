@@ -356,6 +356,55 @@ suite('sf-nav', () => {
 
   });
 
+  test('Notifications all read', async () => {
+
+    const el = (await fixture(html`
+      <sf-nav >
+        <h2 slot="brandName"><a href="#home" >SuperTester</a></h2>
+        <a slot="brandImage" href="#home" ><img alt="logo" src="https://superflows.dev/img/superflows_gray_transparent_200.png" /></a>
+        <ul slot="mainMenu">
+          <li><a href="#about" class="a-about">About</a></li>
+          <li class="li-solutions">
+            <a href="javascript:void(0);" class="a-solutions">Solutions</a>
+            <ul>
+              <li><a href="#services" class="a-services">Services</a></li>
+              <li><a href="#products">Products</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="javascript:void(0);">Contact Us</a>
+            <ul>
+              <li><a href="https://instagram.com">Instagram</a></li>
+              <li><a href="https://facebook.com">Facebook</a></li>
+            </ul>
+          </li>
+        </ul>
+        <ul slot="readNotifications">
+          <li><a href="#notification/4"><h3>Sonali Joshi</h3><p>mentioned you in a comment</p><div>1 day ago</div></a></li>
+          <li><a href="#notification/5"><h3>Rahim Ahmed</h3><p>reacted to your blog post</p><div>2 days ago</div></a></li>
+          <li><a href="#notification/6"><h3>John Bolton</h3><p>replied to a thread that you posted in</p><div>1 month ago</div></a></li>
+        </ul>
+        <a slot="notificationsList" href="#notifications">View All</a>
+        <ul slot="socialMedia">
+          <li><a href="https://facebook.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/facebook-black_round.png" /></a></li>
+          <li><a href="https://twitter.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/twitter_black_round.png" /></a></li>
+          <li><a href="https://youtube.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/youtube_black_round.png" /></a></li>
+        </ul>
+        <p slot="copyright">Copyright 2022 Superflows</p>
+        <div slot="content">
+        </div>
+      </sf-nav>
+      `) as SfNav);
+
+      await el.updateComplete;
+
+      // Click simple main menu
+      const badge = el.shadowRoot!.querySelectorAll('.sfNavDivNotifBadge')[0]!;
+
+      assert.ok(badge.outerHTML.indexOf('display: none;') >= 0); 
+
+  });
+
   // test('renders with default values', async () => {
   //   const el = await fixture(html`<sf-nav></sf-nav>`);
   //   assert.shadowDom.equal(

@@ -69,7 +69,7 @@ Test driven development approach with a focus on maintaining 100 percent unit te
 - **Search Input** (complete) - SfNav ships with a search input field
 - **Social Media** (complete) - SfNav accepts social media links as an un-ordered list and renders them into the footer
 - **Copyright Notice** (complete) - SfNav accepts copyright notice as input and renders it into the footer
-- **Notifications** (partially complete) - Notifications feature is in-built, which includes a notification bell and a dropdown list to show recent notifications
+- **Notifications** (complete) - Notifications feature is in-built, which includes a notification bell and a dropdown list to show recent notifications
 - Call-to-action Button (in-progress) - SfNav comes with a call-to-action button, which can be used to highlight key actions such as sign in and subscribe.
 - Profile Section (in-progress) - User profile section is also included, which can be used to show the status of a signed in user. It also includes a separate profile menu, that is customizable as well.
 - Announcement Banner (in-progress) - Provision for showing an announcement banner is also given on the top of the navigation bar
@@ -109,8 +109,11 @@ Test driven development approach with a focus on maintaining 100 percent unit te
   </head>
   <body style="margin: 0px;">
     <sf-nav>
+      <!-- Set the brand name -->
       <h2 slot="brandName"><a href="#home" >Superflows</a></h2>
+      <!-- Set the brand logo -->
       <a slot="brandImage" href="#home" ><img alt="logo" src="https://superflows-images.s3.ap-south-1.amazonaws.com/superflows_black_transparent_200.png" /></a>
+      <!-- Set the main menu -->
       <ul slot="mainMenu">
         <li><a href="#about">About</a></li>
         <li class="li-solutions">
@@ -129,20 +132,28 @@ Test driven development approach with a focus on maintaining 100 percent unit te
           </ul>
         </li>
       </ul>
-      <ul slot="notifications">
-        <li><a href="#notification/1"><h3>Sonali Joshi</h3><p>mentioned you in a comment</p><div>1 day ago</div></a></li>
-        <li><a href="#notification/2"><h3>Rahim Ahmed</h3><p>reacted to your blog post</p><div>2 days ago</div></a></li>
-        <li><a href="#notification/3"><h3>John Bolton</h3><p>replied to a thread that you posted in</p><div>1 month ago</div></a></li>
-      </ul>
+      <!-- Set the social media links -->
       <ul slot="socialMedia">
         <li><a href="https://facebook.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/facebook-black_round.png" /></a></li>
         <li><a href="https://twitter.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/twitter_black_round.png" /></a></li>
         <li><a href="https://youtube.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/youtube_black_round.png" /></a></li>
       </ul>
+      <!-- Set the notifications -->
+      <ul slot="unreadNotifications">
+        <li><a href="#notification/1"><h3>Sonali Joshi</h3><p>mentioned you in a comment</p><div>1 day ago</div></a></li>
+        <li><a href="#notification/2"><h3>Rahim Ahmed</h3><p>reacted to your blog post</p><div>2 days ago</div></a></li>
+        <li><a href="#notification/3"><h3>John Bolton</h3><p>replied to a thread that you posted in</p><div>1 month ago</div></a></li>
+      </ul>
+      <ul slot="readNotifications">
+        <li><a href="#notification/4"><h3>Sonali Joshi</h3><p>mentioned you in a comment</p><div>1 day ago</div></a></li>
+        <li><a href="#notification/5"><h3>Rahim Ahmed</h3><p>reacted to your blog post</p><div>2 days ago</div></a></li>
+        <li><a href="#notification/6"><h3>John Bolton</h3><p>replied to a thread that you posted in</p><div>1 month ago</div></a></li>
+      </ul>
+      <a slot="notificationsList" href="#notifications">View All</a>
+      <!-- Set copyright notice -->
       <p slot="copyright">Copyright 2022 Superflows</p>
-
-      <div slot="content">
-      </div>
+      <!-- Page Content -->
+      <div slot="content"></div>
     </sf-nav>
   </body>
 </html>
