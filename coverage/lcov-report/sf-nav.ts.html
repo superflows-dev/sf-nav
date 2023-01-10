@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">99.39% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>1146/1153</span>
+                <span class='fraction'>1145/1145</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.55% </span>
+                <span class="strong">95.5% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>86/90</span>
+                <span class='fraction'>85/89</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">99.39% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>1146/1153</span>
+                <span class='fraction'>1145/1145</span>
             </div>
         
             
@@ -1208,15 +1208,8 @@
 <a name='L1143'></a><a href='#L1143'>1143</a>
 <a name='L1144'></a><a href='#L1144'>1144</a>
 <a name='L1145'></a><a href='#L1145'>1145</a>
-<a name='L1146'></a><a href='#L1146'>1146</a>
-<a name='L1147'></a><a href='#L1147'>1147</a>
-<a name='L1148'></a><a href='#L1148'>1148</a>
-<a name='L1149'></a><a href='#L1149'>1149</a>
-<a name='L1150'></a><a href='#L1150'>1150</a>
-<a name='L1151'></a><a href='#L1151'>1151</a>
-<a name='L1152'></a><a href='#L1152'>1152</a>
-<a name='L1153'></a><a href='#L1153'>1153</a>
-<a name='L1154'></a><a href='#L1154'>1154</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L1146'></a><a href='#L1146'>1146</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -1930,13 +1923,13 @@
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
@@ -2141,15 +2134,6 @@
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
@@ -2379,6 +2363,7 @@ import {LitElement, html, css, PropertyValueMap} from 'lit';
 import {customElement, query, queryAssignedElements} from 'lit/decorators.js';
 &nbsp;
 import DownloadFile from './downloadFile';
+import RunScripts from './runScripts';
 &nbsp;
 /**
  * SfNav element.
@@ -3294,16 +3279,7 @@ export class SfNav extends LitElement {
         this._sfNav404.style.display = 'none';
         var allText = result.text;
         this._content[0].innerHTML = allText;
-        Array.from(this._content[0].querySelectorAll("script"))
-          .forEach( (oldScriptEl:any) =&gt; {
-<span class="cstat-no" title="statement not covered" >            const newScriptEl = document.createElement("script");</span>
-<span class="cstat-no" title="statement not covered" >            Array.from(oldScriptEl.attributes).forEach( (attr: any) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >              newScriptEl.setAttribute(attr.name, attr.value) </span>
-<span class="cstat-no" title="statement not covered" >            });</span>
-<span class="cstat-no" title="statement not covered" >            const scriptText = document.createTextNode(oldScriptEl.innerHTML);</span>
-<span class="cstat-no" title="statement not covered" >            newScriptEl.appendChild(scriptText);</span>
-<span class="cstat-no" title="statement not covered" >            oldScriptEl.parentNode.replaceChild(newScriptEl, oldScriptEl);</span>
-        });
+        RunScripts.runScripts(this._content[0]);
       }
     }
 &nbsp;
@@ -3529,7 +3505,7 @@ declare global {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-01-10T06:11:04.312Z
+                at 2023-01-10T06:16:11.123Z
             </div>
         <script src="prettify.js"></script>
         <script>

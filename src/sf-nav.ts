@@ -8,6 +8,7 @@ import {LitElement, html, css, PropertyValueMap} from 'lit';
 import {customElement, query, queryAssignedElements} from 'lit/decorators.js';
 
 import DownloadFile from './downloadFile';
+import RunScripts from './runScripts';
 
 /**
  * SfNav element.
@@ -923,16 +924,7 @@ export class SfNav extends LitElement {
         this._sfNav404.style.display = 'none';
         var allText = result.text;
         this._content[0].innerHTML = allText;
-        Array.from(this._content[0].querySelectorAll("script"))
-          .forEach( (oldScriptEl:any) => {
-            const newScriptEl = document.createElement("script");
-            Array.from(oldScriptEl.attributes).forEach( (attr: any) => {
-              newScriptEl.setAttribute(attr.name, attr.value) 
-            });
-            const scriptText = document.createTextNode(oldScriptEl.innerHTML);
-            newScriptEl.appendChild(scriptText);
-            oldScriptEl.parentNode.replaceChild(newScriptEl, oldScriptEl);
-        });
+        RunScripts.runScripts(this._content[0]);
       }
     }
 
