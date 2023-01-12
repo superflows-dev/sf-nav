@@ -30,7 +30,8 @@ import RunScripts from './runScripts';
  * @slot content - Content
  * @slot profilePicture - Profile picture
  * @slot profileMenu - Profile menu
- * @csspart button - The button
+ * @csscustomproperty --nav-background-color - Background color of the component
+ * @csscustomproperty --nav-color - Text color of the component
  */
 let SfNav = class SfNav extends LitElement {
     constructor() {
@@ -969,8 +970,8 @@ SfNav.styles = css `
     }
 
     footer {
-      background-color: var(--background-color-footer, #fff);
-      color: var(--color-footer, #000);
+      background-color: var(--footer-background-color, #fff);
+      color: var(--footer-color, #000);
       padding-top: 50px;
       padding-bottom: 50px;
     }

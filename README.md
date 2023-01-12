@@ -49,7 +49,7 @@ Approach is to keep the design dead simple and to support most popular navbar fu
 
 ## Development & Quality Control 
 
-Test driven development approach with a focus on maintaining 100 percent unit test code coverage for the main workflow
+Test driven development approach with a focus on maintaining 100 percent unit test code coverage for the main workflow is the methodology of working.
 
 <br />
 
@@ -72,6 +72,8 @@ Test driven development approach with a focus on maintaining 100 percent unit te
 - **Notifications** - Notifications feature is in-built, which includes a notification bell and a dropdown list to show recent notifications
 - **Call-to-action Button** - SfNav comes with a call-to-action button, which can be used to highlight key actions such as sign in and subscribe.
 - **Profile Section** - User profile section is also included, which can be used to show the status of a signed in user. It also includes a separate profile menu, that is customizable as well.
+- **Customizability** - SfNav colors can be customized using css custom properties
+- **Responsiveness** - SfNav nicely adapts to all screen sizes
 - **Keyboard Navigation** - It allows keyboard navigation across all elements on desktop, mobile and tablet form factors.
 - **Screen Reader Support** - It supports both desktop and mobile screen readers making your app acceessible to partially or completely blind users.
 
@@ -92,6 +94,7 @@ Test driven development approach with a focus on maintaining 100 percent unit te
 <html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>&lt;sf-nav&gt; Demo</title>
     <!-- Integration material icons as they are used in sf-nav -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -116,6 +119,17 @@ Test driven development approach with a focus on maintaining 100 percent unit te
 
       sf-nav:not(:defined) {
         display: none;
+      }
+
+      sf-nav {
+        --nav-background-color: rgb(4, 135, 205);
+        --nav-color: #fff;
+        --notif-background-color: rgb(4, 135, 205);
+        --notif-color: #fff;
+        --menu-background-color: rgb(49, 161, 222);
+        --menu-color: #fff;
+        --footer-background-color: rgb(167, 147, 60);
+        --footer-color: #fff;
       }
       
     </style>
@@ -163,6 +177,8 @@ Test driven development approach with a focus on maintaining 100 percent unit te
         <li><a href="#notification/6"><h3>John Bolton</h3><p>replied to a thread that you posted in</p><div>1 month ago</div></a></li>
       </ul>
       <a slot="notificationsList" href="#notifications">View All</a>
+      <!-- Set CTA -->
+      <a slot="cta" href="#login">Sign In</a>
       <!-- Set copyright notice -->
       <p slot="copyright">Copyright 2022 Superflows</p>
       <!-- Profile picture -->
@@ -210,25 +226,34 @@ Create an html page and add the following html content to it:
 
 <html>
   <head>
-    <!-- V imp for responsive layouting -->
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>&lt;sf-nav&gt; Demo</title>
-    <!-- Include scripts and import-->
+    <!-- Integration material icons as they are used in sf-nav -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Google fonts integration -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600&display=swap" rel="stylesheet">
+    <!-- Integration the web components module -->
     <script src="https://unpkg.com/@webcomponents/webcomponentsjs@latest/webcomponents-loader.js"></script>
+    <!-- Integration lit and sf-nav web components module -->
     <script type="module">
         import {LitElement, html, css} from 'https://unpkg.com/lit-element/lit-element.js?module';
         import {SfNav} from 'https://unpkg.com/sf-nav/sf-nav.js?module';
     </script>
     <style>
+      
       body {
         background-color: #efefef;
         margin: 0px;
+        font-family: 'Source Sans Pro';
       }
-      /* ensure that the component is displayed only after it renders properly */
+
       sf-nav:not(:defined) {
         display: none;
       }
+      
     </style>
   </head>
   <body>
@@ -452,6 +477,33 @@ Profile section mainly contains two things - (1) Profile picture toggle,  (2) Dr
 
 <br />
 
+### Step 11 - Customize The Appearance
+
+Css custom properties can be used to customize the appearance as follows:
+
+```html
+
+  <head>
+    <style>
+    
+      
+      sf-nav {
+        --nav-background-color: rgb(4, 135, 205);
+        --nav-color: #fff;
+        --notif-background-color: rgb(4, 135, 205);
+        --notif-color: #fff;
+        --menu-background-color: rgb(49, 161, 222);
+        --menu-color: #fff;
+        --footer-background-color: rgb(167, 147, 60);
+        --footer-color: #fff;
+      }
+      
+    </style>
+  </head>
+
+```
+
+
 ## Testing
 
 Tests can be run with the `test` script.
@@ -460,10 +512,9 @@ Tests can be run with the `test` script.
 npm test
 ```
 
-- Chromium: |██████████████████████████████| 1/1 test files | 5 passed, 0 failed
-- Firefox:  |██████████████████████████████| 1/1 test files | 5 passed, 0 failed
-- Webkit:   |██████████████████████████████| 1/1 test files | 5 passed, 0 failed
-
+- Chromium: |██████████████████████████████| 2/2 test files | 9 passed, 0 failed
+- Firefox:  |██████████████████████████████| 2/2 test files | 9 passed, 0 failed
+- Webkit:   |██████████████████████████████| 2/2 test files | 9 passed, 0 failed
 - Code coverage: 98.63 % (Overall) 100% (Main flow)
 - View full coverage report at coverage/lcov-report/index.html
 

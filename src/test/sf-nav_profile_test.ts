@@ -5,11 +5,9 @@
  */
 
 import {SfNav} from '../sf-nav.js';
-import { stub } from 'sinon';
 import {fixture, assert} from '@open-wc/testing';
 // import {assert} from '@open-wc/testing';
 import {html} from 'lit/static-html.js';
-import DownloadFile from '../downloadFile.js';
 
 //const TIMEOUT = 2000;
 

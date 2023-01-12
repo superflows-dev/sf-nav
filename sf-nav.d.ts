@@ -21,7 +21,8 @@ import { LitElement, PropertyValueMap } from 'lit';
  * @slot content - Content
  * @slot profilePicture - Profile picture
  * @slot profileMenu - Profile menu
- * @csspart button - The button
+ * @csscustomproperty --nav-background-color - Background color of the component
+ * @csscustomproperty --nav-color - Text color of the component
  */
 export declare class SfNav extends LitElement {
     eventSearchClick: string;
