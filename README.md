@@ -107,8 +107,17 @@ Test driven development approach with a focus on maintaining 100 percent unit te
         import {SfNav} from 'https://unpkg.com/sf-nav/sf-nav.js?module';
     </script>
     <style>
-      sf-nav {
+      
+      body {
+        background-color: #efefef;
+        margin: 0px;
+        font-family: 'Source Sans Pro';
       }
+
+      sf-nav:not(:defined) {
+        display: none;
+      }
+      
     </style>
   </head>
   <body style="margin: 0px;">
