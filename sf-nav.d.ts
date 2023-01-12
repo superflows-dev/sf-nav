@@ -19,11 +19,14 @@ import { LitElement, PropertyValueMap } from 'lit';
  * @slot copyright - Copyright notice
  * @slot cta - Call to action
  * @slot content - Content
+ * @slot profilePicture - Profile picture
+ * @slot profileMenu - Profile menu
  * @csspart button - The button
  */
 export declare class SfNav extends LitElement {
     eventSearchClick: string;
     eventRouteChange: string;
+    constPositionProfileToggle: string;
     constPositionSearchToggle: string;
     constPositionSearchClose: string;
     constPositionNotifToggle: string;
@@ -43,6 +46,7 @@ export declare class SfNav extends LitElement {
     _sfNavC: any;
     _sfNavDivToggleContainer: any;
     _sfNavLeftMenu: any;
+    _sfNavProfileMenu: any;
     _sfNavMainMenu: any;
     _sfNavDivSearch: any;
     _sfNavDivSearchClose: any;
@@ -57,6 +61,8 @@ export declare class SfNav extends LitElement {
     _sfNavDivNotifActions: any;
     _sfNavDivNotifBadge: any;
     _sfNavDivCta: any;
+    _sfNavDivProfile: any;
+    _sfNavDivProfileToggle: any;
     _sfNavSlottedUl: any;
     _sfNavSlottedBrandName: any;
     _sfNavSlottedBrandImage: any;
@@ -65,17 +71,24 @@ export declare class SfNav extends LitElement {
     _sfNavSlottedReadNotifications: any;
     _sfNavSlottedNotificationsList: any;
     _sfNavSlottedCta: any;
+    _sfNavSlottedProfileMenu: any;
     _content: any;
     onKeyUp: (event: any, position: any) => void;
     dispatchMyEvent: (ev: string, args?: any) => void;
     resetMenu: () => void;
     hideLeftMenuElement(element: any): void;
     hideAllLeftMenuElements: () => void;
+    hideAllProfileMenuElements: () => void;
     showLeftMenuElement(element: any): void;
+    showProfileMenuElement(element: any): void;
     toggleSearch: () => void;
     toggleNotif: () => void;
     toggleLeftMenu: () => void;
+    toggleProfileMenu: (element: HTMLElement) => void;
     toggleMainMenu: (element: any) => void;
+    showProfile: () => void;
+    hideProfile: () => void;
+    toggleProfile: () => void;
     onToggle: (e: any) => void;
     decorateSlots: () => void;
     copySlots: () => void;

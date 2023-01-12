@@ -7,6 +7,7 @@
 import {LitElement, html, css, PropertyValueMap} from 'lit';
 import {customElement, query, queryAssignedElements} from 'lit/decorators.js';
 
+
 import DownloadFile from './downloadFile';
 import RunScripts from './runScripts';
 
@@ -25,6 +26,8 @@ import RunScripts from './runScripts';
  * @slot copyright - Copyright notice
  * @slot cta - Call to action
  * @slot content - Content
+ * @slot profilePicture - Profile picture
+ * @slot profileMenu - Profile menu
  * @csspart button - The button
  */
 @customElement('sf-nav')
@@ -33,6 +36,7 @@ export class SfNav extends LitElement {
 
   eventSearchClick = 'searchClick';
   eventRouteChange = 'routeChange';
+  constPositionProfileToggle = 'sfNavDivProfileToggle';
   constPositionSearchToggle = 'sfNavSearchToggle';
   constPositionSearchClose = 'sfNavDivSearchClose';
   constPositionNotifToggle = 'sfNavNotifToggle';
@@ -67,7 +71,7 @@ export class SfNav extends LitElement {
     .sfNavDivCta {
       display: flex;
       align-items: center;
-      margin-right: 10px;
+      margin-right: 20px;
     }
 
     .sfNavButtonCta {
@@ -80,12 +84,11 @@ export class SfNav extends LitElement {
 
     .sfNavDivNotif {
       position: relative;
-      margin-left: 10px;
+      margin-left: 15px;
     }
 
     .sfNavDivNotif > h1 {
       cursor: pointer;
-      font-size: 130%;
     }
 
     .sfNavDivNotifActions {
@@ -145,7 +148,6 @@ export class SfNav extends LitElement {
 
     .sfNavDivSearch > h1 {
       cursor: pointer;
-      font-size: 130%;
     }
 
     .sfNavDivToggleContainer {
@@ -173,6 +175,46 @@ export class SfNav extends LitElement {
       background-color: var(--menu-background-color, #fff);
       color: var(--menu-color, #000);
       cursor: pointer;
+    }
+
+    .sfNavDivProfileDropdown > ul {
+      list-style: none;
+      background-color: var(--menu-background-color, #fff);
+      color: var(--menu-color, #000);
+      cursor: pointer;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      border-radius: 5px;
+      padding-left: 0px;
+      padding-right: 0px;
+    }
+
+    .sfNavDivProfileDropdown > ul > li {
+      padding-top: 5px;
+      padding-bottom: 5px;
+      padding-left: 10px;
+      padding-right: 10px;
+      border: solid 1px transparent;
+      min-width: 140px;
+    }
+
+    .sfNavDivProfileDropdown > ul > li > ul > li {
+      padding-top: 5px;
+      padding-bottom: 5px;
+      padding-left: 10px;
+      padding-right: 10px;
+      border: solid 1px transparent;
+      min-width: 100px;
+    }
+
+    .sfNavDivProfileDropdown > ul > li > ul > li:first-child {
+      margin-top: 5px;
+    }
+
+    .sfNavDivProfileDropdown > ul > li > ul {
+      display: none;
+      list-style: none;
+      padding-left: 5px;
     }
 
     #mainMenu > ul {
@@ -401,9 +443,6 @@ export class SfNav extends LitElement {
       font-size: 200%;
     }
 
-    .sfNavDivFooterMenuContainer{
-    }
-
     .sfNavDivFooterMenuContainer > ul{
       display: flex;
       justify-content: center;
@@ -453,6 +492,38 @@ export class SfNav extends LitElement {
       font-size: 70%;
     }
 
+    .sfNavDivProfile {
+      display: flex;
+      align-items: center;
+      margin-left: 20px;
+      position: relative;
+    }
+
+    .sfNavDivProfileToggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .sfNavDivProfileToggle > p{
+      font-size:60%;
+      margin-left: 3px;
+    }
+
+    .sfNavDivProfileToggle > ::slotted(img) {
+      height: 30px;
+      width: 30px;
+      border-radius: 15px;
+    }
+
+    .sfNavDivProfileDropdown {
+      display: none;
+      position: absolute;
+      right: 0px;
+      top: 40px;
+    }
+
     @media (orientation: landscape) {
 
       .sfNavDivToggleContainer {
@@ -496,6 +567,9 @@ export class SfNav extends LitElement {
   @query('.sfNavDivToggleContainer > ul')
   _sfNavLeftMenu: any;
 
+  @query('.sfNavDivProfileDropdown > ul')
+  _sfNavProfileMenu: any;
+
   @query('#mainMenu')
   _sfNavMainMenu: any;
 
@@ -538,6 +612,12 @@ export class SfNav extends LitElement {
   @query('.sfNavDivCta')
   _sfNavDivCta: any;
 
+  @query('.sfNavDivProfile')
+  _sfNavDivProfile: any;
+
+  @query('.sfNavDivProfileToggle')
+  _sfNavDivProfileToggle: any;
+
   @queryAssignedElements({slot: 'mainMenu'})
   _sfNavSlottedUl: any;
 
@@ -561,6 +641,9 @@ export class SfNav extends LitElement {
 
   @queryAssignedElements({slot: 'cta'})
   _sfNavSlottedCta: any;
+
+  @queryAssignedElements({slot: 'profileMenu'})
+  _sfNavSlottedProfileMenu: any;
 
   @queryAssignedElements({slot: 'content'})
   _content: any;
@@ -588,7 +671,6 @@ export class SfNav extends LitElement {
   }
 
   resetMenu = () => {
-
     // reset overlay leaf
     this._sfNavMainMenu.children[0].style.display = 'none';
 
@@ -597,6 +679,8 @@ export class SfNav extends LitElement {
         this._sfNavMainMenu.children[1].children[i].children[1].style.display = 'none';
       }
     }
+
+    this.hideProfile();
   }
 
   hideLeftMenuElement(element: any) {
@@ -608,10 +692,30 @@ export class SfNav extends LitElement {
 
   }
 
+  // hideProfileMenuElement(element: any) {
+
+  //   const elementUl = element.getElementsByTagName('ul')[0];
+  //   elementUl.style.display = 'none';
+  //   element.style.color = 'inherit';
+  //   element.style.backgroundColor = 'inherit';
+
+  // }
+
   hideAllLeftMenuElements = () => {
 
     for(let i = 0; i < this._sfNavLeftMenu.children.length; i++) {
       const child = this._sfNavLeftMenu.children[i]
+      if(child.getElementsByTagName('ul').length > 0) {
+        this.hideLeftMenuElement(child);
+      }
+    }
+
+  }
+
+  hideAllProfileMenuElements = () => {
+
+    for(let i = 0; i < this._sfNavProfileMenu.children.length; i++) {
+      const child = this._sfNavProfileMenu.children[i]
       if(child.getElementsByTagName('ul').length > 0) {
         this.hideLeftMenuElement(child);
       }
@@ -633,6 +737,19 @@ export class SfNav extends LitElement {
     // } else {
     //   parentColor = element.parentNode.style.color;
     // }
+    const elementUl = element.getElementsByTagName('ul')[0];
+    elementUl.style.display = 'block';
+    element.style.color = parentBackgroundColor;
+    element.style.backgroundColor = parentColor;
+
+  }
+  
+  showProfileMenuElement(element: any) {
+
+    let parentBackgroundColor = null;
+    let parentColor = null;
+    parentBackgroundColor = window.getComputedStyle(element.parentNode).backgroundColor;
+    parentColor = window.getComputedStyle(element.parentNode).color;
     const elementUl = element.getElementsByTagName('ul')[0];
     elementUl.style.display = 'block';
     element.style.color = parentBackgroundColor;
@@ -700,6 +817,21 @@ export class SfNav extends LitElement {
 
   }
 
+  toggleProfileMenu = (element: HTMLElement) => {
+    const elementUl = element.getElementsByTagName('ul')[0];
+    if(elementUl != null) {
+      if(elementUl.style.display == 'block') {
+        this.hideAllProfileMenuElements();
+        this._sfNavDivToggleContainer.children[1].style.display = 'none';
+        this._sfNavDivToggleContainer.children[2].style.display = 'none';
+      } else {
+        this.hideAllProfileMenuElements();
+        this.showProfileMenuElement(element);
+      }  
+    } 
+    
+  }
+  
   toggleMainMenu = (element: any) => {
 
     const elementUl = element.getElementsByTagName('ul')[0];
@@ -714,17 +846,37 @@ export class SfNav extends LitElement {
         this.showLeftMenuElement(element);
       }  
     } 
-    // else {
-    //   this.hideAllLeftMenuElements();
-    //   this._sfNavDivToggleContainer.children[1].style.display = 'none';
-    //   this._sfNavDivToggleContainer.children[2].style.display = 'none';
-    // }
+    
 
+  }
+
+  showProfile = () => {
+    this._sfNavDivProfile.children[1].style.display = 'block';
+    this._sfNavDivProfile.children[2].style.display = 'block';
+  }
+
+  hideProfile = () => {
+    
+    this._sfNavDivProfile.children[1].style.display = 'none';
+    this._sfNavDivProfile.children[2].style.display = 'none';
+  }
+
+  toggleProfile = () => {
+    if(this._sfNavDivProfile.children[1].style.display == "block") {
+      this.hideProfile();
+    } else {
+      this.showProfile();
+    }
   }
 
   onToggle = (e: any) => {
 
-    if(e.target.outerHTML.indexOf('sfNavToggleLeft') <= 0 && (e.target.className == this.constPositionSearchToggle || e.target.className == this.constPositionSearchClose)) {
+    if(e.currentTarget.className == this.constPositionProfileToggle || e.currentTarget.className.indexOf('profileLeaf') >= 0) {
+      this.toggleProfile();
+      return;
+    }
+
+    if(e.target.outerHTML.indexOf('sfNavToggleLeft') <= 0 && (e.target.className.indexOf(this.constPositionSearchToggle) >= 0 || e.target.className.indexOf(this.constPositionSearchClose) >= 0)) {
 
       this.toggleSearch();
       return;
@@ -736,6 +888,11 @@ export class SfNav extends LitElement {
       this.toggleNotif();
       return;
 
+    }
+
+    if(e.target.parentNode.parentNode.outerHTML.indexOf('profileMenu') >= 0) {
+      this.toggleProfileMenu(e.currentTarget);
+      return;
     }
 
     if(e.target.className == this.constPositionLeftToggle || e.target.className == this.constPositionLeftToggleLeaf || (e.target.parentNode.parentNode.parentNode.outerHTML.indexOf('sfNavDivToggleContainer') >= 0 && e.target.outerHTML.indexOf('void(0)') < 0)) {
@@ -788,6 +945,22 @@ export class SfNav extends LitElement {
 
     }
 
+    const decorateProfileMenu = () => {
+
+      if(this._sfNavProfileMenu != null) {
+        for(let i = 0; i < this._sfNavProfileMenu.children.length; i++) {
+    
+          const child = this._sfNavProfileMenu.children[i]
+          if(child.getElementsByTagName('ul').length > 0) {
+            const innerHTML = child.getElementsByTagName('a')[0].innerHTML;
+            child.getElementsByTagName('a')[0].innerHTML = innerHTML + "&nbsp;<span style=\"font-size: 60%\">▼</span>";
+          }
+
+        }
+      }
+
+    }
+
     const decorateMainMenu = () => {
 
       const elementsLi = this._sfNavMainMenu.getElementsByTagName('li');
@@ -815,11 +988,12 @@ export class SfNav extends LitElement {
       }
 
     }
+
     decorateLeftMenu();
     decorateMainMenu();
     decorateBrandInfo();
     decorateNotifs();
-
+    decorateProfileMenu();
   }
 
   copySlots = () => {
@@ -888,6 +1062,11 @@ export class SfNav extends LitElement {
       this._sfNavDivCta.innerHTML = '<button class="sfNavButtonCta" type="button" onClick="window.location.href=\'#'+href.split('#')[1]+'\';"><b>'+html+'</b></button>';
     }
 
+    // Copy profile menu
+    if(this._sfNavSlottedProfileMenu[0] != null) {
+      const html = this._sfNavSlottedProfileMenu[0].outerHTML;
+      this._sfNavDivProfile.children[2].insertAdjacentHTML('beforeend', html);
+    }
 
     if(this._sfNavDivFooterMenuContainer != null) {
       if(this._sfNavSlottedUl[0] != null) {
@@ -920,6 +1099,11 @@ export class SfNav extends LitElement {
     if(this._sfNavSlottedCta[0] != null) {
       this._sfNavSlottedCta[0].outerHTML = '';
     }
+
+    if(this._sfNavSlottedProfileMenu[0] != null) {
+      this._sfNavSlottedProfileMenu[0].outerHTML = '';
+    }
+
 
   }
 
@@ -974,7 +1158,9 @@ export class SfNav extends LitElement {
 
   setupRouting = () => {
     window.addEventListener('popstate', () => {
+      
       if(window.location.hash.length > 0) {
+        
         this.resetMenu();
       }
       this.processRoute();
@@ -1016,6 +1202,22 @@ export class SfNav extends LitElement {
   
       }
     } 
+
+    const assignToggleToProfileMenu = () => {
+
+      if(this._sfNavProfileMenu != null) {
+
+        for(let i = 0; i < this._sfNavProfileMenu.children.length; i++) {
+  
+          const child = this._sfNavProfileMenu.children[i]
+
+          child.addEventListener('click', this.onToggle);
+  
+        }
+  
+      }
+
+    }
     
     const assignMainMenu = () => {
 
@@ -1096,10 +1298,20 @@ export class SfNav extends LitElement {
       }
     }
 
+    const assignProfile = () => {
+
+      this._sfNavDivProfileToggle.addEventListener('click', this.onToggle);
+      this._sfNavDivProfileToggle.addEventListener('keypress', this.onToggle);
+
+      this._sfNavDivProfile.children[1].addEventListener('click', this.onToggle);
+    } 
+
     assignToggleToLeftMenu();
+    assignToggleToProfileMenu();
     assignMainMenu();
     assignSearch();
     assignNotif();
+    assignProfile();
 
   }
 
@@ -1121,10 +1333,11 @@ export class SfNav extends LitElement {
 
   override render() {
     return html`
+      <link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'>  
       <nav class="sfNavC" style="position: relative">
         <div class="sfNavDivLeftContainer">
           <div class="sfNavDivToggleContainer">
-            <h1 tabindex="0" class="sfNavToggleLeft">☰</h1>
+            <span tabindex="0" class="material-icons sfNavToggleLeft">menu</span>
             <div class="sfNavToggleLeftLeaf"></div>
           </div>
           <slot name="brandImage"></slot>
@@ -1136,7 +1349,7 @@ export class SfNav extends LitElement {
           <div class="sfNavDivCta">
           </div>
           <div class="sfNavDivSearch">
-            <h1 tabindex="0" class="sfNavSearchToggle">🔍</h1>
+            <h1 tabindex="0" class="material-icons sfNavSearchToggle">search</h1>
             <div class="sfNavToggleRightLeaf"></div>
             <div class="sfNavDivSearchDropdown">
               <input class="sfNavInputSearch" type="text" placeholder="Search" @keyup=${(ev:any) => {this.onKeyUp(ev, this.eventSearchClick)}} />
@@ -1144,11 +1357,20 @@ export class SfNav extends LitElement {
             </div>
           </div>
           <div class="sfNavDivNotif">
-            <h1 tabindex="0" class="sfNavNotifToggle">🔔</h1>
+            <h1 tabindex="0" class="sfNavNotifToggle material-icons">notifications</h1>
             <div class="sfNavDivNotifBadge">🔴</div>
             <div class="sfNavToggleRightLeaf"></div>
             <div class="sfNavDivNotifDropdown">
               <div class="sfNavDivNotifActions"><button class="sfNavDivNotifClose">Close</button></div>
+            </div>
+          </div>
+          <div class="sfNavDivProfile">
+            <div class="sfNavDivProfileToggle" tabindex="0">
+              <slot name="profilePicture"></slot>
+              <p>▼</p>
+            </div>
+            <div class="sfNavToggleRightLeaf profileLeaf"></div>
+            <div class="sfNavDivProfileDropdown">
             </div>
           </div>
         </div>
@@ -1177,6 +1399,7 @@ export class SfNav extends LitElement {
         <slot name="copyright"></slot>
         <slot name="notificationsList"></slot>
         <slot name="cta"></slot>
+        <slot name="profileMenu"></slot>
       </footer>
     `;
   }

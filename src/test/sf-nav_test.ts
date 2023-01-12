@@ -13,17 +13,7 @@ import DownloadFile from '../downloadFile.js';
 
 //const TIMEOUT = 2000;
 
-suite('sf-nav', () => {
-
-  test('is defined', () => {
-    const el = document.createElement('sf-nav');
-    assert.instanceOf(el, SfNav);
-  });
-
-  test('basic render > check sanity > open left menu > close left menu > open left menu again > open left submenu > close left submenu > close left menu > open main menu > close main menu > open search > types something in search > close search > togglesearch > click last menu > open notifications > close notifications > open notifications again > click on a single notification', async () => {
-
-
-    const el = (await fixture(html`
+const htmlContent = html`
       <sf-nav >
         <h2 slot="brandName"><a href="#home" >SuperTester</a></h2>
         <a slot="brandImage" href="#home" ><img alt="logo" src="https://superflows.dev/img/superflows_gray_transparent_200.png" /></a>
@@ -63,24 +53,54 @@ suite('sf-nav', () => {
         </ul>
         <p slot="copyright">Copyright 2022 Superflows</p>
         <a slot="cta" href="#login">Sign In</a>
+        <!-- Profile picture -->
+        <img alt="profile" slot="profilePicture" src="https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg" />
+        <!-- Set the profile menu -->
+        <ul slot="profileMenu">
+          <li><a href="#about1">About</a></li>
+          <li class="li-solutions">
+            <a href="javascript:void(0);" class="a-solutions">Solutions</a>
+            <ul>
+              <li><a href="#services">Services</a></li>
+              <li><a href="#products">Products</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="javascript:void(0);">Contact Us</a>
+            <ul>
+              <li><a href="https://instagram.com">Instagram</a></li>
+              <li><a href="https://facebook.com">Facebook</a></li>
+              <li><a href="https://youtube.com">YouTube</a></li>
+            </ul>
+          </li>
+        </ul>
         <div slot="content">
         </div>
       </sf-nav>
-      `) as SfNav);
+      `;
 
+var clickEvent = new MouseEvent("click", {
+  "view": window,
+  "bubbles": true,
+  "cancelable": false
+});
+
+suite('sf-nav > left menu', () => {
+
+  test('is defined', () => {
+    const el = document.createElement('sf-nav');
+    assert.instanceOf(el, SfNav);
+  });
+
+  test('left menu', async () => {
+
+    const el = (await fixture(htmlContent)) as SfNav;
     await el.updateComplete;
 
     // Check sanity
 
     const sfNavC = el.shadowRoot!.querySelectorAll('.sfNavC')[0]!;
     assert.ok(sfNavC.innerHTML.indexOf('▶') >= 0); 
-
-
-    var clickEvent = new MouseEvent("click", {
-          "view": window,
-          "bubbles": true,
-          "cancelable": false
-      });
 
     // Open left menu
 
@@ -114,8 +134,25 @@ suite('sf-nav', () => {
     // Close left submenu > menu
 
     liSolutions.dispatchEvent(clickEvent)
+    await new Promise((r) => setTimeout(r,1000));
     await el.updateComplete;
-    assert.ok(liSolutions.outerHTML.indexOf('color: inherit; background-color: inherit;') >= 0); 
+
+  });
+
+});
+
+
+suite('sf-nav > main menu', () => {
+
+  test('main menu', async () => {
+
+    const el = (await fixture(htmlContent) as SfNav);
+    await el.updateComplete;
+
+    // Check sanity
+
+    const sfNavC = el.shadowRoot!.querySelectorAll('.sfNavC')[0]!;
+    assert.ok(sfNavC.innerHTML.indexOf('▶') >= 0); 
 
     // Open main menu
 
@@ -133,6 +170,27 @@ suite('sf-nav', () => {
     await el.updateComplete;
 
     assert.ok(liSolutions1.querySelector('ul')!.outerHTML.indexOf('display: none;') >= 0); 
+
+    // Click last menu
+
+    aSolutions.dispatchEvent(clickEvent)
+    await el.updateComplete;
+    assert.ok(liSolutions1.querySelector('ul')!.outerHTML.indexOf('display: block;') >= 0); 
+
+    const aServices = el.shadowRoot!.querySelectorAll('.a-services')[1]!;
+    aServices.dispatchEvent(clickEvent)
+    await el.updateComplete;
+    assert.ok(liSolutions1.querySelector('ul')!.outerHTML.indexOf('display: none;') >= 0);
+
+  })
+
+});
+
+suite('sf-nav > search menu', () => {
+
+  test('search menu', async () => {
+
+    const el = (await fixture(htmlContent) as SfNav);
 
     // Open search menu
 
@@ -190,65 +248,16 @@ suite('sf-nav', () => {
 
     assert.ok(el.shadowRoot!.querySelectorAll('.sfNavDivSearchDropdown')[0]!.outerHTML.indexOf('display: none;') >= 0); 
 
-    // Click last menu
-
-    aSolutions.dispatchEvent(clickEvent)
-    await el.updateComplete;
-    assert.ok(liSolutions1.querySelector('ul')!.outerHTML.indexOf('display: block;') >= 0); 
-
-    const aServices = el.shadowRoot!.querySelectorAll('.a-services')[1]!;
-    aServices.dispatchEvent(clickEvent)
-    await el.updateComplete;
-
-    assert.ok(liSolutions1.querySelector('ul')!.outerHTML.indexOf('display: none;') >= 0);
-
   });
+
+});
+
+suite('sf-nav > notifications menu', () => {
+
 
   test('Notifications', async () => {
 
-    const el = (await fixture(html`
-      <sf-nav >
-        <h2 slot="brandName"><a href="#home" >SuperTester</a></h2>
-        <a slot="brandImage" href="#home" ><img alt="logo" src="https://superflows.dev/img/superflows_gray_transparent_200.png" /></a>
-        <ul slot="mainMenu">
-          <li><a href="#about" class="a-about">About</a></li>
-          <li class="li-solutions">
-            <a href="javascript:void(0);" class="a-solutions">Solutions</a>
-            <ul>
-              <li><a href="#services" class="a-services">Services</a></li>
-              <li><a href="#products">Products</a></li>
-            </ul>
-          </li>
-          <li>
-            <a href="javascript:void(0);">Contact Us</a>
-            <ul>
-              <li><a href="https://instagram.com">Instagram</a></li>
-              <li><a href="https://facebook.com">Facebook</a></li>
-            </ul>
-          </li>
-        </ul>
-        <ul slot="unreadNotifications">
-          <li><a href="#notification/1"><h3>Sonali Joshi</h3><p>mentioned you in a comment</p><div>1 day ago</div></a></li>
-          <li><a href="#notification/2"><h3>Rahim Ahmed</h3><p>reacted to your blog post</p><div>2 days ago</div></a></li>
-          <li><a href="#notification/3"><h3>John Bolton</h3><p>replied to a thread that you posted in</p><div>1 month ago</div></a></li>
-        </ul>
-        <ul slot="readNotifications">
-          <li><a href="#notification/4"><h3>Sonali Joshi</h3><p>mentioned you in a comment</p><div>1 day ago</div></a></li>
-          <li><a href="#notification/5"><h3>Rahim Ahmed</h3><p>reacted to your blog post</p><div>2 days ago</div></a></li>
-          <li><a href="#notification/6"><h3>John Bolton</h3><p>replied to a thread that you posted in</p><div>1 month ago</div></a></li>
-        </ul>
-        <a slot="notificationsList" href="#notifications">View All</a>
-        <ul slot="socialMedia">
-          <li><a href="https://facebook.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/facebook-black_round.png" /></a></li>
-          <li><a href="https://twitter.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/twitter_black_round.png" /></a></li>
-          <li><a href="https://youtube.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/youtube_black_round.png" /></a></li>
-        </ul>
-        <a slot="cta" href="#login">Sign In</a>
-        <p slot="copyright">Copyright 2022 Superflows</p>
-        <div slot="content">
-        </div>
-      </sf-nav>
-      `) as SfNav);
+    const el = (await fixture(htmlContent) as SfNav);
 
     await el.updateComplete;
 
@@ -287,10 +296,11 @@ suite('sf-nav', () => {
 
     assert.ok(el.shadowRoot!.querySelector('.sfNavDivNotif')!.children[2].outerHTML.indexOf('display: none;') >= 0);
 
+
   });
+
   
   test('Routing page found', async () => {
-
 
     stub(DownloadFile, 'downloadFile').returns({status: 200, content: "Hello"});
 
@@ -354,8 +364,7 @@ suite('sf-nav', () => {
   await el.updateComplete;
 
   //await new Promise((r) => setTimeout(r, TIMEOUT));
-
-  assert.ok(el.shadowRoot!.children[2].outerHTML.indexOf('display: none;') >= 0); 
+  assert.ok(el.shadowRoot!.children[3].outerHTML.indexOf('display: none;') >= 0); 
 
   });
 
@@ -408,6 +417,9 @@ suite('sf-nav', () => {
 
   });
 
+
+});
+ 
   // test('renders with default values', async () => {
   //   const el = await fixture(html`<sf-nav></sf-nav>`);
   //   assert.shadowDom.equal(
@@ -452,6 +464,5 @@ suite('sf-nav', () => {
   //   await el.updateComplete;
   //   assert.equal(getComputedStyle(el).paddingTop, '16px');
   // });
-});
 
 

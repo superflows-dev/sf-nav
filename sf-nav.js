@@ -28,6 +28,8 @@ import RunScripts from './runScripts';
  * @slot copyright - Copyright notice
  * @slot cta - Call to action
  * @slot content - Content
+ * @slot profilePicture - Profile picture
+ * @slot profileMenu - Profile menu
  * @csspart button - The button
  */
 let SfNav = class SfNav extends LitElement {
@@ -35,6 +37,7 @@ let SfNav = class SfNav extends LitElement {
         super();
         this.eventSearchClick = 'searchClick';
         this.eventRouteChange = 'routeChange';
+        this.constPositionProfileToggle = 'sfNavDivProfileToggle';
         this.constPositionSearchToggle = 'sfNavSearchToggle';
         this.constPositionSearchClose = 'sfNavDivSearchClose';
         this.constPositionNotifToggle = 'sfNavNotifToggle';
@@ -69,10 +72,25 @@ let SfNav = class SfNav extends LitElement {
                     this._sfNavMainMenu.children[1].children[i].children[1].style.display = 'none';
                 }
             }
+            this.hideProfile();
         };
+        // hideProfileMenuElement(element: any) {
+        //   const elementUl = element.getElementsByTagName('ul')[0];
+        //   elementUl.style.display = 'none';
+        //   element.style.color = 'inherit';
+        //   element.style.backgroundColor = 'inherit';
+        // }
         this.hideAllLeftMenuElements = () => {
             for (let i = 0; i < this._sfNavLeftMenu.children.length; i++) {
                 const child = this._sfNavLeftMenu.children[i];
+                if (child.getElementsByTagName('ul').length > 0) {
+                    this.hideLeftMenuElement(child);
+                }
+            }
+        };
+        this.hideAllProfileMenuElements = () => {
+            for (let i = 0; i < this._sfNavProfileMenu.children.length; i++) {
+                const child = this._sfNavProfileMenu.children[i];
                 if (child.getElementsByTagName('ul').length > 0) {
                     this.hideLeftMenuElement(child);
                 }
@@ -129,6 +147,20 @@ let SfNav = class SfNav extends LitElement {
                 this._sfNavDivToggleContainer.children[2].style.display = 'block';
             }
         };
+        this.toggleProfileMenu = (element) => {
+            const elementUl = element.getElementsByTagName('ul')[0];
+            if (elementUl != null) {
+                if (elementUl.style.display == 'block') {
+                    this.hideAllProfileMenuElements();
+                    this._sfNavDivToggleContainer.children[1].style.display = 'none';
+                    this._sfNavDivToggleContainer.children[2].style.display = 'none';
+                }
+                else {
+                    this.hideAllProfileMenuElements();
+                    this.showProfileMenuElement(element);
+                }
+            }
+        };
         this.toggleMainMenu = (element) => {
             const elementUl = element.getElementsByTagName('ul')[0];
             if (elementUl != null) {
@@ -143,19 +175,38 @@ let SfNav = class SfNav extends LitElement {
                     this.showLeftMenuElement(element);
                 }
             }
-            // else {
-            //   this.hideAllLeftMenuElements();
-            //   this._sfNavDivToggleContainer.children[1].style.display = 'none';
-            //   this._sfNavDivToggleContainer.children[2].style.display = 'none';
-            // }
+        };
+        this.showProfile = () => {
+            this._sfNavDivProfile.children[1].style.display = 'block';
+            this._sfNavDivProfile.children[2].style.display = 'block';
+        };
+        this.hideProfile = () => {
+            this._sfNavDivProfile.children[1].style.display = 'none';
+            this._sfNavDivProfile.children[2].style.display = 'none';
+        };
+        this.toggleProfile = () => {
+            if (this._sfNavDivProfile.children[1].style.display == "block") {
+                this.hideProfile();
+            }
+            else {
+                this.showProfile();
+            }
         };
         this.onToggle = (e) => {
-            if (e.target.outerHTML.indexOf('sfNavToggleLeft') <= 0 && (e.target.className == this.constPositionSearchToggle || e.target.className == this.constPositionSearchClose)) {
+            if (e.currentTarget.className == this.constPositionProfileToggle || e.currentTarget.className.indexOf('profileLeaf') >= 0) {
+                this.toggleProfile();
+                return;
+            }
+            if (e.target.outerHTML.indexOf('sfNavToggleLeft') <= 0 && (e.target.className.indexOf(this.constPositionSearchToggle) >= 0 || e.target.className.indexOf(this.constPositionSearchClose) >= 0)) {
                 this.toggleSearch();
                 return;
             }
             if (e.target.outerHTML.indexOf('sfNavToggleLeft') <= 0 && (e.target.className == this.constPositionNotifToggle || e.target.className == this.constPositionNotifClose || e.target.parentNode.parentNode.parentNode.outerHTML.indexOf('unreadNotifications') >= 0 || e.target.parentNode.parentNode.parentNode.outerHTML.indexOf('readNotifications') >= 0)) {
                 this.toggleNotif();
+                return;
+            }
+            if (e.target.parentNode.parentNode.outerHTML.indexOf('profileMenu') >= 0) {
+                this.toggleProfileMenu(e.currentTarget);
                 return;
             }
             if (e.target.className == this.constPositionLeftToggle || e.target.className == this.constPositionLeftToggleLeaf || (e.target.parentNode.parentNode.parentNode.outerHTML.indexOf('sfNavDivToggleContainer') >= 0 && e.target.outerHTML.indexOf('void(0)') < 0)) {
@@ -192,6 +243,17 @@ let SfNav = class SfNav extends LitElement {
                     }
                 }
             };
+            const decorateProfileMenu = () => {
+                if (this._sfNavProfileMenu != null) {
+                    for (let i = 0; i < this._sfNavProfileMenu.children.length; i++) {
+                        const child = this._sfNavProfileMenu.children[i];
+                        if (child.getElementsByTagName('ul').length > 0) {
+                            const innerHTML = child.getElementsByTagName('a')[0].innerHTML;
+                            child.getElementsByTagName('a')[0].innerHTML = innerHTML + "&nbsp;<span style=\"font-size: 60%\">▼</span>";
+                        }
+                    }
+                }
+            };
             const decorateMainMenu = () => {
                 const elementsLi = this._sfNavMainMenu.getElementsByTagName('li');
                 for (var i = 0; i < elementsLi.length; i++) {
@@ -213,6 +275,7 @@ let SfNav = class SfNav extends LitElement {
             decorateMainMenu();
             decorateBrandInfo();
             decorateNotifs();
+            decorateProfileMenu();
         };
         this.copySlots = () => {
             // copy menu to main menu div
@@ -270,6 +333,11 @@ let SfNav = class SfNav extends LitElement {
                 const html = this._sfNavSlottedCta[0].innerHTML;
                 this._sfNavDivCta.innerHTML = '<button class="sfNavButtonCta" type="button" onClick="window.location.href=\'#' + href.split('#')[1] + '\';"><b>' + html + '</b></button>';
             }
+            // Copy profile menu
+            if (this._sfNavSlottedProfileMenu[0] != null) {
+                const html = this._sfNavSlottedProfileMenu[0].outerHTML;
+                this._sfNavDivProfile.children[2].insertAdjacentHTML('beforeend', html);
+            }
             if (this._sfNavDivFooterMenuContainer != null) {
                 if (this._sfNavSlottedUl[0] != null) {
                     const html = this._sfNavSlottedUl[0].outerHTML;
@@ -293,6 +361,9 @@ let SfNav = class SfNav extends LitElement {
             }
             if (this._sfNavSlottedCta[0] != null) {
                 this._sfNavSlottedCta[0].outerHTML = '';
+            }
+            if (this._sfNavSlottedProfileMenu[0] != null) {
+                this._sfNavSlottedProfileMenu[0].outerHTML = '';
             }
         };
         this.getHome = () => {
@@ -370,6 +441,14 @@ let SfNav = class SfNav extends LitElement {
                     }
                 }
             };
+            const assignToggleToProfileMenu = () => {
+                if (this._sfNavProfileMenu != null) {
+                    for (let i = 0; i < this._sfNavProfileMenu.children.length; i++) {
+                        const child = this._sfNavProfileMenu.children[i];
+                        child.addEventListener('click', this.onToggle);
+                    }
+                }
+            };
             const assignMainMenu = () => {
                 const elementsLi = this._sfNavMainMenu.getElementsByTagName('li');
                 for (var i = 0; i < elementsLi.length; i++) {
@@ -428,10 +507,17 @@ let SfNav = class SfNav extends LitElement {
                     (_d = (_c = (_b = (_a = this._sfNavDivNotif.children[3]) === null || _a === void 0 ? void 0 : _a.children[0]) === null || _b === void 0 ? void 0 : _b.children[i]) === null || _c === void 0 ? void 0 : _c.children[0]) === null || _d === void 0 ? void 0 : _d.addEventListener('click', this.onToggle);
                 }
             };
+            const assignProfile = () => {
+                this._sfNavDivProfileToggle.addEventListener('click', this.onToggle);
+                this._sfNavDivProfileToggle.addEventListener('keypress', this.onToggle);
+                this._sfNavDivProfile.children[1].addEventListener('click', this.onToggle);
+            };
             assignToggleToLeftMenu();
+            assignToggleToProfileMenu();
             assignMainMenu();
             assignSearch();
             assignNotif();
+            assignProfile();
         };
     }
     hideLeftMenuElement(element) {
@@ -458,6 +544,16 @@ let SfNav = class SfNav extends LitElement {
         element.style.color = parentBackgroundColor;
         element.style.backgroundColor = parentColor;
     }
+    showProfileMenuElement(element) {
+        let parentBackgroundColor = null;
+        let parentColor = null;
+        parentBackgroundColor = window.getComputedStyle(element.parentNode).backgroundColor;
+        parentColor = window.getComputedStyle(element.parentNode).color;
+        const elementUl = element.getElementsByTagName('ul')[0];
+        elementUl.style.display = 'block';
+        element.style.color = parentBackgroundColor;
+        element.style.backgroundColor = parentColor;
+    }
     firstUpdated(_changedProperties) {
         this.copySlots();
         this.decorateSlots();
@@ -470,10 +566,11 @@ let SfNav = class SfNav extends LitElement {
     }
     render() {
         return html `
+      <link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'>  
       <nav class="sfNavC" style="position: relative">
         <div class="sfNavDivLeftContainer">
           <div class="sfNavDivToggleContainer">
-            <h1 tabindex="0" class="sfNavToggleLeft">☰</h1>
+            <span tabindex="0" class="material-icons sfNavToggleLeft">menu</span>
             <div class="sfNavToggleLeftLeaf"></div>
           </div>
           <slot name="brandImage"></slot>
@@ -485,7 +582,7 @@ let SfNav = class SfNav extends LitElement {
           <div class="sfNavDivCta">
           </div>
           <div class="sfNavDivSearch">
-            <h1 tabindex="0" class="sfNavSearchToggle">🔍</h1>
+            <h1 tabindex="0" class="material-icons sfNavSearchToggle">search</h1>
             <div class="sfNavToggleRightLeaf"></div>
             <div class="sfNavDivSearchDropdown">
               <input class="sfNavInputSearch" type="text" placeholder="Search" @keyup=${(ev) => { this.onKeyUp(ev, this.eventSearchClick); }} />
@@ -493,11 +590,20 @@ let SfNav = class SfNav extends LitElement {
             </div>
           </div>
           <div class="sfNavDivNotif">
-            <h1 tabindex="0" class="sfNavNotifToggle">🔔</h1>
+            <h1 tabindex="0" class="sfNavNotifToggle material-icons">notifications</h1>
             <div class="sfNavDivNotifBadge">🔴</div>
             <div class="sfNavToggleRightLeaf"></div>
             <div class="sfNavDivNotifDropdown">
               <div class="sfNavDivNotifActions"><button class="sfNavDivNotifClose">Close</button></div>
+            </div>
+          </div>
+          <div class="sfNavDivProfile">
+            <div class="sfNavDivProfileToggle" tabindex="0">
+              <slot name="profilePicture"></slot>
+              <p>▼</p>
+            </div>
+            <div class="sfNavToggleRightLeaf profileLeaf"></div>
+            <div class="sfNavDivProfileDropdown">
             </div>
           </div>
         </div>
@@ -526,6 +632,7 @@ let SfNav = class SfNav extends LitElement {
         <slot name="copyright"></slot>
         <slot name="notificationsList"></slot>
         <slot name="cta"></slot>
+        <slot name="profileMenu"></slot>
       </footer>
     `;
     }
@@ -554,7 +661,7 @@ SfNav.styles = css `
     .sfNavDivCta {
       display: flex;
       align-items: center;
-      margin-right: 10px;
+      margin-right: 20px;
     }
 
     .sfNavButtonCta {
@@ -567,12 +674,11 @@ SfNav.styles = css `
 
     .sfNavDivNotif {
       position: relative;
-      margin-left: 10px;
+      margin-left: 15px;
     }
 
     .sfNavDivNotif > h1 {
       cursor: pointer;
-      font-size: 130%;
     }
 
     .sfNavDivNotifActions {
@@ -632,7 +738,6 @@ SfNav.styles = css `
 
     .sfNavDivSearch > h1 {
       cursor: pointer;
-      font-size: 130%;
     }
 
     .sfNavDivToggleContainer {
@@ -660,6 +765,46 @@ SfNav.styles = css `
       background-color: var(--menu-background-color, #fff);
       color: var(--menu-color, #000);
       cursor: pointer;
+    }
+
+    .sfNavDivProfileDropdown > ul {
+      list-style: none;
+      background-color: var(--menu-background-color, #fff);
+      color: var(--menu-color, #000);
+      cursor: pointer;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      border-radius: 5px;
+      padding-left: 0px;
+      padding-right: 0px;
+    }
+
+    .sfNavDivProfileDropdown > ul > li {
+      padding-top: 5px;
+      padding-bottom: 5px;
+      padding-left: 10px;
+      padding-right: 10px;
+      border: solid 1px transparent;
+      min-width: 140px;
+    }
+
+    .sfNavDivProfileDropdown > ul > li > ul > li {
+      padding-top: 5px;
+      padding-bottom: 5px;
+      padding-left: 10px;
+      padding-right: 10px;
+      border: solid 1px transparent;
+      min-width: 100px;
+    }
+
+    .sfNavDivProfileDropdown > ul > li > ul > li:first-child {
+      margin-top: 5px;
+    }
+
+    .sfNavDivProfileDropdown > ul > li > ul {
+      display: none;
+      list-style: none;
+      padding-left: 5px;
     }
 
     #mainMenu > ul {
@@ -888,9 +1033,6 @@ SfNav.styles = css `
       font-size: 200%;
     }
 
-    .sfNavDivFooterMenuContainer{
-    }
-
     .sfNavDivFooterMenuContainer > ul{
       display: flex;
       justify-content: center;
@@ -940,6 +1082,38 @@ SfNav.styles = css `
       font-size: 70%;
     }
 
+    .sfNavDivProfile {
+      display: flex;
+      align-items: center;
+      margin-left: 20px;
+      position: relative;
+    }
+
+    .sfNavDivProfileToggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .sfNavDivProfileToggle > p{
+      font-size:60%;
+      margin-left: 3px;
+    }
+
+    .sfNavDivProfileToggle > ::slotted(img) {
+      height: 30px;
+      width: 30px;
+      border-radius: 15px;
+    }
+
+    .sfNavDivProfileDropdown {
+      display: none;
+      position: absolute;
+      right: 0px;
+      top: 40px;
+    }
+
     @media (orientation: landscape) {
 
       .sfNavDivToggleContainer {
@@ -983,6 +1157,9 @@ __decorate([
     query('.sfNavDivToggleContainer > ul')
 ], SfNav.prototype, "_sfNavLeftMenu", void 0);
 __decorate([
+    query('.sfNavDivProfileDropdown > ul')
+], SfNav.prototype, "_sfNavProfileMenu", void 0);
+__decorate([
     query('#mainMenu')
 ], SfNav.prototype, "_sfNavMainMenu", void 0);
 __decorate([
@@ -1025,6 +1202,12 @@ __decorate([
     query('.sfNavDivCta')
 ], SfNav.prototype, "_sfNavDivCta", void 0);
 __decorate([
+    query('.sfNavDivProfile')
+], SfNav.prototype, "_sfNavDivProfile", void 0);
+__decorate([
+    query('.sfNavDivProfileToggle')
+], SfNav.prototype, "_sfNavDivProfileToggle", void 0);
+__decorate([
     queryAssignedElements({ slot: 'mainMenu' })
 ], SfNav.prototype, "_sfNavSlottedUl", void 0);
 __decorate([
@@ -1048,6 +1231,9 @@ __decorate([
 __decorate([
     queryAssignedElements({ slot: 'cta' })
 ], SfNav.prototype, "_sfNavSlottedCta", void 0);
+__decorate([
+    queryAssignedElements({ slot: 'profileMenu' })
+], SfNav.prototype, "_sfNavSlottedProfileMenu", void 0);
 __decorate([
     queryAssignedElements({ slot: 'content' })
 ], SfNav.prototype, "_content", void 0);

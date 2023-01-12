@@ -62,22 +62,18 @@ Test driven development approach with a focus on maintaining 100 percent unit te
 
 ## Functionality
 
-- **Header & Footer** (complete) - SfNav component generates both the header and footer view
-- **Routing** (complete) - Routing is built inside this component, no external routing library required
-- **Brand Info** (complete) - Brand name and logo are customizable
-- **Main Menu** (complete) - Menu is fully customizable and is accepted as an un-ordered list
-- **Search Input** (complete) - SfNav ships with a search input field
-- **Social Media** (complete) - SfNav accepts social media links as an un-ordered list and renders them into the footer
-- **Copyright Notice** (complete) - SfNav accepts copyright notice as input and renders it into the footer
-- **Notifications** (complete) - Notifications feature is in-built, which includes a notification bell and a dropdown list to show recent notifications
-- Call-to-action Button (in-progress) - SfNav comes with a call-to-action button, which can be used to highlight key actions such as sign in and subscribe.
-- Profile Section (in-progress) - User profile section is also included, which can be used to show the status of a signed in user. It also includes a separate profile menu, that is customizable as well.
-- Announcement Banner (in-progress) - Provision for showing an announcement banner is also given on the top of the navigation bar
-- Customizability (in-progress) - All features mentioned above are inherently customizable. You can override the color scheme as well.
-- Responsive (in-progress) - SfNav is fully responsive and adapts to all screen sizes
-- Extendibility (in-progress) - In some places, SfNav also allows you to inject your own components, for greater customizability
-- **Keyboard Navigation** (enabled) - It allows keyboard navigation across all elements on desktop, mobile and tablet form factors.
-- **Screen Reader Support** (enabled) - It supports both desktop and mobile screen readers making your app acceessible to partially or completely blind users.
+- **Header & Footer** - SfNav component generates both the header and footer view
+- **Routing** - Routing is built inside this component, no external routing library required
+- **Brand Info** - Brand name and logo are customizable
+- **Main Menu** - Menu is fully customizable and is accepted as an un-ordered list
+- **Search Input** - SfNav ships with a search input field
+- **Social Media** - SfNav accepts social media links as an un-ordered list and renders them into the footer
+- **Copyright Notice** - SfNav accepts copyright notice as input and renders it into the footer
+- **Notifications** - Notifications feature is in-built, which includes a notification bell and a dropdown list to show recent notifications
+- **Call-to-action Button** - SfNav comes with a call-to-action button, which can be used to highlight key actions such as sign in and subscribe.
+- **Profile Section** - User profile section is also included, which can be used to show the status of a signed in user. It also includes a separate profile menu, that is customizable as well.
+- **Keyboard Navigation** - It allows keyboard navigation across all elements on desktop, mobile and tablet form factors.
+- **Screen Reader Support** - It supports both desktop and mobile screen readers making your app acceessible to partially or completely blind users.
 
 <br />
 
@@ -97,7 +93,15 @@ Test driven development approach with a focus on maintaining 100 percent unit te
   <head>
     <meta charset="utf-8" />
     <title>&lt;sf-nav&gt; Demo</title>
+    <!-- Integration material icons as they are used in sf-nav -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Google fonts integration -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600&display=swap" rel="stylesheet">
+    <!-- Integration the web components module -->
     <script src="https://unpkg.com/@webcomponents/webcomponentsjs@latest/webcomponents-loader.js"></script>
+    <!-- Integration lit and sf-nav web components module -->
     <script type="module">
         import {LitElement, html, css} from 'https://unpkg.com/lit-element/lit-element.js?module';
         import {SfNav} from 'https://unpkg.com/sf-nav/sf-nav.js?module';
@@ -152,6 +156,27 @@ Test driven development approach with a focus on maintaining 100 percent unit te
       <a slot="notificationsList" href="#notifications">View All</a>
       <!-- Set copyright notice -->
       <p slot="copyright">Copyright 2022 Superflows</p>
+      <!-- Profile picture -->
+      <img alt="profile" slot="profilePicture" src="https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg" />
+      <!-- Set the profile menu -->
+      <ul slot="profileMenu">
+        <li><a href="#settings">My Profile</a></li>
+        <li>
+          <a href="javascript:void(0);">Settings</a>
+          <ul>
+            <li><a href="#settings_data">Data & Privacy</a></li>
+            <li><a href="#settings_notifications">Notifications</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="javascript:void(0);">Support</a>
+          <ul>
+            <li><a href="#ticket">Create Ticket</a></li>
+            <li><a href="#chat">Chat With Us</a></li>
+          </ul>
+        </li>
+        <li><a href="#signout">Sign Out</a></li>
+      </ul>
       <!-- Page Content -->
       <div slot="content"></div>
     </sf-nav>
@@ -376,6 +401,41 @@ You can add a call to action (CTA) button to the header as follows:
 
     <sf-nav>
       <a slot="cta" href="#login">Sign In</a>
+      <!-- other config -->
+    </sf-nav>
+
+```
+
+<br />
+
+### Step 10 - Setup Profile Section
+
+Profile section mainly contains two things - (1) Profile picture toggle,  (2) Dropdown menu. You can configure both these as follows:
+ 
+```html
+
+    <sf-nav>
+      <!-- Profile picture -->
+      <img alt="profile" slot="profilePicture" src="https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg" />
+      <!-- Set the profile menu -->
+      <ul slot="profileMenu">
+        <li><a href="#settings">My Profile</a></li>
+        <li>
+          <a href="javascript:void(0);">Settings</a>
+          <ul>
+            <li><a href="#settings_data">Data & Privacy</a></li>
+            <li><a href="#settings_notifications">Notifications</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="javascript:void(0);">Support</a>
+          <ul>
+            <li><a href="#ticket">Create Ticket</a></li>
+            <li><a href="#chat">Chat With Us</a></li>
+          </ul>
+        </li>
+        <li><a href="#signout">Sign Out</a></li>
+      </ul>
       <!-- other config -->
     </sf-nav>
 

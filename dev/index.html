@@ -8,11 +8,17 @@
     <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
     <script src="../node_modules/lit/polyfill-support.js"></script>
     <script type="module" src="../sf-nav.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600&display=swap" rel="stylesheet">
     <style>
       
       body {
         background-color: #efefef;
         margin: 0px;
+        font-family: 'Source Sans Pro';
       }
 
       .cContainer {
@@ -74,7 +80,28 @@
       <!-- Set CTA -->
       <a slot="cta" href="#login">Sign In</a>
       <!-- Set copyright notice -->
-      <p slot="copyright">Copyright 2022 Superflows</p>
+      <p slot="copyright">Copyright 2023 Superflows</p>
+      <!-- Profile picture -->
+      <img alt="profile" slot="profilePicture" src="https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg" />
+      <!-- Set the profile menu -->
+      <ul slot="profileMenu">
+        <li><a href="#settings">My Profile</a></li>
+        <li>
+          <a href="javascript:void(0);">Settings</a>
+          <ul>
+            <li><a href="#settings_data">Data & Privacy</a></li>
+            <li><a href="#settings_notifications">Notifications</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="javascript:void(0);">Support</a>
+          <ul>
+            <li><a href="#ticket">Create Ticket</a></li>
+            <li><a href="#chat">Chat With Us</a></li>
+          </ul>
+        </li>
+        <li><a href="#signout">Sign Out</a></li>
+      </ul>
       <!-- Page Content -->
       <div slot="content"></div>
     </sf-nav>
