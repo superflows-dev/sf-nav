@@ -45,8 +45,6 @@
 - [YouTube Channel](#youtube-channel)
 - [Join The Community](#join-the-community)
 
-## Blog
-
 <br />
 
 ## Motivation
