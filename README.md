@@ -558,6 +558,26 @@ There is a development HTML file located at `/dev/index.html` that you can view 
 
 <br />
 
+## Documentation
+
+[Read](https://superflows.dev/docs/navigation)
+
+## Demo Project
+
+[View Demo](https://replit.com/@SuperflowsAppv3/Single-Page-Modular-App-Using-Pure-HTML-CSS-Javascript#index.html)
+
+## YouTube Channel
+
+[View Channel](https://www.youtube.com/channel/UCYNJLCE48yir4DsquciBuDw)
+
+## Join The Community
+
+[Join Now](https://discord.gg/ksEXS4P9h6)
+
+## Blog
+
+[Read](https://blog.superflows.dev/)
+
 ## License
 
 MIT © [superflows-dev](https://github.com/superflows-dev)
