@@ -42,7 +42,7 @@
         --footer-background-color: rgb(167, 147, 60);
         --footer-color: #fff;
       }
-      
+
     </style>
   </head>
   <body>
@@ -95,7 +95,7 @@
       <!-- Profile picture -->
       <img alt="profile" slot="profilePicture" src="https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg" />
       <!-- Set the profile menu -->
-      <ul slot="profileMenu">
+      <!-- <ul slot="profileMenu">
         <li><a href="#settings">My Profile</a></li>
         <li>
           <a href="javascript:void(0);">Settings</a>
@@ -112,7 +112,7 @@
           </ul>
         </li>
         <li><a href="#signout">Sign Out</a></li>
-      </ul>
+      </ul> -->
       <!-- Page Content -->
       <div slot="content"></div>
     </sf-nav>
@@ -173,7 +173,7 @@
       }
     </script>
     <script>
-      document.getElementsByTagName('sf-nav')[0].addEventListener('searchClick', () => {console.log('hurray');})
+      document.getElementsByTagName('sf-nav')[0].addEventListener('searchClick', (e) => {console.log('hurray ' + JSON.stringify(e.detail));})
       document.getElementsByTagName('sf-nav')[0].addEventListener('routeChange', (e) => {
         routeMap[e.detail.pathName] = e.detail.args;
       })

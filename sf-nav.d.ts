@@ -62,6 +62,7 @@ export declare class SfNav extends LitElement {
     _sfNavDivNotifActions: any;
     _sfNavDivNotifBadge: any;
     _sfNavDivCta: any;
+    _sfNavInputSearch: any;
     _sfNavDivProfile: any;
     _sfNavDivProfileToggle: any;
     _sfNavSlottedUl: any;
@@ -76,6 +77,7 @@ export declare class SfNav extends LitElement {
     _content: any;
     onKeyUp: (event: any, position: any) => void;
     dispatchMyEvent: (ev: string, args?: any) => void;
+    resetSearch: () => void;
     resetMenu: () => void;
     hideLeftMenuElement(element: any): void;
     hideAllLeftMenuElements: () => void;

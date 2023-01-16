@@ -52,18 +52,23 @@ let SfNav = class SfNav extends LitElement {
         // _sfNavContent: any;
         this.onKeyUp = (event, position) => {
             if (event.key == "Enter") {
-                this.dispatchMyEvent(position);
+                this.resetSearch();
+                this.dispatchMyEvent(position, { searchString: this._sfNavInputSearch.value });
             }
         };
         this.dispatchMyEvent = (ev, args) => {
             if (ev == this.eventSearchClick) {
-                const event = new Event(this.eventSearchClick, { bubbles: true, composed: true });
+                const event = new CustomEvent(this.eventSearchClick, { detail: args, bubbles: true, composed: true });
                 this.dispatchEvent(event);
             }
             else if (ev == this.eventRouteChange) {
                 const event = new CustomEvent(this.eventRouteChange, { detail: args, bubbles: true, composed: true });
                 this.dispatchEvent(event);
             }
+        };
+        this.resetSearch = () => {
+            this._sfNavDivSearch.children[1].style.display = 'none';
+            this._sfNavDivSearch.children[2].style.display = 'none';
         };
         this.resetMenu = () => {
             // reset overlay leaf
@@ -304,7 +309,13 @@ let SfNav = class SfNav extends LitElement {
                     this._sfNavDivFooterLeftContainer.innerHTML = this._sfNavDivFooterLeftContainer.innerHTML + html;
                 }
             }
-            // Create notifications
+            // Check if notifications are supplied
+            if (this._sfNavSlottedReadNotifications[0] == null && this._sfNavSlottedUnreadNotifications[0] == null) {
+                if (this._sfNavDivNotif != null) {
+                    this._sfNavDivNotif.style.display = 'none';
+                }
+            }
+            // Read Notifications
             if (this._sfNavSlottedReadNotifications[0] != null) {
                 if (this._sfNavDivNotif != null) {
                     const html = this._sfNavSlottedReadNotifications[0].outerHTML;
@@ -313,7 +324,7 @@ let SfNav = class SfNav extends LitElement {
                     //this._sfNavDivFooterLeftContainer.innerHTML = this._sfNavDivFooterLeftContainer.innerHTML + html;
                 }
             }
-            // Create notifications
+            // Unread notifications
             if (this._sfNavSlottedUnreadNotifications[0] != null) {
                 if (this._sfNavDivNotif != null) {
                     const html = this._sfNavSlottedUnreadNotifications[0].outerHTML;
@@ -338,6 +349,9 @@ let SfNav = class SfNav extends LitElement {
             if (this._sfNavSlottedProfileMenu[0] != null) {
                 const html = this._sfNavSlottedProfileMenu[0].outerHTML;
                 this._sfNavDivProfile.children[2].insertAdjacentHTML('beforeend', html);
+            }
+            else {
+                this._sfNavDivProfile.style.display = 'none';
             }
             if (this._sfNavDivFooterMenuContainer != null) {
                 if (this._sfNavSlottedUl[0] != null) {
@@ -1005,7 +1019,8 @@ SfNav.styles = css `
 
     .sfNavDivFooterLeftContainer > ul > li > a > img {
       height: 30px;
-      margin-right: 15px;
+      margin-left: 8px;
+      margin-right: 8px;
     }
 
     .sfNavDivFooterBrandContainer{
@@ -1202,6 +1217,9 @@ __decorate([
 __decorate([
     query('.sfNavDivCta')
 ], SfNav.prototype, "_sfNavDivCta", void 0);
+__decorate([
+    query('.sfNavInputSearch')
+], SfNav.prototype, "_sfNavInputSearch", void 0);
 __decorate([
     query('.sfNavDivProfile')
 ], SfNav.prototype, "_sfNavDivProfile", void 0);

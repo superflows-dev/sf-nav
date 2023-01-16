@@ -1,3 +1,5 @@
+<img src="https://superflows-images.s3.ap-south-1.amazonaws.com/superflows_logo_gray_c2c.png" width="400"/>
+
 # SfNav
 
 > Navigation web component provided by Superflows. This component allows implementation of the single page application architecture (SPA) using pure HTML, CSS and Javascript.
@@ -17,6 +19,12 @@
 <br />
 
 [![NPM](https://img.shields.io/npm/v/sf-nav.svg)](https://www.npmjs.com/package/sf-nav) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+
+<br />
+
+## Video Tutorial
+
+<a href="https://youtu.be/ZGDhUaleN84"><img src="https://user-images.githubusercontent.com/108924653/212681990-afb09c0e-6d88-4b29-ae6a-e3a046dd0bdb.png" width="200"/></a>
 
 <br />
 
@@ -81,7 +89,7 @@ Test driven development approach with a focus on maintaining 100 percent unit te
 
 ## Demo
 
-<a href="https://replit.com/@SuperflowsAppv3/SfNav-Web-Component#index.html"><img width="100" src="https://superflows-images.s3.ap-south-1.amazonaws.com/View+Demo.png" /></a>
+<a href="https://replit.com/@SuperflowsAppv3/Single-Page-Modular-App-Using-Pure-HTML-CSS-Javascript#index.html"><img width="100" src="https://superflows-images.s3.ap-south-1.amazonaws.com/View+Demo.png" /></a>
 
 <br />
 
@@ -139,7 +147,7 @@ Test driven development approach with a focus on maintaining 100 percent unit te
       <!-- Set the brand name -->
       <h2 slot="brandName"><a href="#home" >Superflows</a></h2>
       <!-- Set the brand logo -->
-      <a slot="brandImage" href="#home" ><img alt="logo" src="https://superflows-images.s3.ap-south-1.amazonaws.com/superflows_black_transparent_200.png" /></a>
+      <a slot="brandImage" href="#home" ><img alt="logo" src="https://superflows-images.s3.ap-south-1.amazonaws.com/superflows_white_transparent_200.png" /></a>
       <!-- Set the main menu -->
       <ul slot="mainMenu">
         <li><a href="#about">About</a></li>
@@ -205,6 +213,24 @@ Test driven development approach with a focus on maintaining 100 percent unit te
       <!-- Page Content -->
       <div slot="content"></div>
     </sf-nav>
+
+    <script>
+      var routeMap = [];
+    </script>
+    <script>
+      function getCurrentPathName() {
+        return window.location.hash.length === 0 ? '' : window.location.hash.split("/")[0].replace('#', '');
+      }
+      function getCurrentArgs() {
+        return routeMap[getCurrentPathName() + '.html'];
+      }
+    </script>
+    <script>
+      document.getElementsByTagName('sf-nav')[0].addEventListener('searchClick', () => {console.log('hurray');})
+      document.getElementsByTagName('sf-nav')[0].addEventListener('routeChange', (e) => {
+        routeMap[e.detail.pathName] = e.detail.args;
+      })
+    </script>
   </body>
 </html>
 
@@ -281,7 +307,7 @@ Set the brand logo as show below. It will be rendered both in the header and the
     <!-- Set the brand name -->
     <h2 slot="brandName"><a href="#home" >Superflows</a></h2>
     <!-- Set the brand logo -->
-    <a slot="brandImage" href="#home" ><img alt="logo" src="https://superflows-images.s3.ap-south-1.amazonaws.com/superflows_black_transparent_200.png" /></a>
+    <a slot="brandImage" href="#home" ><img alt="logo" src="https://superflows-images.s3.ap-south-1.amazonaws.com/superflows_white_transparent_200.png" /></a>
   </sf-nav>
     
 ```

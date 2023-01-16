@@ -415,7 +415,8 @@ export class SfNav extends LitElement {
 
     .sfNavDivFooterLeftContainer > ul > li > a > img {
       height: 30px;
-      margin-right: 15px;
+      margin-left: 8px;
+      margin-right: 8px;
     }
 
     .sfNavDivFooterBrandContainer{
@@ -613,6 +614,9 @@ export class SfNav extends LitElement {
   @query('.sfNavDivCta')
   _sfNavDivCta: any;
 
+  @query('.sfNavInputSearch')
+  _sfNavInputSearch: any;
+
   @query('.sfNavDivProfile')
   _sfNavDivProfile: any;
 
@@ -655,20 +659,26 @@ export class SfNav extends LitElement {
 
   onKeyUp = (event: any, position: any) => {
     if(event.key == "Enter") {
-      this.dispatchMyEvent(position);
+      this.resetSearch();
+      this.dispatchMyEvent(position, {searchString: this._sfNavInputSearch.value});
     }
   }
 
   dispatchMyEvent = (ev: string, args?: any) => {
 
     if(ev == this.eventSearchClick) {
-      const event = new Event(this.eventSearchClick, {bubbles: true, composed: true});
+      const event = new CustomEvent(this.eventSearchClick, {detail: args, bubbles: true, composed: true});
       this.dispatchEvent(event);
     } else if(ev == this.eventRouteChange) {
       const event = new CustomEvent(this.eventRouteChange, {detail: args, bubbles: true, composed: true});
       this.dispatchEvent(event);
     }
 
+  }
+
+  resetSearch = () => {
+    this._sfNavDivSearch.children[1].style.display = 'none';
+    this._sfNavDivSearch.children[2].style.display = 'none';
   }
 
   resetMenu = () => {
@@ -1028,7 +1038,14 @@ export class SfNav extends LitElement {
       }
     }
 
-    // Create notifications
+    // Check if notifications are supplied
+    if(this._sfNavSlottedReadNotifications[0] == null && this._sfNavSlottedUnreadNotifications[0] == null) {
+      if(this._sfNavDivNotif != null) {
+        this._sfNavDivNotif.style.display = 'none';
+      }
+    }
+
+    // Read Notifications
     if(this._sfNavSlottedReadNotifications[0] != null) {
       if(this._sfNavDivNotif != null) {
         const html = this._sfNavSlottedReadNotifications[0].outerHTML;
@@ -1038,7 +1055,7 @@ export class SfNav extends LitElement {
       }
     }
 
-    // Create notifications
+    // Unread notifications
     if(this._sfNavSlottedUnreadNotifications[0] != null) {
       if(this._sfNavDivNotif != null) {
         const html = this._sfNavSlottedUnreadNotifications[0].outerHTML;
@@ -1067,6 +1084,8 @@ export class SfNav extends LitElement {
     if(this._sfNavSlottedProfileMenu[0] != null) {
       const html = this._sfNavSlottedProfileMenu[0].outerHTML;
       this._sfNavDivProfile.children[2].insertAdjacentHTML('beforeend', html);
+    } else {
+      this._sfNavDivProfile.style.display = 'none';
     }
 
     if(this._sfNavDivFooterMenuContainer != null) {
