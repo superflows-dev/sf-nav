@@ -1077,7 +1077,7 @@ export class SfNav extends LitElement {
     if(this._sfNavSlottedCta[0] != null) {
       const href = this._sfNavSlottedCta[0].href;
       const html = this._sfNavSlottedCta[0].innerHTML;
-      this._sfNavDivCta.innerHTML = '<button part="cta" class="sfNavButtonCta" type="button" onClick="window.location.href=\'#'+href.split('#')[1]+'\';"><b>'+html+'</b></button>';
+      this._sfNavDivCta.innerHTML = '<button part="cta" class="sfNavButtonCta" type="button" onClick="window.location.href=\'#'+href.split('#')[1]+'\';">'+html+'</button>';
     }
 
     // Copy profile menu
