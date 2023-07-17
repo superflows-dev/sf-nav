@@ -260,6 +260,10 @@ export class SfNav extends LitElement {
       cursor: pointer;
     }
 
+    #mainMenu > ul > li > ul > li {
+      min-width: 100px;
+    }
+
     .sfNavDivToggleContainer li {
       padding-top: 5px;
       padding-bottom: 5px;
@@ -270,9 +274,8 @@ export class SfNav extends LitElement {
     }
 
     #mainMenu li {
-      padding: 5px;
+      padding: 10px;
       border: solid 1px transparent;
-      min-width: 100px;
       text-align: center;
     }
 
@@ -414,7 +417,7 @@ export class SfNav extends LitElement {
     }
 
     .sfNavDivFooterLeftContainer > ul > li > a > img {
-      height: 30px;
+      //height: 30px;
       margin-left: 8px;
       margin-right: 8px;
     }
@@ -435,7 +438,7 @@ export class SfNav extends LitElement {
     .sfNavDivFooterBrandContainer > a > img{
       display: flex;
       justify-content: flex-start;
-      height: 130px;
+      height: 100px;
     }
 
     .sfNavDivFooterBrandContainer > h2{
@@ -1176,15 +1179,17 @@ export class SfNav extends LitElement {
 
   }
 
-  setupRouting = () => {
-    window.addEventListener('popstate', () => {
-      
-      if(window.location.hash.length > 0) {
+  initRoute = () => {
+    if(window.location.hash.length > 0) {
         
-        this.resetMenu();
-      }
-      this.processRoute();
-    });
+      this.resetMenu();
+    }
+    this.processRoute();
+  }
+
+  setupRouting = () => {
+    window.removeEventListener('popstate', this.initRoute);
+    window.addEventListener('popstate', this.initRoute);
   }
 
   initListeners = () => {
@@ -1354,13 +1359,13 @@ export class SfNav extends LitElement {
   override render() {
     return html`
       <link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'>  
-      <nav class="sfNavC" style="position: relative">
-        <div class="sfNavDivLeftContainer">
+      <nav part="nav-header-container" class="sfNavC" style="position: relative">
+        <div part="nav-left-container" class="sfNavDivLeftContainer">
           <div class="sfNavDivToggleContainer">
             <span tabindex="0" class="material-icons sfNavToggleLeft">menu</span>
             <div class="sfNavToggleLeftLeaf"></div>
           </div>
-          <slot name="brandImage"></slot>
+          <slot part="nav-brand-image" name="brandImage"></slot>
           <slot name="brandName"></slot>
           <div id="mainMenu"></div>
           <slot name="mainMenu"></slot>
@@ -1368,7 +1373,7 @@ export class SfNav extends LitElement {
         <div class="sfNavDivRightContainer">
           <div class="sfNavDivCta">
           </div>
-          <div class="sfNavDivSearch">
+          <div part="nav-search" class="sfNavDivSearch">
             <h1 tabindex="0" class="material-icons sfNavSearchToggle">search</h1>
             <div class="sfNavToggleRightLeaf"></div>
             <div class="sfNavDivSearchDropdown">
@@ -1385,7 +1390,7 @@ export class SfNav extends LitElement {
             </div>
           </div>
           <div class="sfNavDivProfile">
-            <div class="sfNavDivProfileToggle" tabindex="0">
+            <div part="nav-profile-toggle" class="sfNavDivProfileToggle" tabindex="0">
               <slot name="profilePicture"></slot>
               <p>▼</p>
             </div>
@@ -1402,7 +1407,7 @@ export class SfNav extends LitElement {
         <h2>Nothing here!</h2>
         <h3>Check your path please...</h3>
       </div>
-      <footer>
+      <footer part="nav-footer-container">
         <div class="sfNavDivFooterContainer">
           <div class="sfNavDivFooterLeftContainer">
             <div class="sfNavDivFooterBrandContainer">
