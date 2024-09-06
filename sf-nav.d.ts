@@ -43,6 +43,9 @@ export declare class SfNav extends LitElement {
     }[])[];
     constBrandName: string;
     constBrandImage: string;
+    lastDownloadedTs: number;
+    currentURL: string;
+    throttleWindow: number;
     static styles: import("lit").CSSResult;
     _sfNavC: any;
     _sfNavDivToggleContainer: any;

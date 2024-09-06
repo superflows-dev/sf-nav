@@ -48,6 +48,9 @@ let SfNav = class SfNav extends LitElement {
         this.constDefaultMenu = [{ caption: "About", link: "about" }, [{ caption: "Solutions", link: "solutions" }, { caption: "Products", link: "products" }, { caption: "Services", link: "services" }, { caption: "Resources", link: "resources" }], [{ caption: "Contact", link: "contact" }, { caption: 'Instagram', link: "instagram" }, { caption: "Facebook", link: "facebook" }]];
         this.constBrandName = "Superflows";
         this.constBrandImage = "https://superflows.dev/img/superflows_gray_transparent_200.png";
+        this.lastDownloadedTs = 0;
+        this.currentURL = "";
+        this.throttleWindow = 500;
         // @query('.sfNavContent')
         // _sfNavContent: any;
         this.onKeyUp = (event, position) => {
@@ -72,10 +75,16 @@ let SfNav = class SfNav extends LitElement {
         };
         this.resetMenu = () => {
             // reset overlay leaf
-            this._sfNavMainMenu.children[0].style.display = 'none';
-            for (let i = 0; i < this._sfNavMainMenu.children[1].children.length; i++) {
-                if (this._sfNavMainMenu.children[1].children[i].getElementsByTagName('ul').length > 0) {
-                    this._sfNavMainMenu.children[1].children[i].children[1].style.display = 'none';
+            if (this._sfNavMainMenu.children != null) {
+                if (this._sfNavMainMenu.children.length > 0) {
+                    this._sfNavMainMenu.children[0].style.display = 'none';
+                    if (this._sfNavMainMenu.children.length > 1) {
+                        for (let i = 0; i < this._sfNavMainMenu.children[1].children.length; i++) {
+                            if (this._sfNavMainMenu.children[1].children[i].getElementsByTagName('ul').length > 0) {
+                                this._sfNavMainMenu.children[1].children[i].children[1].style.display = 'none';
+                            }
+                        }
+                    }
                 }
             }
             this.hideProfile();
@@ -392,6 +401,16 @@ let SfNav = class SfNav extends LitElement {
             return home;
         };
         this.processRoute = async () => {
+            const currentTs = new Date().getTime();
+            console.log('process route called', window.location.href, currentTs, this.lastDownloadedTs, (currentTs - this.lastDownloadedTs), this.currentURL);
+            // if(this.currentURL == window.location.href) {
+            if ((currentTs - this.lastDownloadedTs) < this.throttleWindow) {
+                return;
+            }
+            // }
+            this.currentURL = window.location.href;
+            this.lastDownloadedTs = currentTs;
+            console.log('process route called after throttle', window.location.href, this.lastDownloadedTs, currentTs);
             const hashRef = window.location.href.split('#');
             const routePath = (window.location.hash.length > 0 ? hashRef[1].split("/")[0] : this.getHome()) + '.html';
             let params = null;
@@ -426,6 +445,7 @@ let SfNav = class SfNav extends LitElement {
             }
         };
         this.initRoute = () => {
+            console.log('init route called', window.location.href);
             if (window.location.hash.length > 0) {
                 this.resetMenu();
             }
@@ -576,6 +596,7 @@ let SfNav = class SfNav extends LitElement {
         this.decorateSlots();
         this.initListeners();
         this.setupRouting();
+        console.log('firstupdated fired');
         this.processRoute();
     }
     connectedCallback() {

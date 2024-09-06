@@ -46,76 +46,12 @@
     </style>
   </head>
   <body>
-    <sf-nav>
-      <!-- Set the brand name -->
-      <h2 slot="brandName"><a href="#home" >Superflows</a></h2>
-      <!-- Set the brand logo -->
-      <a slot="brandImage" href="#home" ><img alt="logo" src="https://superflows-images.s3.ap-south-1.amazonaws.com/superflows_white_transparent_200.png" /></a>
-      <!-- Set the main menu -->
-      <ul slot="mainMenu">
-        <li><a href="#about">About</a></li>
-        <li class="li-solutions">
-          <a href="javascript:void(0);" class="a-solutions">Solutions</a>
-          <ul>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#products">Products</a></li>
-          </ul>
-        </li>
-        <li>
-          <a href="javascript:void(0);">Contact Us</a>
-          <ul>
-            <li><a href="https://instagram.com">Instagram</a></li>
-            <li><a href="https://facebook.com">Facebook</a></li>
-            <li><a href="https://youtube.com">YouTube</a></li>
-          </ul>
-        </li>
-      </ul>
-      <!-- Set the social media links -->
-      <ul slot="socialMedia">
-        <li><a href="https://facebook.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/facebook-black_round.png" /></a></li>
-        <li><a href="https://twitter.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/twitter_black_round.png" /></a></li>
-        <li><a href="https://youtube.com"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/youtube_black_round.png" /></a></li>
-      </ul>
-      <!-- Set the notifications -->
-      <ul slot="unreadNotifications">
-        <li><a href="#notification/1"><h3>Sonali Joshi</h3><p>mentioned you in a comment</p><div>1 day ago</div></a></li>
-        <li><a href="#notification/2"><h3>Rahim Ahmed</h3><p>reacted to your blog post</p><div>2 days ago</div></a></li>
-        <li><a href="#notification/3"><h3>John Bolton</h3><p>replied to a thread that you posted in</p><div>1 month ago</div></a></li>
-      </ul>
-      <ul slot="readNotifications">
-        <li><a href="#notification/4"><h3>Sonali Joshi</h3><p>mentioned you in a comment</p><div>1 day ago</div></a></li>
-        <li><a href="#notification/5"><h3>Rahim Ahmed</h3><p>reacted to your blog post</p><div>2 days ago</div></a></li>
-        <li><a href="#notification/6"><h3>John Bolton</h3><p>replied to a thread that you posted in</p><div>1 month ago</div></a></li>
-      </ul>
-      <a slot="notificationsList" href="#notifications">View All</a>
-      <!-- Set CTA -->
-      <a slot="cta" href="#login">Sign In</a>
-      <!-- Set copyright notice -->
-      <p slot="copyright">Copyright 2023 Superflows</p>
-      <!-- Profile picture -->
-      <img alt="profile" slot="profilePicture" src="https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg" />
-      <!-- Set the profile menu -->
-      <!-- <ul slot="profileMenu">
-        <li><a href="#settings">My Profile</a></li>
-        <li>
-          <a href="javascript:void(0);">Settings</a>
-          <ul>
-            <li><a href="#settings_data">Data & Privacy</a></li>
-            <li><a href="#settings_notifications">Notifications</a></li>
-          </ul>
-        </li>
-        <li>
-          <a href="javascript:void(0);">Support</a>
-          <ul>
-            <li><a href="#ticket">Create Ticket</a></li>
-            <li><a href="#chat">Chat With Us</a></li>
-          </ul>
-        </li>
-        <li><a href="#signout">Sign Out</a></li>
-      </ul> -->
-      <!-- Page Content -->
-      <div slot="content"></div>
-    </sf-nav>
+    <div id="nav-container">
+      <sf-nav id="sf-nav">
+          
+  
+      </sf-nav>
+    </div>
     <!-- 
     <sf-nav>
       <h2 slot="brandName"><a href="#home" >Superflows</a></h2>
@@ -163,20 +99,60 @@
 
     <script>
       var routeMap = [];
+      const menu = `
+            
+            <!-- Set the brand name -->
+            <h2 slot="brandName"><a href="#index"></a></h2>
+            
+            <!-- Set the brand logo -->
+            <a slot="brandImage" href="#index" ><img class="nav-brand-image" alt="logo" src="https://flagggrc-images.s3.amazonaws.com/logo.png" /></a>
+             
+            <!-- Page Content -->
+            <div slot="content">
+            </div>
+    
+            <!-- Call to action -->
+            <a slot="cta" href="#auth/signin">Sign In</a>
+    
+            <!-- Copyright notice -->
+            <p slot="copyright">Copyright 2023 FlaggGRC</p>
+            
+            <!-- Set the main menu -->
+            <ul slot="mainMenu">
+                <li>
+                    <a href="javascript:void(0);">Resources</a>
+                    <ul>
+                        <li><a href="#index">Blog</a></li>
+                        <li><a href="#index">Terms</a></li>
+                        <li><a href="#index">Privacy</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Set the social media links -->
+            <ul slot="socialMedia">
+                <li><a href="https://www.youtube.com/channel/UCYNJLCE48yir4DsquciBuDw"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/youtube_black_round.png" /></a></li>
+            </ul>
+        `;
     </script>
-    <script>
+    <!-- <script>
       function getCurrentPathName() {
         return window.location.hash.length === 0 ? '' : window.location.hash.split("/")[0].replace('#', '');
       }
       function getCurrentArgs() {
         return routeMap[getCurrentPathName() + '.html'];
       }
-    </script>
+    </script> -->
     <script>
-      document.getElementsByTagName('sf-nav')[0].addEventListener('searchClick', (e) => {console.log('hurray ' + JSON.stringify(e.detail));})
-      document.getElementsByTagName('sf-nav')[0].addEventListener('routeChange', (e) => {
-        routeMap[e.detail.pathName] = e.detail.args;
-      })
+      // document.getElementsByTagName('sf-nav')[0].addEventListener('searchClick', (e) => {console.log('hurray ' + JSON.stringify(e.detail));})
+      // document.getElementsByTagName('sf-nav')[0].addEventListener('routeChange', (e) => {
+      //   routeMap[e.detail.pathName] = e.detail.args;
+      // })
+      window.location.hash='#about';
+      setTimeout(() => {
+        document.getElementById('nav-container').innerHTML = '<sf-nav>'  + menu + '</sf-nav>';
+      },2000);
+      // 
     </script>
   </body>
 </html>
