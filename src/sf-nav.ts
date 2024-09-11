@@ -1205,6 +1205,7 @@ export class SfNav extends LitElement {
         var allText = result.text;
         this._content[0].innerHTML = allText;
         RunScripts.runScripts(this._content[0]);
+        window.scrollTo(0,0);
       }
     }
 
