@@ -2,6 +2,8 @@
 
 # SfNav
 
+L0
+
 > Navigation web component provided by Superflows. This component allows implementation of the single page application architecture (SPA) using pure HTML, CSS and Javascript.
 
 <br />
