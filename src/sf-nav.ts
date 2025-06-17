@@ -1390,6 +1390,12 @@ export class SfNav extends LitElement {
     this.processRoute();
   }
   
+  override disconnectedCallback(): void {
+    super.disconnectedCallback();
+    console.log('Disconnected — cleaning up popstate listener');
+    window.removeEventListener('popstate', this.initRoute); // clean up listener on removal
+  }
+
   override connectedCallback() {
     super.connectedCallback()
   }
