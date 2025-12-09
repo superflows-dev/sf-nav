@@ -1,7 +1,7 @@
 {
   "name": "sf-nav",
   "private": false,
-  "version": "1.0.96",
+  "version": "1.0.99",
   "description": "Superflows Navigation Component",
   "main": "sf-nav.js",
   "module": "sf-nav.js",

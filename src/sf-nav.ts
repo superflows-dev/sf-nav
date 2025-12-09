@@ -964,6 +964,8 @@ export class SfNav extends LitElement {
           const child = this._sfNavLeftMenu.children[i]
           if(child.getElementsByTagName('ul').length > 0) {
             const innerHTML = child.getElementsByTagName('a')[0].innerHTML;
+            innerHTML.replace(/&nbsp;<span style="font-size: 60%">▶<\/span>/g,'')
+            console.log('innerHtml', innerHTML)
             child.getElementsByTagName('a')[0].innerHTML = innerHTML + "&nbsp;<span style=\"font-size: 60%\">▶</span>"
             // child.getElementsByTagName('a')[0].style.display = 'flex';
             // child.getElementsByTagName('a')[0].style.alignItems = 'center';
@@ -1177,7 +1179,7 @@ export class SfNav extends LitElement {
 
 
     const hashRef = window.location.href.split('#');
-    const routePath = (window.location.hash.length > 0 ? hashRef[1].split("/")[0] : this.getHome()) + '.html'; 
+    const routePath = (window.location.hash.length > 0 ? (hashRef[1].split("/")[0]).split('?')[0] : this.getHome()) + '.html'; 
     let params: string[] | void[] | null = null;
 
     if(window.location.hash.length > 0) {
@@ -1293,20 +1295,21 @@ export class SfNav extends LitElement {
 
             hideAllUls();
 
-            const innerHTML = e.target.innerHTML;
-            e.target.innerHTML = innerHTML.replace('▼', '▲');
+            const anchor = e.currentTarget;
+            const innerHTML = anchor.innerHTML;
+            anchor.innerHTML = innerHTML.replace('▼', '▲');
             
-            const elementUl = e.target.parentNode.getElementsByTagName('ul')[0];
+            const elementUl = anchor.parentNode.getElementsByTagName('ul')[0];
             elementUl.style.display = 'block';
-            e.target.parentNode.parentNode.parentNode.children[0].style.display = 'block';
+            anchor.parentNode.parentNode.parentNode.children[0].style.display = 'block';
 
             // clone to remove event listeners
-            let old_element = e.target.parentNode.parentNode.parentNode.children[0];
-            var new_element = e.target.parentNode.parentNode.parentNode.children[0].cloneNode(true);
+            let old_element = anchor.parentNode.parentNode.parentNode.children[0];
+            var new_element = anchor.parentNode.parentNode.parentNode.children[0].cloneNode(true);
             old_element.parentNode.replaceChild(new_element, old_element)
 
             // add listener on overlay leaf
-            e.target.parentNode.parentNode.parentNode.children[0].addEventListener('click', (ev: any) => {
+            anchor.parentNode.parentNode.parentNode.children[0].addEventListener('click', (ev: any) => {
               ev.target.style.display = 'none';
               hideAllUls();
             })
