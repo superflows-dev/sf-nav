@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: MIT
  */
 
-import {LitElement, html, css, PropertyValueMap} from 'lit';
-import {customElement, query, queryAssignedElements} from 'lit/decorators.js';
+import { LitElement, html, css, PropertyValueMap } from 'lit';
+import { customElement, query, queryAssignedElements } from 'lit/decorators.js';
 
 
 import DownloadFile from './downloadFile';
@@ -44,7 +44,7 @@ export class SfNav extends LitElement {
   constPositionNotifClose = 'sfNavDivNotifClose';
   constPositionLeftToggle = 'sfNavToggleLeft';
   constPositionLeftToggleLeaf = 'sfNavToggleLeftLeaf';
-  constDefaultMenu = [{caption: "About", link: "about"}, [{caption: "Solutions", link: "solutions"}, {caption: "Products", link: "products"}, {caption: "Services", link: "services"}, {caption: "Resources", link: "resources"}], [{caption: "Contact", link: "contact"}, {caption: 'Instagram', link: "instagram"}, {caption: "Facebook", link: "facebook"}]];
+  constDefaultMenu = [{ caption: "About", link: "about" }, [{ caption: "Solutions", link: "solutions" }, { caption: "Products", link: "products" }, { caption: "Services", link: "services" }, { caption: "Resources", link: "resources" }], [{ caption: "Contact", link: "contact" }, { caption: 'Instagram', link: "instagram" }, { caption: "Facebook", link: "facebook" }]];
   constBrandName = "Superflows";
   constBrandImage = "https://superflows.dev/img/superflows_gray_transparent_200.png";
   lastDownloadedTs = 0;
@@ -593,7 +593,7 @@ export class SfNav extends LitElement {
 
   @query('.sfNavDivNotifDropdown')
   _sfNavDivNotifDropdown: any;
-  
+
   @query('.sfNavDivNotifClose')
   _sfNavDivNotifClose: any;
 
@@ -630,34 +630,34 @@ export class SfNav extends LitElement {
   @query('.sfNavDivProfileToggle')
   _sfNavDivProfileToggle: any;
 
-  @queryAssignedElements({slot: 'mainMenu'})
+  @queryAssignedElements({ slot: 'mainMenu' })
   _sfNavSlottedUl: any;
 
-  @queryAssignedElements({slot: 'brandName'})
+  @queryAssignedElements({ slot: 'brandName' })
   _sfNavSlottedBrandName: any;
 
-  @queryAssignedElements({slot: 'brandImage'})
+  @queryAssignedElements({ slot: 'brandImage' })
   _sfNavSlottedBrandImage: any;
 
-  @queryAssignedElements({slot: 'socialMedia'})
+  @queryAssignedElements({ slot: 'socialMedia' })
   _sfNavSlottedSocialMedia: any;
 
-  @queryAssignedElements({slot: 'unreadNotifications'})
+  @queryAssignedElements({ slot: 'unreadNotifications' })
   _sfNavSlottedUnreadNotifications: any;
 
-  @queryAssignedElements({slot: 'readNotifications'})
+  @queryAssignedElements({ slot: 'readNotifications' })
   _sfNavSlottedReadNotifications: any;
 
-  @queryAssignedElements({slot: 'notificationsList'})
+  @queryAssignedElements({ slot: 'notificationsList' })
   _sfNavSlottedNotificationsList: any;
 
-  @queryAssignedElements({slot: 'cta'})
+  @queryAssignedElements({ slot: 'cta' })
   _sfNavSlottedCta: any;
 
-  @queryAssignedElements({slot: 'profileMenu'})
+  @queryAssignedElements({ slot: 'profileMenu' })
   _sfNavSlottedProfileMenu: any;
 
-  @queryAssignedElements({slot: 'content'})
+  @queryAssignedElements({ slot: 'content' })
   _content: any;
 
   // @query('.sfNavContent')
@@ -665,19 +665,19 @@ export class SfNav extends LitElement {
 
 
   onKeyUp = (event: any, position: any) => {
-    if(event.key == "Enter") {
+    if (event.key == "Enter") {
       this.resetSearch();
-      this.dispatchMyEvent(position, {searchString: this._sfNavInputSearch.value});
+      this.dispatchMyEvent(position, { searchString: this._sfNavInputSearch.value });
     }
   }
 
   dispatchMyEvent = (ev: string, args?: any) => {
 
-    if(ev == this.eventSearchClick) {
-      const event = new CustomEvent(this.eventSearchClick, {detail: args, bubbles: true, composed: true});
+    if (ev == this.eventSearchClick) {
+      const event = new CustomEvent(this.eventSearchClick, { detail: args, bubbles: true, composed: true });
       this.dispatchEvent(event);
-    } else if(ev == this.eventRouteChange) {
-      const event = new CustomEvent(this.eventRouteChange, {detail: args, bubbles: true, composed: true});
+    } else if (ev == this.eventRouteChange) {
+      const event = new CustomEvent(this.eventRouteChange, { detail: args, bubbles: true, composed: true });
       this.dispatchEvent(event);
     }
 
@@ -690,16 +690,16 @@ export class SfNav extends LitElement {
 
   resetMenu = () => {
     // reset overlay leaf
-    if(this._sfNavMainMenu.children != null) {
+    if (this._sfNavMainMenu.children != null) {
 
-      if(this._sfNavMainMenu.children.length > 0) {
+      if (this._sfNavMainMenu.children.length > 0) {
 
         this._sfNavMainMenu.children[0].style.display = 'none';
 
-        if(this._sfNavMainMenu.children.length > 1) {
+        if (this._sfNavMainMenu.children.length > 1) {
 
-          for(let i = 0; i < this._sfNavMainMenu.children[1].children.length; i++) {
-            if(this._sfNavMainMenu.children[1].children[i].getElementsByTagName('ul').length > 0) {
+          for (let i = 0; i < this._sfNavMainMenu.children[1].children.length; i++) {
+            if (this._sfNavMainMenu.children[1].children[i].getElementsByTagName('ul').length > 0) {
               this._sfNavMainMenu.children[1].children[i].children[1].style.display = 'none';
             }
           }
@@ -733,9 +733,9 @@ export class SfNav extends LitElement {
 
   hideAllLeftMenuElements = () => {
 
-    for(let i = 0; i < this._sfNavLeftMenu.children.length; i++) {
+    for (let i = 0; i < this._sfNavLeftMenu.children.length; i++) {
       const child = this._sfNavLeftMenu.children[i]
-      if(child.getElementsByTagName('ul').length > 0) {
+      if (child.getElementsByTagName('ul').length > 0) {
         this.hideLeftMenuElement(child);
       }
     }
@@ -744,9 +744,9 @@ export class SfNav extends LitElement {
 
   hideAllProfileMenuElements = () => {
 
-    for(let i = 0; i < this._sfNavProfileMenu.children.length; i++) {
+    for (let i = 0; i < this._sfNavProfileMenu.children.length; i++) {
       const child = this._sfNavProfileMenu.children[i]
-      if(child.getElementsByTagName('ul').length > 0) {
+      if (child.getElementsByTagName('ul').length > 0) {
         this.hideLeftMenuElement(child);
       }
     }
@@ -758,12 +758,12 @@ export class SfNav extends LitElement {
     let parentBackgroundColor = null;
     let parentColor = null;
     //if(element.parentNode.style.backgroundColor == "") {
-      parentBackgroundColor = window.getComputedStyle(element.parentNode).backgroundColor;
+    parentBackgroundColor = window.getComputedStyle(element.parentNode).backgroundColor;
     // } else {
     //   parentBackgroundColor = element.parentNode.style.backgroundColor;
     // }
     //if(element.parentNode.style.color == "") {
-      parentColor = window.getComputedStyle(element.parentNode).color;
+    parentColor = window.getComputedStyle(element.parentNode).color;
     // } else {
     //   parentColor = element.parentNode.style.color;
     // }
@@ -773,7 +773,7 @@ export class SfNav extends LitElement {
     element.style.backgroundColor = parentColor;
 
   }
-  
+
   showProfileMenuElement(element: any) {
 
     let parentBackgroundColor = null;
@@ -786,11 +786,11 @@ export class SfNav extends LitElement {
     element.style.backgroundColor = parentColor;
 
   }
-  
+
   toggleSearch = () => {
 
     const elementDivs = this._sfNavDivSearch.getElementsByTagName('div');
-    if(elementDivs[1].style.display == 'flex') {
+    if (elementDivs[1].style.display == 'flex') {
       elementDivs[0].style.display = 'none';
       elementDivs[1].style.display = 'none';
     } else {
@@ -814,7 +814,7 @@ export class SfNav extends LitElement {
   toggleNotif = () => {
 
     const elementDivs = this._sfNavDivNotif.getElementsByTagName('div');
-    if(elementDivs[2].style.display == 'flex') {
+    if (elementDivs[2].style.display == 'flex') {
       elementDivs[1].style.display = 'none';
       elementDivs[2].style.display = 'none';
     } else {
@@ -836,7 +836,7 @@ export class SfNav extends LitElement {
   }
 
   toggleLeftMenu = () => {
-    if(this._sfNavDivToggleContainer.children[2].style.display == 'block') {
+    if (this._sfNavDivToggleContainer.children[2].style.display == 'block') {
       this.hideAllLeftMenuElements();
       this._sfNavDivToggleContainer.children[1].style.display = 'none';
       this._sfNavDivToggleContainer.children[2].style.display = 'none';
@@ -849,24 +849,24 @@ export class SfNav extends LitElement {
 
   toggleProfileMenu = (element: HTMLElement) => {
     const elementUl = element.getElementsByTagName('ul')[0];
-    if(elementUl != null) {
-      if(elementUl.style.display == 'block') {
+    if (elementUl != null) {
+      if (elementUl.style.display == 'block') {
         this.hideAllProfileMenuElements();
         this._sfNavDivToggleContainer.children[1].style.display = 'none';
         this._sfNavDivToggleContainer.children[2].style.display = 'none';
       } else {
         this.hideAllProfileMenuElements();
         this.showProfileMenuElement(element);
-      }  
-    } 
-    
+      }
+    }
+
   }
-  
+
   toggleMainMenu = (element: any) => {
 
     const elementUl = element.getElementsByTagName('ul')[0];
-    if(elementUl != null) {
-      if(elementUl.style.display == 'block') {
+    if (elementUl != null) {
+      if (elementUl.style.display == 'block') {
         // hideLeftMenuElement(element);
         this.hideAllLeftMenuElements();
         this._sfNavDivToggleContainer.children[1].style.display = 'none';
@@ -874,9 +874,9 @@ export class SfNav extends LitElement {
       } else {
         this.hideAllLeftMenuElements();
         this.showLeftMenuElement(element);
-      }  
-    } 
-    
+      }
+    }
+
 
   }
 
@@ -886,13 +886,13 @@ export class SfNav extends LitElement {
   }
 
   hideProfile = () => {
-    
+
     this._sfNavDivProfile.children[1].style.display = 'none';
     this._sfNavDivProfile.children[2].style.display = 'none';
   }
 
   toggleProfile = () => {
-    if(this._sfNavDivProfile.children[1].style.display == "block") {
+    if (this._sfNavDivProfile.children[1].style.display == "block") {
       this.hideProfile();
     } else {
       this.showProfile();
@@ -901,55 +901,55 @@ export class SfNav extends LitElement {
 
   onToggle = (e: any) => {
 
-    if(e.currentTarget.className == this.constPositionProfileToggle || e.currentTarget.className.indexOf('profileLeaf') >= 0) {
+    if (e.currentTarget.className == this.constPositionProfileToggle || e.currentTarget.className.indexOf('profileLeaf') >= 0) {
       this.toggleProfile();
       return;
     }
 
-    if(e.target.outerHTML.indexOf('sfNavToggleLeft') <= 0 && (e.target.className.indexOf(this.constPositionSearchToggle) >= 0 || e.target.className.indexOf(this.constPositionSearchClose) >= 0)) {
+    if (e.target.outerHTML.indexOf('sfNavToggleLeft') <= 0 && (e.target.className.indexOf(this.constPositionSearchToggle) >= 0 || e.target.className.indexOf(this.constPositionSearchClose) >= 0)) {
 
       this.toggleSearch();
       return;
 
     }
 
-    if(e.target.outerHTML.indexOf('sfNavToggleLeft') <= 0 && (e.target.className == this.constPositionNotifToggle || e.target.className == this.constPositionNotifClose || e.target.parentNode.parentNode.parentNode.outerHTML.indexOf('unreadNotifications') >= 0 || e.target.parentNode.parentNode.parentNode.outerHTML.indexOf('readNotifications') >= 0)) {
+    if (e.target.outerHTML.indexOf('sfNavToggleLeft') <= 0 && (e.target.className == this.constPositionNotifToggle || e.target.className == this.constPositionNotifClose || e.target.parentNode.parentNode.parentNode.outerHTML.indexOf('unreadNotifications') >= 0 || e.target.parentNode.parentNode.parentNode.outerHTML.indexOf('readNotifications') >= 0)) {
 
       this.toggleNotif();
       return;
 
     }
 
-    if(e.target.parentNode.parentNode.outerHTML.indexOf('profileMenu') >= 0) {
+    if (e.target.parentNode.parentNode.outerHTML.indexOf('profileMenu') >= 0) {
       this.toggleProfileMenu(e.currentTarget);
       return;
     }
 
-    if(e.target.className == this.constPositionLeftToggle || e.target.className == this.constPositionLeftToggleLeaf || (e.target.parentNode.parentNode.parentNode.outerHTML.indexOf('sfNavDivToggleContainer') >= 0 && e.target.outerHTML.indexOf('void(0)') < 0)) {
+    if (e.target.className == this.constPositionLeftToggle || e.target.className == this.constPositionLeftToggleLeaf || (e.target.parentNode.parentNode.parentNode.outerHTML.indexOf('sfNavDivToggleContainer') >= 0 && e.target.outerHTML.indexOf('void(0)') < 0)) {
       this.toggleLeftMenu();
       return;
     }
 
-    if(e.currentTarget.tagName.toLowerCase() == "li") {
+    if (e.currentTarget.tagName.toLowerCase() == "li") {
 
       const element = e.currentTarget;
       this.toggleMainMenu(element);
-      
+
     }
-    
-    
+
+
   }
 
   decorateSlots = () => {
 
     const decorateBrandInfo = () => {
-      
-      if(this._sfNavSlottedBrandName.length > 0) {
+
+      if (this._sfNavSlottedBrandName.length > 0) {
         this._sfNavSlottedBrandName[0].children[0].style.textDecoration = 'none';
         this._sfNavSlottedBrandName[0].children[0].style.color = 'inherit';
       }
 
-      if(this._sfNavSlottedBrandImage.length > 0) {
+      if (this._sfNavSlottedBrandImage.length > 0) {
         this._sfNavSlottedBrandImage[0].children[0].style.height = '30px';
         this._sfNavSlottedBrandImage[0].children[0].style.marginRight = '10px';
       }
@@ -958,13 +958,13 @@ export class SfNav extends LitElement {
 
     const decorateLeftMenu = () => {
 
-      if(this._sfNavLeftMenu != null) {
-        for(let i = 0; i < this._sfNavLeftMenu.children.length; i++) {
-    
+      if (this._sfNavLeftMenu != null) {
+        for (let i = 0; i < this._sfNavLeftMenu.children.length; i++) {
+
           const child = this._sfNavLeftMenu.children[i]
-          if(child.getElementsByTagName('ul').length > 0) {
+          if (child.getElementsByTagName('ul').length > 0) {
             const innerHTML = child.getElementsByTagName('a')[0].innerHTML;
-            innerHTML.replace(/&nbsp;<span style="font-size: 60%">▶<\/span>/g,'')
+            innerHTML.replace(/&nbsp;<span style="font-size: 60%">▶<\/span>/g, '')
             console.log('innerHtml', innerHTML)
             child.getElementsByTagName('a')[0].innerHTML = innerHTML + "&nbsp;<span style=\"font-size: 60%\">▶</span>"
             // child.getElementsByTagName('a')[0].style.display = 'flex';
@@ -979,11 +979,11 @@ export class SfNav extends LitElement {
 
     const decorateProfileMenu = () => {
 
-      if(this._sfNavProfileMenu != null) {
-        for(let i = 0; i < this._sfNavProfileMenu.children.length; i++) {
-    
+      if (this._sfNavProfileMenu != null) {
+        for (let i = 0; i < this._sfNavProfileMenu.children.length; i++) {
+
           const child = this._sfNavProfileMenu.children[i]
-          if(child.getElementsByTagName('ul').length > 0) {
+          if (child.getElementsByTagName('ul').length > 0) {
             const innerHTML = child.getElementsByTagName('a')[0].innerHTML;
             child.getElementsByTagName('a')[0].innerHTML = innerHTML + "&nbsp;<span style=\"font-size: 60%\">▼</span>";
           }
@@ -996,11 +996,11 @@ export class SfNav extends LitElement {
     const decorateMainMenu = () => {
 
       const elementsLi = this._sfNavMainMenu.getElementsByTagName('li');
-      for(var i = 0; i < elementsLi.length; i++) {
+      for (var i = 0; i < elementsLi.length; i++) {
 
         const elementsUl = elementsLi[i].getElementsByTagName('ul');
 
-        if(elementsUl.length > 0) {
+        if (elementsUl.length > 0) {
 
           const innerHTML = elementsLi[i].getElementsByTagName('a')[0].innerHTML;
           elementsLi[i].getElementsByTagName('a')[0].style.display = 'flex';
@@ -1015,7 +1015,7 @@ export class SfNav extends LitElement {
 
     const decorateNotifs = () => {
 
-      if(this._sfNavDivNotifDropdown.innerHTML.indexOf('unread') < 0) {
+      if (this._sfNavDivNotifDropdown.innerHTML.indexOf('unread') < 0) {
         this._sfNavDivNotifBadge.style.display = 'none';
       }
 
@@ -1031,7 +1031,7 @@ export class SfNav extends LitElement {
   copySlots = () => {
 
     // copy menu to main menu div
-    if(this._sfNavSlottedUl[0] != null) {
+    if (this._sfNavSlottedUl[0] != null) {
       const html = this._sfNavSlottedUl[0].outerHTML;
       this._sfNavDivToggleContainer.insertAdjacentHTML('beforeend', html);
       this._sfNavMainMenu.innerHTML = '<div class="sfNavToggleLeftLeaf"></div>';
@@ -1040,35 +1040,35 @@ export class SfNav extends LitElement {
 
 
     // Create Brand container in footer
-    if(this._sfNavDivFooterBrandContainer != null) {
+    if (this._sfNavDivFooterBrandContainer != null) {
       let tempHtml = "";
-      if(this._sfNavSlottedBrandImage[0] != null) {
+      if (this._sfNavSlottedBrandImage[0] != null) {
         tempHtml += this._sfNavSlottedBrandImage[0].outerHTML;
       }
-      if(this._sfNavSlottedBrandName[0] != null) {
+      if (this._sfNavSlottedBrandName[0] != null) {
         tempHtml += this._sfNavSlottedBrandName[0].outerHTML;
       }
       this._sfNavDivFooterBrandContainer.innerHTML = tempHtml;
     }
 
     // Create social media in footer
-    if(this._sfNavSlottedSocialMedia[0] != null) {
-      if(this._sfNavDivFooterLeftContainer != null) {
+    if (this._sfNavSlottedSocialMedia[0] != null) {
+      if (this._sfNavDivFooterLeftContainer != null) {
         const html = this._sfNavSlottedSocialMedia[0].outerHTML;
         this._sfNavDivFooterLeftContainer.innerHTML = this._sfNavDivFooterLeftContainer.innerHTML + html;
       }
     }
 
     // Check if notifications are supplied
-    if(this._sfNavSlottedReadNotifications[0] == null && this._sfNavSlottedUnreadNotifications[0] == null) {
-      if(this._sfNavDivNotif != null) {
+    if (this._sfNavSlottedReadNotifications[0] == null && this._sfNavSlottedUnreadNotifications[0] == null) {
+      if (this._sfNavDivNotif != null) {
         this._sfNavDivNotif.style.display = 'none';
       }
     }
 
     // Read Notifications
-    if(this._sfNavSlottedReadNotifications[0] != null) {
-      if(this._sfNavDivNotif != null) {
+    if (this._sfNavSlottedReadNotifications[0] != null) {
+      if (this._sfNavDivNotif != null) {
         const html = this._sfNavSlottedReadNotifications[0].outerHTML;
         const currHtml = this._sfNavDivNotif.children[3].innerHTML;
         this._sfNavDivNotif.children[3].innerHTML = html + currHtml;
@@ -1077,8 +1077,8 @@ export class SfNav extends LitElement {
     }
 
     // Unread notifications
-    if(this._sfNavSlottedUnreadNotifications[0] != null) {
-      if(this._sfNavDivNotif != null) {
+    if (this._sfNavSlottedUnreadNotifications[0] != null) {
+      if (this._sfNavDivNotif != null) {
         const html = this._sfNavSlottedUnreadNotifications[0].outerHTML;
         const currHtml = this._sfNavDivNotif.children[3].innerHTML;
         this._sfNavDivNotif.children[3].innerHTML = html + currHtml;
@@ -1087,61 +1087,61 @@ export class SfNav extends LitElement {
     }
 
     // Copy notification view all
-    if(this._sfNavSlottedNotificationsList[0] != null) {
+    if (this._sfNavSlottedNotificationsList[0] != null) {
       const href = this._sfNavSlottedNotificationsList[0].href;
       const currHtml = this._sfNavDivNotifActions.innerHTML;
-      this._sfNavDivNotifActions.innerHTML = currHtml + '<button onClick="window.location.href=\'#'+href.split('#')[1]+'\'; event.target.parentNode.children[0].dispatchEvent(new MouseEvent(\'click\', {\'view\': window, \'bubbles\': true, \'cancelable\': false}))">View All</button>';
+      this._sfNavDivNotifActions.innerHTML = currHtml + '<button onClick="window.location.href=\'#' + href.split('#')[1] + '\'; event.target.parentNode.children[0].dispatchEvent(new MouseEvent(\'click\', {\'view\': window, \'bubbles\': true, \'cancelable\': false}))">View All</button>';
     }
 
 
     // Copy cta
-    if(this._sfNavSlottedCta[0] != null) {
+    if (this._sfNavSlottedCta[0] != null) {
       const href = this._sfNavSlottedCta[0].href;
       const html = this._sfNavSlottedCta[0].innerHTML;
-      this._sfNavDivCta.innerHTML = '<button part="cta" class="sfNavButtonCta" type="button" onClick="window.location.href=\'#'+href.split('#')[1]+'\';">'+html+'</button>';
+      this._sfNavDivCta.innerHTML = '<button part="cta" class="sfNavButtonCta" type="button" onClick="window.location.href=\'#' + href.split('#')[1] + '\';">' + html + '</button>';
     }
 
     // Copy profile menu
-    if(this._sfNavSlottedProfileMenu[0] != null) {
+    if (this._sfNavSlottedProfileMenu[0] != null) {
       const html = this._sfNavSlottedProfileMenu[0].outerHTML;
       this._sfNavDivProfile.children[2].insertAdjacentHTML('beforeend', html);
     } else {
       this._sfNavDivProfile.style.display = 'none';
     }
 
-    if(this._sfNavDivFooterMenuContainer != null) {
-      if(this._sfNavSlottedUl[0] != null) {
+    if (this._sfNavDivFooterMenuContainer != null) {
+      if (this._sfNavSlottedUl[0] != null) {
         const html = this._sfNavSlottedUl[0].outerHTML;
         this._sfNavDivFooterMenuContainer.innerHTML = html;
       }
     }
 
-    if(this._sfNavSlottedUl[0] != null) {
+    if (this._sfNavSlottedUl[0] != null) {
       this._sfNavSlottedUl[0].outerHTML = '';
     }
 
-    if(this._sfNavSlottedSocialMedia[0] != null) {
+    if (this._sfNavSlottedSocialMedia[0] != null) {
       this._sfNavSlottedSocialMedia[0].outerHTML = '';
     }
 
-    if(this._sfNavSlottedUnreadNotifications[0] != null) {
+    if (this._sfNavSlottedUnreadNotifications[0] != null) {
       this._sfNavSlottedUnreadNotifications[0].outerHTML = '';
     }
 
 
-    if(this._sfNavSlottedReadNotifications[0] != null) {
+    if (this._sfNavSlottedReadNotifications[0] != null) {
       this._sfNavSlottedReadNotifications[0].outerHTML = '';
     }
 
-    if(this._sfNavSlottedNotificationsList[0] != null) {
+    if (this._sfNavSlottedNotificationsList[0] != null) {
       this._sfNavSlottedNotificationsList[0].outerHTML = '';
     }
 
-    if(this._sfNavSlottedCta[0] != null) {
+    if (this._sfNavSlottedCta[0] != null) {
       this._sfNavSlottedCta[0].outerHTML = '';
     }
 
-    if(this._sfNavSlottedProfileMenu[0] != null) {
+    if (this._sfNavSlottedProfileMenu[0] != null) {
       this._sfNavSlottedProfileMenu[0].outerHTML = '';
     }
 
@@ -1151,95 +1151,217 @@ export class SfNav extends LitElement {
   getHome = () => {
     let home = "";
 
-    if(this._sfNavSlottedBrandImage.length > 0) {
+    if (this._sfNavSlottedBrandImage.length > 0) {
       home = this._sfNavSlottedBrandImage[0].href.split('#')[1];
     }
-    if(this._sfNavSlottedBrandName.length > 0) {
+    if (this._sfNavSlottedBrandName.length > 0) {
       home = this._sfNavSlottedBrandName[0].children[0].href.split('#')[1];
     }
 
     return home;
   }
 
-  processRoute = async () => {  
+  processRoute = async () => {
 
     const currentTs = new Date().getTime();
 
     console.log('process route called', window.location.href, currentTs, this.lastDownloadedTs, (currentTs - this.lastDownloadedTs), this.currentURL);
-    
+
     // if(this.currentURL == window.location.href) {
-      if((currentTs - this.lastDownloadedTs) < this.throttleWindow) {
-        return;
-      }
+    if ((currentTs - this.lastDownloadedTs) < this.throttleWindow) {
+      return;
+    }
     // }
     this.currentURL = window.location.href;
     this.lastDownloadedTs = currentTs;
 
-    console.log('process route called after throttle' , window.location.href, this.lastDownloadedTs, currentTs);
+    console.log('process route called after throttle', window.location.href, this.lastDownloadedTs, currentTs);
 
 
     const hashRef = window.location.href.split('#');
-    const routePath = (window.location.hash.length > 0 ? (hashRef[1].split("/")[0]).split('?')[0] : this.getHome()) + '.html'; 
+    const routePath = (window.location.hash.length > 0 ? (hashRef[1].split("/")[0]).split('?')[0] : this.getHome()) + '.html';
     let params: string[] | void[] | null = null;
 
-    if(window.location.hash.length > 0) {
+    if (window.location.hash.length > 0) {
       params = hashRef[1].split("/");
-      if(params.length > 1) {
+      if (params.length > 1) {
         params.shift();
-      }  else {
+      } else {
         params = [];
       }
     } else {
       params = [];
     }
-    this.dispatchMyEvent(this.eventRouteChange, {pathName: routePath, args: params})
+    this.dispatchMyEvent(this.eventRouteChange, { pathName: routePath, args: params })
     const result = await DownloadFile.downloadFile(routePath);
-    if(result.status === 404) {
-      if(this._content[0] != null) {
+    if (result.status === 404) {
+      if (this._content[0] != null) {
         this._content[0].innerHTML = '';
         this._sfNav404.children[0].innerHTML = "Could not find " + routePath;
         this._sfNav404.style.display = 'block';
       }
     } else {
-      
-      if(this._content[0] != null) {
+
+      if (this._content[0] != null) {
         this._sfNav404.style.display = 'none';
         var allText = result.text;
         this._content[0].innerHTML = allText;
         RunScripts.runScripts(this._content[0]);
-        window.scrollTo(0,0);
+        window.scrollTo(0, 0);
       }
     }
 
   }
 
-  initRoute = () => {
+  initRoute = (event: PopStateEvent) => {
+    console.log('================================');
+    console.log('PARENT POPSTATE');
+    console.log('state:', event.state);
+    console.log('isModalOpen:', this.isModalOpen);
+    console.log('closingModalFromUI:', this.closingModalFromUI);
+    console.log('revertingModalForward:', this.revertingModalForward);
 
-    console.log('init route called', window.location.href);
+    // ------------------------------------------------
+    // 1. Close button caused history.back()
+    // ------------------------------------------------
+    if (this.closingModalFromUI) {
+      console.log('Ignoring popstate caused by modal close');
 
-    if(window.location.hash.length > 0) {
-        
+      this.closingModalFromUI = false;
+
+      return;
+    }
+
+    // ------------------------------------------------
+    // 2. We are reverting a Forward navigation to
+    //    the old modal history entry
+    // ------------------------------------------------
+    if (this.revertingModalForward) {
+      console.log('Ignoring popstate caused by forward correction');
+
+      this.revertingModalForward = false;
+
+      return;
+    }
+
+    // ------------------------------------------------
+    // 3. Browser Back while modal is open
+    // ------------------------------------------------
+    if (this.isModalOpen) {
+      console.log('BACK PRESSED -> CLOSING MODAL');
+
+      this.isModalOpen = false;
+
+      window.dispatchEvent(
+        new CustomEvent('flagggrc-close-active-modal')
+      );
+
+      return;
+    }
+
+    // ------------------------------------------------
+    // 4. Browser Forward to old modal history state
+    // ------------------------------------------------
+    if (event.state?.modalOpen) {
+      console.log('FORWARD TO OLD MODAL STATE');
+
+      // We don't want to reopen the modal.
+      // Go back to the normal page history entry,
+      // but tell initRoute() not to process that
+      // second popstate.
+      this.revertingModalForward = true;
+
+      history.back();
+
+      return;
+    }
+
+    // ------------------------------------------------
+    // 5. Normal route navigation
+    // ------------------------------------------------
+    console.log('NORMAL ROUTING');
+
+    if (window.location.hash.length > 0) {
       this.resetMenu();
     }
 
     this.processRoute();
-
-  }
+  };
 
   setupRouting = () => {
     window.removeEventListener('popstate', this.initRoute);
     window.addEventListener('popstate', this.initRoute);
   }
 
+  setupModalHandling = () => {
+    window.removeEventListener(
+      'flagggrc-modal-opened',
+      this.handleModalOpened as EventListener
+    );
+
+    window.removeEventListener(
+      'flagggrc-modal-close-requested',
+      this.handleModalCloseRequested as EventListener
+    );
+    window.addEventListener(
+      'flagggrc-modal-opened',
+      this.handleModalOpened as EventListener
+    );
+
+    window.addEventListener(
+      'flagggrc-modal-close-requested',
+      this.handleModalCloseRequested as EventListener
+    );
+  }
+
+  private isModalOpen = false;
+
+  private closingModalFromUI = false;
+
+  private revertingModalForward = false;
+
+  private handleModalOpened = () => {
+    console.log('PARENT: modal opened');
+    if (this.isModalOpen) return;
+
+    this.isModalOpen = true;
+
+    history.pushState(
+      {
+        ...history.state,
+        modalOpen: true
+      },
+      ''
+    );
+  };
+
+  private handleModalCloseRequested = () => {
+    console.log('PARENT: modal close requested');
+    if (!this.isModalOpen) return;
+
+    this.isModalOpen = false;
+
+    // Tell whichever child owns the modal to close itself
+    window.dispatchEvent(
+      new CustomEvent('flagggrc-close-active-modal')
+    );
+
+    if (history.state?.modalOpen) {
+      this.closingModalFromUI = true;
+
+      history.back();
+    }
+  };
+
   initListeners = () => {
 
     const hideAllUls = () => {
 
       const elementsLi = this._sfNavMainMenu.getElementsByTagName('li');
-      for(var i = 0; i < elementsLi.length; i++) {
+      for (var i = 0; i < elementsLi.length; i++) {
 
         const elementsUl = elementsLi[i].getElementsByTagName('ul');
-        if(elementsUl.length > 0) {
+        if (elementsUl.length > 0) {
           elementsUl[0].style.display = 'none';
           const innerHTML = elementsLi[i].getElementsByTagName('a')[0].innerHTML;
           elementsLi[i].getElementsByTagName('a')[0].innerHTML = innerHTML.replace('▲', '▼');
@@ -1249,47 +1371,47 @@ export class SfNav extends LitElement {
 
     }
 
-    const assignToggleToLeftMenu = ()=> {
+    const assignToggleToLeftMenu = () => {
 
-      if(this._sfNavDivToggleContainer.children != null && this._sfNavLeftMenu != null) {
+      if (this._sfNavDivToggleContainer.children != null && this._sfNavLeftMenu != null) {
 
         this._sfNavDivToggleContainer.children[0].addEventListener("keypress", this.onToggle);
         this._sfNavDivToggleContainer.children[0].addEventListener("click", this.onToggle);
         this._sfNavDivToggleContainer.children[1].addEventListener("click", this.onToggle);
-  
-        for(let i = 0; i < this._sfNavLeftMenu.children.length; i++) {
-  
+
+        for (let i = 0; i < this._sfNavLeftMenu.children.length; i++) {
+
           const child = this._sfNavLeftMenu.children[i]
           child.addEventListener('click', this.onToggle);
-  
+
         }
-  
+
       }
-    } 
+    }
 
     const assignToggleToProfileMenu = () => {
 
-      if(this._sfNavProfileMenu != null) {
+      if (this._sfNavProfileMenu != null) {
 
-        for(let i = 0; i < this._sfNavProfileMenu.children.length; i++) {
-  
+        for (let i = 0; i < this._sfNavProfileMenu.children.length; i++) {
+
           const child = this._sfNavProfileMenu.children[i]
 
           child.addEventListener('click', this.onToggle);
-  
+
         }
-  
+
       }
 
     }
-    
+
     const assignMainMenu = () => {
 
       const elementsLi = this._sfNavMainMenu.getElementsByTagName('li');
-      for(var i = 0; i < elementsLi.length; i++) {
+      for (var i = 0; i < elementsLi.length; i++) {
 
         const elementsUl = elementsLi[i].getElementsByTagName('ul');
-        if(elementsUl.length > 0) {
+        if (elementsUl.length > 0) {
 
           elementsLi[i].getElementsByTagName('a')[0].addEventListener('click', (e: any) => {
 
@@ -1298,7 +1420,7 @@ export class SfNav extends LitElement {
             const anchor = e.currentTarget;
             const innerHTML = anchor.innerHTML;
             anchor.innerHTML = innerHTML.replace('▼', '▲');
-            
+
             const elementUl = anchor.parentNode.getElementsByTagName('ul')[0];
             elementUl.style.display = 'block';
             anchor.parentNode.parentNode.parentNode.children[0].style.display = 'block';
@@ -1313,7 +1435,7 @@ export class SfNav extends LitElement {
               ev.target.style.display = 'none';
               hideAllUls();
             })
-            
+
 
           })
         } else {
@@ -1325,7 +1447,7 @@ export class SfNav extends LitElement {
 
           new_element.getElementsByTagName('a')[0].addEventListener('click', (ev: any) => {
 
-            if(ev.target.parentNode.parentNode.outerHTML.indexOf('mainMenu') >= 0) {
+            if (ev.target.parentNode.parentNode.outerHTML.indexOf('mainMenu') >= 0) {
               hideAllUls();
             } else {
               ev.target.parentNode.parentNode.parentNode.parentNode.parentNode.children[0].style.display = 'none';
@@ -1333,11 +1455,11 @@ export class SfNav extends LitElement {
             }
 
           });
-          
+
         }
 
       }
-      
+
     }
 
     const assignSearch = () => {
@@ -1358,7 +1480,7 @@ export class SfNav extends LitElement {
 
       this._sfNavDivNotifClose.addEventListener('click', this.onToggle);
       this._sfNavDivNotifClose.addEventListener('keypress', this.onToggle);
-      for(var i = 0; i < this._sfNavDivNotif.children[3].children[0].children.length; i++) {
+      for (var i = 0; i < this._sfNavDivNotif.children[3].children[0].children.length; i++) {
         this._sfNavDivNotif.children[3]?.children[0]?.children[i]?.children[0]?.addEventListener('click', this.onToggle);
       }
     }
@@ -1369,7 +1491,7 @@ export class SfNav extends LitElement {
       this._sfNavDivProfileToggle.addEventListener('keypress', this.onToggle);
 
       this._sfNavDivProfile.children[1].addEventListener('click', this.onToggle);
-    } 
+    }
 
     assignToggleToLeftMenu();
     assignToggleToProfileMenu();
@@ -1389,14 +1511,24 @@ export class SfNav extends LitElement {
     this.decorateSlots();
     this.initListeners();
     this.setupRouting();
+    this.setupModalHandling();
     console.log('firstupdated fired');
     this.processRoute();
   }
-  
+
   override disconnectedCallback(): void {
     super.disconnectedCallback();
     console.log('Disconnected — cleaning up popstate listener');
     window.removeEventListener('popstate', this.initRoute); // clean up listener on removal
+    window.removeEventListener(
+      'flagggrc-modal-opened',
+      this.handleModalOpened as EventListener
+    );
+
+    window.removeEventListener(
+      'flagggrc-modal-close-requested',
+      this.handleModalCloseRequested as EventListener
+    );
   }
 
   override connectedCallback() {
@@ -1424,7 +1556,7 @@ export class SfNav extends LitElement {
             <h1 tabindex="0" class="material-icons sfNavSearchToggle">search</h1>
             <div class="sfNavToggleRightLeaf"></div>
             <div class="sfNavDivSearchDropdown">
-              <input class="sfNavInputSearch" type="text" placeholder="Search" @keyup=${(ev:any) => {this.onKeyUp(ev, this.eventSearchClick)}} />
+              <input class="sfNavInputSearch" type="text" placeholder="Search" @keyup=${(ev: any) => { this.onKeyUp(ev, this.eventSearchClick) }} />
               <div tabindex="0" class="sfNavDivSearchClose">⨯</div>
             </div>
           </div>

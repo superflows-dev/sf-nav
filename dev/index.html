@@ -1,58 +1,76 @@
 <!DOCTYPE html>
 
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>&lt;sf-nav> Demo</title>
-    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
-    <script src="../node_modules/lit/polyfill-support.js"></script>
-    <script type="module" src="../sf-nav.js"></script>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
-      <link rel="preconnect" href="https://fonts.googleapis.com">
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-      <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600&display=swap" rel="stylesheet">
-    <style>
-      
-      body {
-        background-color: #efefef;
-        margin: 0px;
-        font-family: 'Source Sans Pro';
-      }
 
-      .cContainer {
-        margin: 20px;
-        padding: 20px;
-        border: dashed 1px gray;
-        background-color: white;
-      }
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>&lt;sf-nav> Demo</title>
+  <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+  <script src="../node_modules/lit/polyfill-support.js"></script>
+  <script type="module" src="../sf-nav.js"></script>
+  <script type="module">
+    import { SfIEvents } from '../../sf-i-events/sf-i-events.js';
+    import { LitElement, html, css } from 'https://esm.run/lit-element/lit-element.js';
+    import { SfISelect } from 'https://esm.run/sf-i-select@1.0.92/sf-i-select.js';
+    import { SfISubSelect } from 'https://esm.run/sf-i-sub-select@1.0.83/sf-i-sub-select.js';
+    import { SfIForm } from 'https://esm.run/sf-i-form@1.0.185/sf-i-form.js';
+    import { SfIElasticText } from 'https://esm.run/sf-i-elastic-text@1.0.22/sf-i-elastic-text.js';
+    import { SfIUploader } from 'https://esm.run/sf-i-uploader@1.0.132/sf-i-uploader.js';
+    // import { SfIUploader } from '../../sf-i-uploader/sf-i-uploader.js';
+    import { SfIMultitextarea } from 'https://esm.run/sf-i-multitextarea@1.0.23/sf-i-multitextarea.js';
+    // import { SfIReporting } from 'https://esm.run/sf-i-reporting@1.0.124/sf-i-reporting.js';
+    import { SfIReporting } from '../../sf-i-reporting/sf-i-reporting.js';
+    import { SfIBricks } from 'https://esm.run/sf-i-bricks@1.0.8/sf-i-bricks.js';
+    import { SfNewFeature } from 'https://esm.run/sf-new-feature@1.0.2/sf-new-feature.js';
+    import { SfChecklist } from 'https://esm.run/sf-checklist@1.0.24/dist/sf-checklist.js';
+    // import { SfChecklist } from '../../sf-checklist/dist/sf-checklist.js';
+    import { SfMultiselectSearch } from 'https://esm.run/sf-multiselect-search@1.0.10/dist/sf-multiselect-search.js';
+  </script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600&display=swap"
+    rel="stylesheet">
+  <style>
+    body {
+      background-color: #efefef;
+      margin: 0px;
+      font-family: 'Source Sans Pro';
+    }
 
-      sf-nav:not(:defined) {
-        display: none;
-      }
-      
-      sf-nav {
-        --nav-background-color: rgb(4, 135, 205);
-        --nav-color: #fff;
-        --notif-background-color: rgb(4, 135, 205);
-        --notif-color: #fff;
-        --menu-background-color: rgb(49, 161, 222);
-        --menu-color: #fff;
-        --footer-background-color: rgb(167, 147, 60);
-        --footer-color: #fff;
-      }
+    .cContainer {
+      margin: 20px;
+      padding: 20px;
+      border: dashed 1px gray;
+      background-color: white;
+    }
 
-    </style>
-  </head>
-  <body>
-    <div id="nav-container">
-      <sf-nav id="sf-nav">
-          
-  
-      </sf-nav>
-    </div>
-    <!-- 
+    sf-nav:not(:defined) {
+      display: none;
+    }
+
+    sf-nav {
+      --nav-background-color: rgb(4, 135, 205);
+      --nav-color: #fff;
+      --notif-background-color: rgb(4, 135, 205);
+      --notif-color: #fff;
+      --menu-background-color: rgb(49, 161, 222);
+      --menu-color: #fff;
+      --footer-background-color: rgb(167, 147, 60);
+      --footer-color: #fff;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="nav-container">
+    <sf-nav id="sf-nav">
+
+
+    </sf-nav>
+  </div>
+  <!-- 
     <sf-nav>
       <h2 slot="brandName"><a href="#home" >Superflows</a></h2>
       <a slot="brandImage" href="#home" ><img alt="logo" src="https://superflows-images.s3.ap-south-1.amazonaws.com/superflows_black_transparent_200.png" /></a>
@@ -97,9 +115,9 @@
     </sf-nav>
      -->
 
-    <script>
-      var routeMap = [];
-      const menu = `
+  <script>
+    var routeMap = [];
+    const menu = `
             
             <!-- Set the brand name -->
             <h2 slot="brandName"><a href="#index"></a></h2>
@@ -134,8 +152,8 @@
                 <li><a href="https://www.youtube.com/channel/UCYNJLCE48yir4DsquciBuDw"><img src="https://superflows-images.s3.ap-south-1.amazonaws.com/youtube_black_round.png" /></a></li>
             </ul>
         `;
-    </script>
-    <!-- <script>
+  </script>
+  <!-- <script>
       function getCurrentPathName() {
         return window.location.hash.length === 0 ? '' : window.location.hash.split("/")[0].replace('#', '');
       }
@@ -143,16 +161,17 @@
         return routeMap[getCurrentPathName() + '.html'];
       }
     </script> -->
-    <script>
-      // document.getElementsByTagName('sf-nav')[0].addEventListener('searchClick', (e) => {console.log('hurray ' + JSON.stringify(e.detail));})
-      // document.getElementsByTagName('sf-nav')[0].addEventListener('routeChange', (e) => {
-      //   routeMap[e.detail.pathName] = e.detail.args;
-      // })
-      window.location.hash='#about';
-      setTimeout(() => {
-        document.getElementById('nav-container').innerHTML = '<sf-nav>'  + menu + '</sf-nav>';
-      },2000);
-      // 
-    </script>
-  </body>
+  <script>
+    // document.getElementsByTagName('sf-nav')[0].addEventListener('searchClick', (e) => {console.log('hurray ' + JSON.stringify(e.detail));})
+    // document.getElementsByTagName('sf-nav')[0].addEventListener('routeChange', (e) => {
+    //   routeMap[e.detail.pathName] = e.detail.args;
+    // })
+    window.location.hash = '#about';
+    setTimeout(() => {
+      document.getElementById('nav-container').innerHTML = '<sf-nav>' + menu + '</sf-nav>';
+    }, 2000);
+    // 
+  </script>
+</body>
+
 </html>
